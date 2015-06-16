@@ -7,8 +7,17 @@ This project provides a Python 2.x library that allows the user to quickly creat
   - Prompt for yes/no response.
   - Prompt for integer response.
   - Prompt for float response.
-
-Prompts can have optional default and valid values.
+  - Optional default value.
+  - Optional validity check.
+  - Should work on any platform without additional dependencies.
 
 ## Status
 Currently, this project is **under active development**. The contents of the repository should be considered unstable during active development.
+
+## Similar
+The following projects are similar and may be worth checking out:
+
+  - [cliask](https://github.com/Sleft/cliask)
+  - [Promptly](https://github.com/aventurella/promptly)
+  - [prompter](https://github.com/tylerdave/prompter)
+  - [python-inquirer](https://github.com/magmax/python-inquirer)
