@@ -112,11 +112,12 @@ def ask(msg="Enter input.", dft=None, vld=[], fmt=None):
                 ans = None
     return ans
 
-def ask_yes_no(msg="Proceed?", dft=None):
+def ask_yesno(msg="Proceed?", dft=None):
     """Prompts the user for a yes or no answer. Returns True for yes, False
     for no."""
     yes = ["y", "yes", "Y", "YES"]
     no = ["n", "no", "N", "NO"]
+    dft = yes[0] if dft in yes else no[0]
     return ask(msg, dft=dft, vld=yes+no) in yes
 
 def ask_int(msg="Enter an integer.", dft=None, vld=[int]):
@@ -133,4 +134,5 @@ def ask_str(msg="Enter a string.", dft=None, vld=[str]):
 ##==============================================================#
 
 if __name__ == '__main__':
-    pass
+    print ask_yesno(dft="y")
+    print ask_int(dft=1)
