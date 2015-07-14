@@ -2,13 +2,13 @@ from setuptools import setup, find_packages
 
 setup(
     name = "qprompt",
-    version = "0.1.0-alpha",
+    version = "0.1.1",
     author = "Jeff Rimko",
     author_email = "jeffrimko@gmail.com",
     description = "Library for quick CLI prompts.",
-    license = "TODO",
+    license = "MIT",
     keywords = "cli",
-    url = "NA",
+    url = "https://github.com/jeffrimko/Qprompt",
     py_modules=["qprompt"],
     long_description=__doc__,
     classifiers=[

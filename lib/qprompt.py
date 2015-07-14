@@ -9,6 +9,7 @@ user input."""
 ## SECTION: Imports                                             #
 ##==============================================================#
 
+from getpass import getpass
 from collections import namedtuple
 from functools import partial
 
@@ -17,7 +18,7 @@ from functools import partial
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.1.0-alpha"
+__version__ = "0.1.1"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -73,7 +74,7 @@ def cast(val, typ=int):
         val = None
     return val
 
-def ask(msg="Enter input.", dft=None, vld=[], fmt=None):
+def ask(msg="Enter input.", dft=None, vld=[], fmt=lambda x: x, shw=True):
     """Prompts the user for input and returns the given answer. Optionally
     checks if answer is valid.
 
@@ -85,12 +86,17 @@ def ask(msg="Enter input.", dft=None, vld=[], fmt=None):
     """
     msg = "[?] %s" % (msg)
     if dft:
+        dft = fmt(dft)
         msg += " [%s]" % (dft if type(dft) is str else repr(dft))
         vld.append(dft)
+    if vld:
+        # Sanitize valid inputs.
+        vld = sorted(list(set([fmt(v) for v in vld if fmt(v)])))
     msg += " : "
     ans = None
     while ans is None:
-        ans = raw_input(msg)
+        get_input = raw_input if shw else getpass
+        ans = get_input(msg)
         if "?" == ans:
             if vld:
                 print vld
@@ -117,7 +123,8 @@ def ask_yesno(msg="Proceed?", dft=None):
     for no."""
     yes = ["y", "yes", "Y", "YES"]
     no = ["n", "no", "N", "NO"]
-    dft = yes[0] if dft in yes else no[0]
+    if dft is not None:
+        dft = yes[0] if dft in yes else no[0]
     return ask(msg, dft=dft, vld=yes+no) in yes
 
 def ask_int(msg="Enter an integer.", dft=None, vld=[int]):
@@ -126,13 +133,12 @@ def ask_int(msg="Enter an integer.", dft=None, vld=[int]):
 def ask_float(msg="Enter a float.", dft=None, vld=[float]):
     return ask(msg, dft=dft, vld=vld, fmt=partial(cast, typ=float))
 
-def ask_str(msg="Enter a string.", dft=None, vld=[str]):
-    return ask(msg, dft=dft, vld=vld)
+def ask_str(msg="Enter a string.", dft=None, vld=[str], shw=True):
+    return ask(msg, dft=dft, vld=vld, shw=shw)
 
 ##==============================================================#
 ## SECTION: Main Body                                           #
 ##==============================================================#
 
 if __name__ == '__main__':
-    print ask_yesno(dft="y")
-    print ask_int(dft=1)
+    pass
