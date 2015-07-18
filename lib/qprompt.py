@@ -40,7 +40,7 @@ class Menu:
 ## SECTION: Function Definitions                                #
 ##==============================================================#
 
-def show_menu(entries, header="** MENU **", footer="Enter menu selection."):
+def show_menu(entries, header="** MENU **", footer="Enter menu selection"):
     """Showns a menu with the given list of MenuEntry items."""
     def show_banner():
         print header
@@ -74,7 +74,7 @@ def cast(val, typ=int):
         val = None
     return val
 
-def ask(msg="Enter input.", dft=None, vld=[], fmt=lambda x: x, shw=True):
+def ask(msg="Enter input", dft=None, vld=[], fmt=lambda x: x, shw=True, blk=False):
     """Prompts the user for input and returns the given answer. Optionally
     checks if answer is valid.
 
@@ -91,7 +91,7 @@ def ask(msg="Enter input.", dft=None, vld=[], fmt=lambda x: x, shw=True):
         vld.append(dft)
     if vld:
         # Sanitize valid inputs.
-        vld = sorted(list(set([fmt(v) for v in vld if fmt(v)])))
+        vld = sorted(list(set([fmt(v) if fmt(v) else v for v in vld ])))
     msg += " : "
     ans = None
     while ans is None:
@@ -102,12 +102,18 @@ def ask(msg="Enter input.", dft=None, vld=[], fmt=lambda x: x, shw=True):
                 print vld
             ans = None
             continue
-        blk = "" == ans
-        if blk:
-            ans = dft if dft else None
-        if fmt:
-            ans = fmt(ans)
-        if vld and not blk:
+        if "" == ans:
+            if dft:
+                ans = dft if not fmt else fmt(dft)
+                break
+            if not blk:
+                ans = None
+                continue
+        try:
+            ans = ans if not fmt else fmt(ans)
+        except:
+            ans = None
+        if vld:
             for v in vld:
                 if type(v) is type and cast(ans, v) is not None:
                     ans = cast(ans, v)
@@ -127,14 +133,20 @@ def ask_yesno(msg="Proceed?", dft=None):
         dft = yes[0] if dft in yes else no[0]
     return ask(msg, dft=dft, vld=yes+no) in yes
 
-def ask_int(msg="Enter an integer.", dft=None, vld=[int]):
+def ask_int(msg="Enter an integer", dft=None, vld=[int]):
     return ask(msg, dft=dft, vld=vld, fmt=partial(cast, typ=int))
 
-def ask_float(msg="Enter a float.", dft=None, vld=[float]):
+def ask_float(msg="Enter a float", dft=None, vld=[float]):
     return ask(msg, dft=dft, vld=vld, fmt=partial(cast, typ=float))
 
-def ask_str(msg="Enter a string.", dft=None, vld=[str], shw=True):
-    return ask(msg, dft=dft, vld=vld, shw=shw)
+def ask_str(msg="Enter a string", dft=None, vld=[str], shw=True, blk=True):
+    return ask(msg, dft=dft, vld=vld, shw=shw, blk=blk)
+
+def pause():
+    getpass("Press ENTER to continue...")
+
+def alert(msg):
+    print "[!] " + msg
 
 ##==============================================================#
 ## SECTION: Main Body                                           #
