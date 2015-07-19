@@ -1,5 +1,18 @@
-Prompt Changelog
-================
+Qprompt Changelog
+=================
+## qprompt-0.1.2 (TODO)
+### Release highlights
+  - Minor improvements to string prompt.
+  - New helper functions.
+
+### All additions and changes
+  - Function `ask_str()` optionally accepts blank input.
+  - Added `pause()` function.
+  - Added `alert()` function.
+
+### Bug fixes
+Not applicable.
+
 ## qprompt-0.1.1 (2015-07-14)
 ### Release highlights
   - Function `ask_yesno()` no longer defaults to "no".
