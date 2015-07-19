@@ -1,6 +1,6 @@
 Qprompt Changelog
 =================
-## qprompt-0.1.2 (TODO)
+## qprompt-0.1.2 (2015-07-18)
 ### Release highlights
   - Minor improvements to string prompt.
   - New helper functions.
