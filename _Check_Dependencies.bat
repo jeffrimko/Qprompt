@@ -1,5 +1,5 @@
 ::=============================================================::
-:: DEVELOPED 2013, REVISED 2013, Jeff Rimko.                   ::
+:: DEVELOPED 2015, REVISED 2015, Jeff Rimko.                   ::
 ::=============================================================::
 
 ::=============================================================::
@@ -20,6 +20,14 @@ call:ChkDepVer^
     "www.python.org"^
     "2.7"^
     python -V
+
+:: Check for Verace.
+call:ChkDep^
+    "Verace"^
+    "Python library for version checking."^
+    "github.com/jeffrimko/Verace"^
+    "0.1.0"^
+    python -c "import verace"
 
 pause
 exit /b 0
