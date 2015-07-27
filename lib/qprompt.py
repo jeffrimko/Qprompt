@@ -130,7 +130,7 @@ def ask_yesno(msg="Proceed?", dft=None):
     yes = ["y", "yes", "Y", "YES"]
     no = ["n", "no", "N", "NO"]
     if dft is not None:
-        dft = yes[0] if dft in yes else no[0]
+        dft = yes[0] if (dft in yes or dft == True) else no[0]
     return ask(msg, dft=dft, vld=yes+no) in yes
 
 def ask_int(msg="Enter an integer", dft=None, vld=[int]):
