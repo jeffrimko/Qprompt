@@ -18,10 +18,13 @@ from functools import partial
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.1.3"
+__version__ = "0.1.4-alpha"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
+
+#: User input character sequence.
+ICHAR = " >> "
 
 ##==============================================================#
 ## SECTION: Class Definitions                                   #
@@ -49,7 +52,7 @@ def show_menu(entries, header="** MENU **", footer="Enter menu selection"):
     valid = [i.name for i in entries]
     show_banner()
     while True:
-        choice = raw_input("[?] %s : " % (footer))
+        choice = raw_input("[?] %s%s" % (footer, ICHAR))
         if choice in valid:
             entry = [i for i in entries if i.name == choice][0]
             if entry.func:
@@ -92,7 +95,7 @@ def ask(msg="Enter input", dft=None, vld=[], fmt=lambda x: x, shw=True, blk=Fals
     if vld:
         # Sanitize valid inputs.
         vld = sorted(list(set([fmt(v) if fmt(v) else v for v in vld ])))
-    msg += " : "
+    msg += ICHAR
     ans = None
     while ans is None:
         get_input = raw_input if shw else getpass
