@@ -18,13 +18,16 @@ from functools import partial
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.1.4-alpha"
+__version__ = "0.1.4"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
 
-#: User input character sequence.
-ICHAR = " >> "
+#: Prompt start character sequence.
+QCHAR = "[?] "
+
+#: User input start character sequence.
+ICHAR = ": "
 
 ##==============================================================#
 ## SECTION: Class Definitions                                   #
@@ -51,22 +54,18 @@ def show_menu(entries, header="** MENU **", footer="Enter menu selection"):
             print "  (%s) %s" % (i.name, i.desc)
     valid = [i.name for i in entries]
     show_banner()
-    while True:
-        choice = raw_input("[?] %s%s" % (footer, ICHAR))
-        if choice in valid:
-            entry = [i for i in entries if i.name == choice][0]
-            if entry.func:
-                if entry.args and entry.krgs:
-                    entry.func(*entry.args, **entry.krgs)
-                elif entry.args:
-                    entry.func(*entry.args)
-                elif entry.krgs:
-                    entry.func(**entry.krgs)
-                else:
-                    entry.func()
-            return choice
-        elif choice == "?":
-            show_banner()
+    choice = ask(footer, vld=valid)
+    entry = [i for i in entries if i.name == choice][0]
+    if entry.func:
+        if entry.args and entry.krgs:
+            entry.func(*entry.args, **entry.krgs)
+        elif entry.args:
+            entry.func(*entry.args)
+        elif entry.krgs:
+            entry.func(**entry.krgs)
+        else:
+            entry.func()
+    return choice
 
 def cast(val, typ=int):
     """Attempts to cast the given value to the given type otherwise None is
@@ -87,7 +86,7 @@ def ask(msg="Enter input", dft=None, vld=[], fmt=lambda x: x, shw=True, blk=Fals
       - vld ([int|float|str]) - Valid input entries.
       - fmt (func) - Function used to format user input.
     """
-    msg = "[?] %s" % (msg)
+    msg = "%s%s" % (QCHAR, msg)
     if dft:
         dft = fmt(dft)
         msg += " [%s]" % (dft if type(dft) is str else repr(dft))
