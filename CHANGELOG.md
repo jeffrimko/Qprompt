@@ -1,5 +1,15 @@
 Qprompt Changelog
 =================
+## qprompt-0.1.4 (2015-08-02)
+### Release highlights
+  - Minor non-functional updates.
+
+### All additions and changes
+  - Added QCHAR and ICHAR to allow for minor customizations.
+
+### Bug fixes
+Not applicable.
+
 ## qprompt-0.1.3 (2015-07-26)
 ### Release highlights
   - Minor functional update.
