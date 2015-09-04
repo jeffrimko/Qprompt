@@ -1,0 +1,44 @@
+= Qprompt
+
+== Introduction
+This project provides a Python 2.x library that allows the user to quickly create CLI prompts for user input. The main features are the following:
+
+  - Simple multi-entry menus.
+  - Prompt for yes/no response.
+  - Prompt for integer response.
+  - Prompt for float response.
+  - Optional default value.
+  - Optional validity check.
+  - Should work on any platform without additional dependencies.
+
+== Status
+Currently, this project is **under active development**. The contents of the repository should be considered unstable during active development.
+
+== Requirements
+Qprompt should run on any Python 2.x interpreter without additional dependencies.
+
+== Installation
+Qprompt can be installed with pip using the following command: `pip install qprompt`
+
+Additional, Qprompt can be installed from source by running: `python setup.py install`
+
+== Examples
+Example of basic information prompting:
+
+--------
+include::examples/ask_1.py[]
+--------
+
+Example of menu usage:
+
+--------
+include::examples/menu_1.py[]
+--------
+
+== Similar
+The following projects are similar and may be worth checking out:
+
+  - https://github.com/Sleft/cliask[cliask]
+  - https://github.com/aventurella/promptly[Promptly]
+  - https://github.com/tylerdave/prompter[prompter]
+  - https://github.com/magmax/python-inquirer[python-inquirer]
