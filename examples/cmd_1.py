@@ -1,5 +1,4 @@
 import qprompt
-
 while True:
     cmd = qprompt.ask_str("command", vld=["help", "run", "quit"])
     if "help" == cmd:
