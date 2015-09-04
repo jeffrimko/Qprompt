@@ -85,6 +85,8 @@ def ask(msg="Enter input", dft=None, vld=[], fmt=lambda x: x, shw=True, blk=Fals
       - dft (int|float|str) - Default value if input is left blank.
       - vld ([int|float|str]) - Valid input entries.
       - fmt (func) - Function used to format user input.
+      - shw (bool) - If true, show the user's input as typed.
+      - blk (bool) - If true, accept a blank string as valid input.
     """
     msg = "%s%s" % (QCHAR, msg)
     if dft:
