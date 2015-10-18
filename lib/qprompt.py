@@ -18,16 +18,16 @@ from functools import partial
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.1.5-alpha"
+__version__ = "0.1.5"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
 
 #: Prompt start character sequence.
-QCHAR = "[?] "
+QSTR = "[?] "
 
 #: User input start character sequence.
-ICHAR = ": "
+ISTR = ": "
 
 ##==============================================================#
 ## SECTION: Class Definitions                                   #
@@ -89,7 +89,7 @@ def ask(msg="Enter input", dft=None, vld=[], fmt=lambda x: x, shw=True, blk=Fals
       - shw (bool) - If true, show the user's input as typed.
       - blk (bool) - If true, accept a blank string as valid input.
     """
-    msg = "%s%s" % (QCHAR, msg)
+    msg = "%s%s" % (QSTR, msg)
     if dft:
         dft = fmt(dft)
         msg += " [%s]" % (dft if type(dft) is str else repr(dft))
@@ -97,7 +97,7 @@ def ask(msg="Enter input", dft=None, vld=[], fmt=lambda x: x, shw=True, blk=Fals
     if vld:
         # Sanitize valid inputs.
         vld = sorted(list(set([fmt(v) if fmt(v) else v for v in vld ])))
-    msg += ICHAR
+    msg += ISTR
     ans = None
     while ans is None:
         get_input = raw_input if shw else getpass

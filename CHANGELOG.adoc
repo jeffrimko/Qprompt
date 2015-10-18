@@ -1,5 +1,17 @@
 = Qprompt Changelog
 
+== qprompt-0.1.5 (2015-10-18)
+=== Release highlights
+  - Renamed QCHAR and ICHAR to QSTR and ISTR.
+  - Added compact option to menus.
+  - Renamed menu `footer` to `msg`.
+
+=== All additions and changes
+Not applicable.
+
+=== Bug fixes
+Not applicable.
+
 == qprompt-0.1.4 (2015-08-02)
 === Release highlights
   - Minor non-functional updates.
