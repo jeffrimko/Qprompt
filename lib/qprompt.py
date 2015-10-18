@@ -18,7 +18,7 @@ from functools import partial
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.1.4"
+__version__ = "0.1.5-alpha"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -46,15 +46,16 @@ class Menu:
 ## SECTION: Function Definitions                                #
 ##==============================================================#
 
-def show_menu(entries, header="** MENU **", footer="Enter menu selection"):
+def show_menu(entries, header="** MENU **", msg="Enter menu selection", compact=False):
     """Showns a menu with the given list of MenuEntry items."""
     def show_banner():
         print header
         for i in entries:
             print "  (%s) %s" % (i.name, i.desc)
     valid = [i.name for i in entries]
-    show_banner()
-    choice = ask(footer, vld=valid)
+    if not compact:
+        show_banner()
+    choice = ask(msg, vld=valid)
     entry = [i for i in entries if i.name == choice][0]
     if entry.func:
         if entry.args and entry.krgs:
