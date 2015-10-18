@@ -22,7 +22,7 @@ Qprompt can be installed with pip using the following command: `pip install qpro
 
 Additional, Qprompt can be installed from source by running: `python setup.py install`
 
-== Examples
+== Usage
 The following are basic examples of Qprompt (all examples can be found https://github.com/jeffrimko/Qprompt/tree/master/examples[here]):
 
   - https://github.com/jeffrimko/Qprompt/blob/master/examples/ask_1.py[`examples/ask_1.py`] - Basic info prompting.
