@@ -2,13 +2,9 @@ import os
 import subprocess
 from setuptools import setup, find_packages
 
-subprocess.call("asciidoc -b docbook ../README.adoc", shell=True)
-readme = subprocess.check_output("pandoc -r docbook -w rst ../README.xml", shell=True)
-os.remove("../README.xml")
-
 setup(
     name = "qprompt",
-    version = "0.1.5",
+    version = "0.1.9",
     author = "Jeff Rimko",
     author_email = "jeffrimko@gmail.com",
     description = "Library for quick CLI prompts.",
@@ -16,9 +12,9 @@ setup(
     keywords = "cli",
     url = "https://github.com/jeffrimko/Qprompt",
     py_modules=["qprompt"],
-    long_description=readme,
+    long_description=open("README.rst").read(),
     classifiers=[
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 4 - Beta",
         "Topic :: Utilities",
         "Programming Language :: Python :: 2.7",
     ],
