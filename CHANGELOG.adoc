@@ -1,5 +1,15 @@
 = Qprompt Changelog
 
+== qprompt-0.1.10 (2015-11-16)
+=== Release highlights
+  - Minor bug fix.
+
+=== All additions and changes
+Not applicable.
+
+=== Bug fixes
+  - Fixed 0 as default value in `ask_int(dft=0)`.
+
 == qprompt-0.1.9 (2015-10-19)
 === Release highlights
   - Minor changes for PyPI distribution.

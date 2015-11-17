@@ -18,7 +18,7 @@ from functools import partial
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.1.9"
+__version__ = "0.1.10"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -90,7 +90,7 @@ def ask(msg="Enter input", dft=None, vld=[], fmt=lambda x: x, shw=True, blk=Fals
       - blk (bool) - If true, accept a blank string as valid input.
     """
     msg = "%s%s" % (QSTR, msg)
-    if dft:
+    if dft != None:
         dft = fmt(dft)
         msg += " [%s]" % (dft if type(dft) is str else repr(dft))
         vld.append(dft)
@@ -108,7 +108,7 @@ def ask(msg="Enter input", dft=None, vld=[], fmt=lambda x: x, shw=True, blk=Fals
             ans = None
             continue
         if "" == ans:
-            if dft:
+            if dft != None:
                 ans = dft if not fmt else fmt(dft)
                 break
             if not blk:
@@ -134,7 +134,7 @@ def ask_yesno(msg="Proceed?", dft=None):
     for no."""
     yes = ["y", "yes", "Y", "YES"]
     no = ["n", "no", "N", "NO"]
-    if dft is not None:
+    if dft != None:
         dft = yes[0] if (dft in yes or dft == True) else no[0]
     return ask(msg, dft=dft, vld=yes+no) in yes
 
