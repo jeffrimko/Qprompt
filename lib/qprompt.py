@@ -9,6 +9,8 @@ user input."""
 ## SECTION: Imports                                             #
 ##==============================================================#
 
+import sys
+import ctypes
 from getpass import getpass
 from collections import namedtuple
 from functools import partial
@@ -18,7 +20,7 @@ from functools import partial
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.1.10"
+__version__ = "0.1.11"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -148,10 +150,17 @@ def ask_str(msg="Enter a string", dft=None, vld=[str], shw=True, blk=True):
     return ask(msg, dft=dft, vld=vld, shw=shw, blk=blk)
 
 def pause():
+    """Pauses until user continues."""
     getpass("Press ENTER to continue...")
 
 def alert(msg):
+    """Prints alert message to console."""
     print "[!] " + msg
+
+def title(msg):
+    """Sets the title of the console window."""
+    if sys.platform.startswith("win"):
+        ctypes.windll.kernel32.SetConsoleTitleA(msg)
 
 ##==============================================================#
 ## SECTION: Main Body                                           #

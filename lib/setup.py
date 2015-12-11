@@ -2,12 +2,12 @@ from setuptools import setup, find_packages
 
 setup(
     name = "qprompt",
-    version = "0.1.10",
+    version = "0.1.11",
     author = "Jeff Rimko",
     author_email = "jeffrimko@gmail.com",
-    description = "Library for quick CLI prompts.",
+    description = "Library for quick CLI user prompts, input, and menus.",
     license = "MIT",
-    keywords = "cli",
+    keywords = "cli menu prompt input user library",
     url = "https://github.com/jeffrimko/Qprompt",
     py_modules=["qprompt"],
     long_description=open("README.rst").read(),

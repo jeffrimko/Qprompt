@@ -14,6 +14,7 @@ sys.path.append("..")
 sys.dont_write_bytecode = True
 
 from _Check_Versions import VERCHK
+from _Install_Package import generate_readme, cleanup_readme
 
 ##==============================================================#
 ## SECTION: Main Body                                           #
@@ -21,12 +22,10 @@ from _Check_Versions import VERCHK
 
 if __name__ == '__main__':
     ver = VERCHK.run()
-    if ver:
-        if qprompt.ask_yesno("Upload version `%s`?" % (ver)):
-            subprocess.call("asciidoc -b docbook ../README.adoc", shell=True)
-            subprocess.call("pandoc -r docbook -w rst -o README.rst ../README.xml", shell=True)
-            os.remove("../README.xml")
-            subprocess.call("python setup.py sdist upload", shell=True)
-            os.remove("README.rst")
-    else:
+    if not ver:
         qprompt.alert("Issue with version info!")
+        exit()
+    if qprompt.ask_yesno("Upload version `%s`?" % (ver)):
+        generate_readme()
+        subprocess.call("python setup.py sdist upload", shell=True)
+        cleanup_readme()
