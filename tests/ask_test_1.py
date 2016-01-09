@@ -1,6 +1,16 @@
+"""Tests the basic user input ask_X() functions."""
+
+##==============================================================#
+## SECTION: Imports                                             #
+##==============================================================#
+
 from testlib import *
 
 from qprompt import ask_int, ask_yesno, ask_float, ask_str
+
+##==============================================================#
+## SECTION: Class Definitions                                   #
+##==============================================================#
 
 class TestCase(unittest.TestCase):
 
@@ -67,6 +77,10 @@ class TestCase(unittest.TestCase):
         setinput("world")
         result = ask_str()
         self.assertEqual("world", result)
+
+##==============================================================#
+## SECTION: Main Body                                           #
+##==============================================================#
 
 if __name__ == '__main__':
     unittest.main()

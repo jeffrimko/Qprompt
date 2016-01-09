@@ -1,6 +1,16 @@
+"""Tests the menu features."""
+
+##==============================================================#
+## SECTION: Imports                                             #
+##==============================================================#
+
 from testlib import *
 
 from qprompt import Menu
+
+##==============================================================#
+## SECTION: Class Definitions                                   #
+##==============================================================#
 
 class TestCase(unittest.TestCase):
 
@@ -20,6 +30,10 @@ class TestCase(unittest.TestCase):
         setinput("2")
         result = menu.show(ret_desc=True)
         self.assertEqual("bar", result)
+
+##==============================================================#
+## SECTION: Main Body                                           #
+##==============================================================#
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,6 +1,16 @@
+"""Tests cast() function."""
+
+##==============================================================#
+## SECTION: Imports                                             #
+##==============================================================#
+
 from testlib import *
 
 from qprompt import cast
+
+##==============================================================#
+## SECTION: Class Definitions                                   #
+##==============================================================#
 
 class TestCase(unittest.TestCase):
 
@@ -16,6 +26,10 @@ class TestCase(unittest.TestCase):
         result = cast("123", int)
         self.assertEqual(type(result), int)
         self.assertEqual(result, 123)
+
+##==============================================================#
+## SECTION: Main Body                                           #
+##==============================================================#
 
 if __name__ == '__main__':
     unittest.main()
