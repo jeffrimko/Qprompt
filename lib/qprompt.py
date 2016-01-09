@@ -48,7 +48,7 @@ class Menu:
 ## SECTION: Function Definitions                                #
 ##==============================================================#
 
-def show_menu(entries, header="** MENU **", msg="Enter menu selection", compact=False):
+def show_menu(entries, header="** MENU **", msg="Enter menu selection", compact=False, ret_desc=False):
     """Showns a menu with the given list of MenuEntry items."""
     def show_banner():
         print header
@@ -68,7 +68,16 @@ def show_menu(entries, header="** MENU **", msg="Enter menu selection", compact=
             entry.func(**entry.krgs)
         else:
             entry.func()
+    if ret_desc:
+        return entry.desc
     return choice
+
+def enum_menu(strs, **kwargs):
+    """Enumerates the given list of strings into a menu."""
+    entries = []
+    for i,s in enumerate(strs, 1):
+        entries.append(MenuEntry(str(i), str(s), None, None, None))
+    return show_menu(entries, **kwargs)
 
 def cast(val, typ=int):
     """Attempts to cast the given value to the given type otherwise None is
