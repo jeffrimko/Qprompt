@@ -1,8 +1,8 @@
 from qprompt import MenuEntry, show_menu, ask_yesno
 def foo():
-    print "foo"
+    print("foo")
 def bar(a):
-    print "bar", a
+    print("bar %r" % (a))
 val = {'a':42}
 entries = []
 entries.append(MenuEntry("1", "Item A.", foo, None, None))
