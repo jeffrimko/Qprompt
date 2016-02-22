@@ -31,6 +31,9 @@ QSTR = "[?] "
 #: User input start character sequence.
 ISTR = ": "
 
+#: User input function.
+_input = input if sys.version_info >= (3, 0) else raw_input
+
 ##==============================================================#
 ## SECTION: Class Definitions                                   #
 ##==============================================================#
@@ -51,9 +54,9 @@ class Menu:
 def show_menu(entries, header="** MENU **", msg="Enter menu selection", compact=False, ret_desc=False):
     """Showns a menu with the given list of MenuEntry items."""
     def show_banner():
-        print header
+        print(header)
         for i in entries:
-            print "  (%s) %s" % (i.name, i.desc)
+            print("  (%s) %s" % (i.name, i.desc))
     valid = [i.name for i in entries]
     if not compact:
         show_banner()
@@ -111,11 +114,11 @@ def ask(msg="Enter input", dft=None, vld=[], fmt=lambda x: x, shw=True, blk=Fals
     msg += ISTR
     ans = None
     while ans is None:
-        get_input = raw_input if shw else getpass
+        get_input = _input if shw else getpass
         ans = get_input(msg)
         if "?" == ans:
             if vld:
-                print vld
+                print(vld)
             ans = None
             continue
         if "" == ans:
@@ -150,12 +153,15 @@ def ask_yesno(msg="Proceed?", dft=None):
     return ask(msg, dft=dft, vld=yes+no) in yes
 
 def ask_int(msg="Enter an integer", dft=None, vld=[int]):
+    """Prompts the user for an integer."""
     return ask(msg, dft=dft, vld=vld, fmt=partial(cast, typ=int))
 
 def ask_float(msg="Enter a float", dft=None, vld=[float]):
+    """Prompts the user for a float."""
     return ask(msg, dft=dft, vld=vld, fmt=partial(cast, typ=float))
 
 def ask_str(msg="Enter a string", dft=None, vld=[str], shw=True, blk=True):
+    """Prompts the user for a string."""
     return ask(msg, dft=dft, vld=vld, shw=shw, blk=blk)
 
 def pause():
@@ -164,7 +170,15 @@ def pause():
 
 def alert(msg):
     """Prints alert message to console."""
-    print "[!] " + msg
+    print("[!] " + msg)
+
+def error(msg):
+    """Prints error message to console."""
+    print("[ERROR] " + msg)
+
+def warn(msg):
+    """Prints warning message to console."""
+    print("[WARNING] " + msg)
 
 def title(msg):
     """Sets the title of the console window."""
