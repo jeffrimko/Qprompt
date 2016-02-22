@@ -20,7 +20,7 @@ from functools import partial
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.1.11"
+__version__ = "0.2.0"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")

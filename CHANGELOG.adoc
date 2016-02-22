@@ -1,5 +1,15 @@
 = Qprompt Changelog
 
+== qprompt-0.2.0 (2016-02-21)
+=== Release highlights
+  - Ported to Python 3; maintains Python 2.7 compatibility.
+
+=== All additions and changes
+  - Added `warn()` and `error()`.
+
+=== Bug fixes
+Not applicable.
+
 == qprompt-0.1.11 (2015-12-10)
 === Release highlights
   - Added convenience function.

@@ -1,7 +1,7 @@
 = Qprompt
 
 == Introduction
-This project provides a Python 2.x library that allows the user to quickly create CLI prompts for user input. The main features are the following:
+This project provides a Python 2.7/3.x library that allows the user to quickly create CLI prompts for user input. The main features are the following:
 
   - Simple multi-entry menus.
   - Prompt for yes/no response.
@@ -15,7 +15,7 @@ This project provides a Python 2.x library that allows the user to quickly creat
 Currently, this project is **under active development**. The contents of the repository should be considered unstable during active development.
 
 == Requirements
-Qprompt should run on any Python 2.x interpreter without additional dependencies.
+Qprompt should run on any Python 2.7/3.x interpreter without additional dependencies.
 
 == Installation
 Qprompt can be installed with pip using the following command: `pip install qprompt`
