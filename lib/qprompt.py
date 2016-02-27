@@ -185,9 +185,9 @@ def status(*args, **kwargs):
     """
     def decor(func):
         def wrapper(*fargs, **fkwargs):
-            print("[!] " + msg, end=" ")
+            print("[!] " + msg, end=" ", flush=True)
             result = func(*fargs, **fkwargs)
-            print(fin)
+            print(fin, flush=True)
             return result
         return wrapper
     fin = kwargs.pop('fin', "DONE.")
