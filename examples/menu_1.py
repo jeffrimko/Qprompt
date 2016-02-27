@@ -1,13 +1,11 @@
-from qprompt import MenuEntry, show_menu, ask_yesno
+from qprompt import Menu
 def foo():
     print("foo")
-def bar(a):
-    print("bar %r" % (a))
-val = {'a':42}
-entries = []
-entries.append(MenuEntry("1", "Item A.", foo, None, None))
-entries.append(MenuEntry("2", "Item B.", bar, None, val))
-entries.append(MenuEntry("q", "Quit", None, None, None))
-compact = ask_yesno("Use compact menu?")
-while "q" != show_menu(entries, compact=compact):
+def bar():
+    print("bar")
+menu = Menu()
+menu.add("f", "foo", foo)
+menu.add("b", "bar", bar)
+menu.add("q", "quit")
+while "q" != menu.show():
     pass
