@@ -9,6 +9,8 @@ user input."""
 ## SECTION: Imports                                             #
 ##==============================================================#
 
+from __future__ import print_function
+
 import sys
 import ctypes
 from getpass import getpass
@@ -20,7 +22,7 @@ from functools import partial
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -95,7 +97,7 @@ def ask(msg="Enter input", dft=None, vld=[], fmt=lambda x: x, shw=True, blk=Fals
     """Prompts the user for input and returns the given answer. Optionally
     checks if answer is valid.
 
-    *Params*:
+    **Params:**
       - msg (str) - Message to prompt the user with.
       - dft (int|float|str) - Default value if input is left blank.
       - vld ([int|float|str]) - Valid input entries.
@@ -168,17 +170,46 @@ def pause():
     """Pauses until user continues."""
     getpass("Press ENTER to continue...")
 
-def alert(msg):
+def status(*args, **kwargs):
+    """Prints a status message at the start and finish of an associated
+    function. Can be used as a function decorator or as a function that accepts
+    another function as the first parameter.
+
+    **Params:**
+      - func (func) - Function to call. First `args` if using `status()` as a
+        function. Automatically provided if using `status()` as a decorator.
+      - msg (str) [args] - Message to print at start of `func`.
+      - args (list) - Remainder of `args` are passed to `func`.
+      - fin (str) [kwargs] - Message to print when `func` finishes.
+      - kwargs (dict) - Remainder of `kwargs` are passed to `func`.
+    """
+    def decor(func):
+        def wrapper(*fargs, **fkwargs):
+            print("[!] " + msg, end=" ")
+            result = func(*fargs, **fkwargs)
+            print(fin)
+            return result
+        return wrapper
+    fin = kwargs.pop('fin', "DONE.")
+    args = list(args)
+    if callable(args[0]):
+        func = args.pop(0)
+        msg = args.pop(0)
+        return decor(func)(*args, **kwargs)
+    msg = args.pop(0)
+    return decor
+
+def alert(msg, **kwargs):
     """Prints alert message to console."""
-    print("[!] " + msg)
+    print("[!] " + msg, **kwargs)
 
-def error(msg):
+def error(msg, **kwargs):
     """Prints error message to console."""
-    print("[ERROR] " + msg)
+    print("[ERROR] " + msg, **kwargs)
 
-def warn(msg):
+def warn(msg, **kwargs):
     """Prints warning message to console."""
-    print("[WARNING] " + msg)
+    print("[WARNING] " + msg, **kwargs)
 
 def title(msg):
     """Sets the title of the console window."""
