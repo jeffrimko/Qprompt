@@ -1,5 +1,17 @@
 = Qprompt Changelog
 
+== qprompt-0.3.0 (2016-02-27)
+=== Release highlights
+  - New convenience function for showing status of an action.
+
+=== All additions and changes
+  - Added `status()`.
+  - Display functions (`alert()`, `warn()`, `error()`) now accept keyword args
+    associated with Python 3 `print()`
+
+=== Bug fixes
+Not applicable.
+
 == qprompt-0.2.0 (2016-02-21)
 === Release highlights
   - Ported to Python 3; maintains Python 2.7 compatibility.
