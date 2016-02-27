@@ -14,18 +14,18 @@ from qprompt import cast
 
 class TestCase(unittest.TestCase):
 
-    def test_cast_1(self):
+    def test_cast_1(test):
         result = cast(123, str)
-        self.assertEqual(type(result), str)
-        self.assertEqual(result, "123")
+        test.assertEqual(type(result), str)
+        test.assertEqual(result, "123")
 
         result = cast(1.23, float)
-        self.assertEqual(type(result), float)
-        self.assertEqual(result, 1.23)
+        test.assertEqual(type(result), float)
+        test.assertEqual(result, 1.23)
 
         result = cast("123", int)
-        self.assertEqual(type(result), int)
-        self.assertEqual(result, 123)
+        test.assertEqual(type(result), int)
+        test.assertEqual(result, 123)
 
 ##==============================================================#
 ## SECTION: Main Body                                           #
