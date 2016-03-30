@@ -22,7 +22,7 @@ from functools import partial
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -53,12 +53,24 @@ class Menu:
 ## SECTION: Function Definitions                                #
 ##==============================================================#
 
+#: Based off code from `blessed` package.
+try:
+    print("", end="", flush=True)
+    echo = partial(print, end="\n", flush=True)
+except TypeError:
+    # TypeError: 'flush' is an invalid keyword argument for this function
+    def echo(text, end="\n", flush=True):
+        """python 2 version of print(end='', flush=True)."""
+        sys.stdout.write(u'{0}{1}'.format(text, end))
+        if flush:
+            sys.stdout.flush()
+
 def show_menu(entries, header="** MENU **", msg="Enter menu selection", compact=False, ret_desc=False):
     """Showns a menu with the given list of MenuEntry items."""
     def show_banner():
-        print(header)
+        echo(header)
         for i in entries:
-            print("  (%s) %s" % (i.name, i.desc))
+            echo("  (%s) %s" % (i.name, i.desc))
     valid = [i.name for i in entries]
     if not compact:
         show_banner()
@@ -120,7 +132,7 @@ def ask(msg="Enter input", dft=None, vld=[], fmt=lambda x: x, shw=True, blk=Fals
         ans = get_input(msg)
         if "?" == ans:
             if vld:
-                print(vld)
+                echo(vld)
             ans = None
             continue
         if "" == ans:
@@ -185,31 +197,31 @@ def status(*args, **kwargs):
     """
     def decor(func):
         def wrapper(*fargs, **fkwargs):
-            print("[!] " + msg, end=" ", flush=True)
+            echo("[!] " + msg, end=" ", flush=True)
             result = func(*fargs, **fkwargs)
-            print(fin, flush=True)
+            echo(fin, flush=True)
             return result
         return wrapper
     fin = kwargs.pop('fin', "DONE.")
     args = list(args)
-    if callable(args[0]):
-        func = args.pop(0)
+    if len(args) > 1 and callable(args[1]):
         msg = args.pop(0)
+        func = args.pop(0)
         return decor(func)(*args, **kwargs)
     msg = args.pop(0)
     return decor
 
 def alert(msg, **kwargs):
     """Prints alert message to console."""
-    print("[!] " + msg, **kwargs)
+    echo("[!] " + msg, **kwargs)
 
 def error(msg, **kwargs):
     """Prints error message to console."""
-    print("[ERROR] " + msg, **kwargs)
+    echo("[ERROR] " + msg, **kwargs)
 
 def warn(msg, **kwargs):
     """Prints warning message to console."""
-    print("[WARNING] " + msg, **kwargs)
+    echo("[WARNING] " + msg, **kwargs)
 
 def title(msg):
     """Sets the title of the console window."""
@@ -221,4 +233,6 @@ def title(msg):
 ##==============================================================#
 
 if __name__ == '__main__':
-    pass
+    echo("hello", end="")
+    echo("world")
+    echo("!")

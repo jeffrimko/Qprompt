@@ -32,7 +32,7 @@ class TestCase(unittest.TestCase):
     def test_status_1(test):
         for delay in DELAYS:
             t_start = get_time()
-            status(time.sleep, "Sleeping...", delay, fin="Awake.")
+            status("Sleeping...", time.sleep, delay, fin="Awake.")
             test.assertAlmostEqual(delay, get_time() - t_start, places=PLACES)
 
     def test_status_2(test):
@@ -40,7 +40,7 @@ class TestCase(unittest.TestCase):
             t_start = get_time()
             rand1 = random.randint(1, 100)
             rand2 = random.randint(1, 100)
-            result = status(do_something, "Doing something...", delay, rand1, rand2)
+            result = status("Doing something...", do_something, delay, rand1, rand2)
             test.assertAlmostEqual(delay, get_time() - t_start, places=PLACES)
             test.assertEqual(rand1+rand2, result)
 

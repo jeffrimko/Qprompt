@@ -1,5 +1,17 @@
 = Qprompt Changelog
 
+== qprompt-0.4.0 (2016-03-29)
+=== Release highlights
+  - Added convenience function.
+  - Changed argument order for `status()` when used as function.
+
+=== All additions and changes
+  - Added `echo()`, essentially a portable replacement for `print()`.
+  - When used as function, first argument to `status()` is message and second is function.
+
+=== Bug fixes
+  - Fixed potential bug with Python 2.x and print statement.
+
 == qprompt-0.3.0 (2016-02-27)
 === Release highlights
   - New convenience function for showing status of an action.
