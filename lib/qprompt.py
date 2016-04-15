@@ -188,9 +188,9 @@ def status(*args, **kwargs):
     another function as the first parameter.
 
     **Params:**
+      - msg (str) [args] - Message to print at start of `func`.
       - func (func) - Function to call. First `args` if using `status()` as a
         function. Automatically provided if using `status()` as a decorator.
-      - msg (str) [args] - Message to print at start of `func`.
       - args (list) - Remainder of `args` are passed to `func`.
       - fin (str) [kwargs] - Message to print when `func` finishes.
       - kwargs (dict) - Remainder of `kwargs` are passed to `func`.
