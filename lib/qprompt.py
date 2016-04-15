@@ -22,7 +22,7 @@ from functools import partial
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.4.0"
+__version__ = "0.4.1"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -42,18 +42,24 @@ _input = input if sys.version_info >= (3, 0) else raw_input
 
 class Menu:
     """Menu object that will show the associated MenuEntry items."""
-    def __init__(self, entries=None):
+    def __init__(self, entries=None, **kwargs):
+        """Initializes menu object. Any kwargs supplied will be passed as
+        defaults to show_menu()."""
         self.entries = entries or []
+        self._show_kwargs = kwargs
     def add(self, name, desc, func=None, args=None, krgs=None):
+        """Add a menu entry."""
         self.entries.append(MenuEntry(name, desc, func, args or [], krgs or {}))
     def show(self, **kwargs):
-        return show_menu(self.entries, **kwargs)
+        """Shows the menu."""
+        self._show_kwargs.update(kwargs)
+        return show_menu(self.entries, **self._show_kwargs)
 
 ##==============================================================#
 ## SECTION: Function Definitions                                #
 ##==============================================================#
 
-#: Based off code from `blessed` package.
+#: Generic echo/print function; based off code from `blessed` package.
 try:
     print("", end="", flush=True)
     echo = partial(print, end="\n", flush=True)
@@ -65,7 +71,7 @@ except TypeError:
         if flush:
             sys.stdout.flush()
 
-def show_menu(entries, header="** MENU **", msg="Enter menu selection", compact=False, ret_desc=False):
+def show_menu(entries, header="** MENU **", msg="Enter menu selection", compact=False, ret_desc=False, **kwargs):
     """Showns a menu with the given list of MenuEntry items."""
     def show_banner():
         echo(header)
