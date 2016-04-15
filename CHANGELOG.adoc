@@ -1,5 +1,16 @@
 = Qprompt Changelog
 
+== qprompt-0.4.1 (2016-04-14)
+=== Release highlights
+  - Major bug fix.
+  - Minor convenience update.
+
+=== All additions and changes
+  - Added ability to pass default `show_menu()` keyword arguments during `Menu()` initialization.
+
+=== Bug fixes
+  - Fixed issue with `Menu()` entries over multiple menus.
+
 == qprompt-0.4.0 (2016-03-29)
 === Release highlights
   - Added convenience function.
