@@ -42,10 +42,10 @@ _input = input if sys.version_info >= (3, 0) else raw_input
 
 class Menu:
     """Menu object that will show the associated MenuEntry items."""
-    def __init__(self, entries=[]):
-        self.entries = entries
-    def add(self, name, desc, func=None, args=[], krgs={}):
-        self.entries.append(MenuEntry(name, desc, func, args, krgs))
+    def __init__(self, entries=None):
+        self.entries = entries or []
+    def add(self, name, desc, func=None, args=None, krgs=None):
+        self.entries.append(MenuEntry(name, desc, func, args or [], krgs or {}))
     def show(self, **kwargs):
         return show_menu(self.entries, **kwargs)
 
@@ -105,7 +105,7 @@ def cast(val, typ=int):
         val = None
     return val
 
-def ask(msg="Enter input", dft=None, vld=[], fmt=lambda x: x, shw=True, blk=False):
+def ask(msg="Enter input", dft=None, vld=None, fmt=lambda x: x, shw=True, blk=False):
     """Prompts the user for input and returns the given answer. Optionally
     checks if answer is valid.
 
@@ -117,6 +117,7 @@ def ask(msg="Enter input", dft=None, vld=[], fmt=lambda x: x, shw=True, blk=Fals
       - shw (bool) - If true, show the user's input as typed.
       - blk (bool) - If true, accept a blank string as valid input.
     """
+    vld = vld or []
     msg = "%s%s" % (QSTR, msg)
     if dft != None:
         dft = fmt(dft)
