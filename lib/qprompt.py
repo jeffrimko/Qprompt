@@ -22,7 +22,7 @@ from functools import partial
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.4.1"
+__version__ = "0.5.0-alpha"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -50,6 +50,10 @@ class Menu:
     def add(self, name, desc, func=None, args=None, krgs=None):
         """Add a menu entry."""
         self.entries.append(MenuEntry(name, desc, func, args or [], krgs or {}))
+    def enum(self, desc, func=None, args=None, krgs=None):
+        """Add a menu entry."""
+        name = str(len(self.entries))
+        self.entries.append(MenuEntry(name, desc, func, args or [], krgs or {}))
     def show(self, **kwargs):
         """Shows the menu."""
         self._show_kwargs.update(kwargs)
@@ -71,7 +75,7 @@ except TypeError:
         if flush:
             sys.stdout.flush()
 
-def show_menu(entries, header="** MENU **", msg="Enter menu selection", compact=False, ret_desc=False, **kwargs):
+def show_menu(entries, header="** MENU **", msg="Enter menu selection", compact=False, returns="name", **kwargs):
     """Showns a menu with the given list of MenuEntry items."""
     def show_banner():
         echo(header)
@@ -91,14 +95,14 @@ def show_menu(entries, header="** MENU **", msg="Enter menu selection", compact=
             entry.func(**entry.krgs)
         else:
             entry.func()
-    if ret_desc:
+    if "desc" == returns:
         return entry.desc
     return choice
 
-def enum_menu(strs, **kwargs):
+def enum_menu(strs, start=0, **kwargs):
     """Enumerates the given list of strings into a menu."""
     entries = []
-    for i,s in enumerate(strs, 1):
+    for i,s in enumerate(strs, start):
         entries.append(MenuEntry(str(i), str(s), None, None, None))
     return show_menu(entries, **kwargs)
 
@@ -240,6 +244,4 @@ def title(msg):
 ##==============================================================#
 
 if __name__ == '__main__':
-    echo("hello", end="")
-    echo("world")
-    echo("!")
+    pass
