@@ -18,19 +18,18 @@ _input = input if sys.version_info >= (3, 0) else raw_input
 
 def run_tests():
     """Runs all found test scripts. Returns True if all tests pass."""
-    fail = 0
-    okay = 0
+    fail = []
+    okay = []
     for i in os.listdir("."):
         if i.find("_test_") > -1 and i.endswith(".py"):
             if 0 != subprocess.call("python " + i):
-                fail += 1
+                fail.append(i)
             else:
-                okay += 1
-    print("[DONE]"),
+                okay.append(i)
     if fail:
-        print("Errors in unit tests!")
+        print("[ERROR] The following %u tests failed: %r" % (len(fail), fail))
         return False
-    print("All %u tests completely successfully!" % (okay))
+    print("[DONE] All %u tests completely successfully!" % (len(okay)))
     return True
 
 ##==============================================================#
