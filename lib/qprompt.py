@@ -64,20 +64,20 @@ class Menu:
 ## SECTION: Function Definitions                                #
 ##==============================================================#
 
-#: Generic echo/print function; based off code from `blessed` package.
 try:
     print("", end="", flush=True)
     echo = partial(print, end="\n", flush=True)
 except TypeError:
     # TypeError: 'flush' is an invalid keyword argument for this function
     def echo(text, end="\n", flush=True):
-        """python 2 version of print(end='', flush=True)."""
+        """Generic echo/print function; based off code from ``blessed`` package."""
         sys.stdout.write(u'{0}{1}'.format(text, end))
         if flush:
             sys.stdout.flush()
 
 def show_limit(entries, **kwargs):
-    """Shows a menu but limits the number of entries shown at a time."""
+    """Shows a menu but limits the number of entries shown at a time.
+    Functionally equivalent to show_menu() with the limit parameter set."""
     limit = kwargs.pop('limit', 5)
     if limit <= 0:
         limit = 1
@@ -125,7 +125,7 @@ def show_limit(entries, **kwargs):
 def show_menu(entries, **kwargs):
     """Showns a menu with the given list of MenuEntry items.
 
-    *Params*:
+    **Params**:
       - header (str) - String to show above menu.
       - msg (str) - String to show below menu.
       - compact (bool) - If true, the menu items will not be displayed.
