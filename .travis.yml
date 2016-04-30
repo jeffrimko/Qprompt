@@ -5,4 +5,4 @@ python:
   - "3.3"
   - "3.4"
 # command to run tests
-script: 'sudo python tests/_Run_Tests.py nopause'
+script: 'python tests/_Run_Tests.py nopause'
