@@ -12,7 +12,7 @@ This project provides a Python 2.7/3.x library that allows the user to quickly c
   - Should work on any platform without additional dependencies.
 
 == Status
-Currently, this project is **under active development**. The contents of the repository should be considered unstable during active development.
+Currently, this project is in the **development release** stage. While this project is suitable for use, please note that there may be incompatibilities in new releases.
 
 == Requirements
 Qprompt should run on any Python 2.7/3.x interpreter without additional dependencies.
