@@ -37,6 +37,10 @@ def run_tests():
 ##==============================================================#
 
 if __name__ == '__main__':
+    pause = True
+    if len(sys.argv) > 1 and "nopause" == sys.argv[1]:
+        pause = False
     okay = run_tests()
-    _input("Press ENTER to continue...")
+    if pause:
+        _input("Press ENTER to continue...")
     sys.exit(0 if okay else 1)
