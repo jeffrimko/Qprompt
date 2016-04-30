@@ -25,21 +25,6 @@ These functions write to the console. They are essentially slight variations of 
 .. autofunction:: qprompt.warn
 .. autofunction:: qprompt.error
 
-The following is an example of using these functions:
-
-.. include:: ..\..\examples\display_1.py
-    :code:
-
-Result of the previous example:
-
-.. parsed-literal::
-
-    Just a message.
-    [!] Heads up!
-    [WARNING] Uh oh...
-    [ERROR] OMG this is bad!
-    [ERROR] REALLY BAD!!!!!!!
-
 User Input
 ----------
 These functions prompt the user for input.
