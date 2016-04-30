@@ -12,6 +12,7 @@ user input."""
 from __future__ import print_function
 
 import sys
+import copy
 import ctypes
 from getpass import getpass
 from collections import namedtuple
@@ -75,8 +76,61 @@ except TypeError:
         if flush:
             sys.stdout.flush()
 
-def show_menu(entries, header="** MENU **", msg="Enter menu selection", compact=False, returns="name", **kwargs):
+def show_limit(entries, **kwargs):
+    limit = kwargs.pop('limit', 5)
+    print(kwargs)
+    if limit <= 0:
+        limit = 1
+    istart = 0 # Index of group start.
+    iend = limit # Index of group end.
+    while True:
+        if istart < 0:
+            istart = 0
+            iend = limit
+        if iend > len(entries):
+            iend = len(entries)
+            istart = iend - limit
+        unext = len(entries) - iend # Number of next entries.
+        uprev = istart # Number of previous entries.
+        nnext = "" # Name of 'next' menu entry.
+        nprev = "" # Name of 'prev' menu entry.
+        dnext = "" # Description of 'next' menu entry.
+        dprev = "" # Description of 'prev' menu entry.
+        group = copy.deepcopy(entries[istart:iend])
+        names = [i.name for i in group]
+        if unext:
+            for i in ["n", "N", "next", "NEXT", "->", ">>", ">>>"]:
+                if i not in names:
+                    nnext = i
+                    dnext = "Next %u entries." % (unext)
+                    group.append(MenuEntry(nnext, dnext, None, None, None))
+                    break
+        if uprev:
+            for i in ["p", "P", "prev", "PREV", "<-", "<<", "<<<"]:
+                if i not in names:
+                    nprev = i
+                    dprev = "Previous %u entries." % (uprev)
+                    group.append(MenuEntry(nprev, dprev, None, None, None))
+                    break
+        result = show_menu(group, **kwargs)
+        if result == nnext or result == dnext:
+            istart += limit
+            iend += limit
+        elif result == nprev or result == dprev:
+            istart -= limit
+            iend -= limit
+        else:
+            return result
+
+def show_menu(entries, **kwargs):
     """Showns a menu with the given list of MenuEntry items."""
+    header = kwargs.get('header', "** MENU **")
+    msg = kwargs.get('msg', "Enter menu selection")
+    compact = kwargs.get('compact', False)
+    returns = kwargs.get('returns', "name")
+    limit = kwargs.get('limit', None)
+    if limit:
+        return show_limit(entries, **kwargs)
     def show_banner():
         echo(header)
         for i in entries:
@@ -244,4 +298,9 @@ def title(msg):
 ##==============================================================#
 
 if __name__ == '__main__':
-    pass
+    menu = Menu()
+    entries = []
+    for i in range(22):
+        i = str(i)
+        entries.append(MenuEntry(i, "foo" + i, None, None, None))
+    print(show_menu(entries, returns="desc", limit=2))
