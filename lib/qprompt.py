@@ -78,7 +78,6 @@ except TypeError:
 
 def show_limit(entries, **kwargs):
     limit = kwargs.pop('limit', 5)
-    print(kwargs)
     if limit <= 0:
         limit = 1
     istart = 0 # Index of group start.
@@ -298,9 +297,4 @@ def title(msg):
 ##==============================================================#
 
 if __name__ == '__main__':
-    menu = Menu()
-    entries = []
-    for i in range(22):
-        i = str(i)
-        entries.append(MenuEntry(i, "foo" + i, None, None, None))
-    print(show_menu(entries, returns="desc", limit=2))
+    pass
