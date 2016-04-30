@@ -77,6 +77,7 @@ except TypeError:
             sys.stdout.flush()
 
 def show_limit(entries, **kwargs):
+    """Shows a menu but limits the number of entries shown at a time."""
     limit = kwargs.pop('limit', 5)
     if limit <= 0:
         limit = 1
@@ -122,7 +123,15 @@ def show_limit(entries, **kwargs):
             return result
 
 def show_menu(entries, **kwargs):
-    """Showns a menu with the given list of MenuEntry items."""
+    """Showns a menu with the given list of MenuEntry items.
+
+    *Params*:
+      - header (str) - String to show above menu.
+      - msg (str) - String to show below menu.
+      - compact (bool) - If true, the menu items will not be displayed.
+      - returns (str) - Controls what part of the menu entry is returned.
+      - limit (int) - If set, limits the number of menu entries show at a time.
+    """
     header = kwargs.get('header', "** MENU **")
     msg = kwargs.get('msg', "Enter menu selection")
     compact = kwargs.get('compact', False)
@@ -243,7 +252,7 @@ def ask_str(msg="Enter a string", dft=None, vld=[str], shw=True, blk=True):
     return ask(msg, dft=dft, vld=vld, shw=shw, blk=blk)
 
 def pause():
-    """Pauses until user continues."""
+    """Pauses and waits for user interaction."""
     getpass("Press ENTER to continue...")
 
 def status(*args, **kwargs):
