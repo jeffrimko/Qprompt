@@ -12,6 +12,9 @@ from verace import VerChecker, VerInfo
 VERCHK = VerChecker("Verace", __file__)
 VERCHK.include(r"lib\setup.py", opts={'match':"version = ", 'delim':'"'})
 VERCHK.include(r"lib\qprompt.py", match="__version__ = ", delim='"')
+VERCHK.include(r"doc\source\conf.py", match="version = ", delim="'")
+VERCHK.include(r"doc\source\conf.py", match="release = ", delim="'")
+VERCHK.include(r"doc\source\conf.py", match="html_title = ", delim="v", delim2="''")
 VERCHK.include(r"CHANGELOG.adoc", match="qprompt-", delim="-", delim2=" ", updatable=False)
 
 ##==============================================================#

@@ -1,5 +1,18 @@
 = Qprompt Changelog
 
+== qprompt-0.5.0 (2016-05-01)
+=== Release highlights
+  - Added API documentation.
+  - Various minor convenience updates.
+
+=== All additions and changes
+  - Added `enum()` method to `Menu`.
+  - Added `show_limit()` and `limit` parameter to `show_menu()`.
+  - Added `start` parameter to `enum_menu()`.
+
+=== Bug fixes
+Not applicable.
+
 == qprompt-0.4.1 (2016-04-14)
 === Release highlights
   - Major bug fix.
