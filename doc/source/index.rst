@@ -8,14 +8,6 @@ Qprompt API
 
 This is the main documentation for the Qprompt API. Qprompt is a Python library for quickly creating user input prompts and various related functionality.
 
-Contents:
-
-.. toctree::
-   :maxdepth: 2
-
-Overview
-========
-
 Console Output
 --------------
 These functions write to the console. They are essentially slight variations of the Python3 ``print()`` function and each adds a prefix to the displayed message.
