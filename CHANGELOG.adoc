@@ -3,6 +3,7 @@
 == qprompt-0.5.0 (2016-05-01)
 === Release highlights
   - Added API documentation.
+  - Added Travis CI support.
   - Various minor convenience updates.
 
 === All additions and changes
