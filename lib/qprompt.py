@@ -23,7 +23,7 @@ from functools import partial
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.5.0"
+__version__ = "0.5.1-alpha"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -261,17 +261,23 @@ def status(*args, **kwargs):
     another function as the first parameter.
 
     **Params:**
+    The following parameters are available when used as a decorator:
+
+      - msg (str) [args] - Message to print at start of `func`.
+
+    The following parameters are available when used as a function:
+
       - msg (str) [args] - Message to print at start of `func`.
       - func (func) - Function to call. First `args` if using `status()` as a
         function. Automatically provided if using `status()` as a decorator.
-      - args (list) - Remainder of `args` are passed to `func`.
+      - fargs (list) - List of `args` passed to `func`.
+      - fkrgs (dict) - Dictionary of `kwargs` passed to `func`.
       - fin (str) [kwargs] - Message to print when `func` finishes.
-      - kwargs (dict) - Remainder of `kwargs` are passed to `func`.
     """
     def decor(func):
-        def wrapper(*fargs, **fkwargs):
+        def wrapper(*args, **krgs):
             echo("[!] " + msg, end=" ", flush=True)
-            result = func(*fargs, **fkwargs)
+            result = func(*args, **krgs)
             echo(fin, flush=True)
             return result
         return wrapper
@@ -280,7 +286,11 @@ def status(*args, **kwargs):
     if len(args) > 1 and callable(args[1]):
         msg = args.pop(0)
         func = args.pop(0)
-        return decor(func)(*args, **kwargs)
+        try: fargs = args.pop(0)
+        except: fargs = []
+        try: fkrgs = args.pop(0)
+        except: fkrgs = {}
+        return decor(func)(*fargs, **fkrgs)
     msg = args.pop(0)
     return decor
 
