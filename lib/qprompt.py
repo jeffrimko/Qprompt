@@ -23,7 +23,7 @@ from functools import partial
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.5.1-alpha"
+__version__ = "0.6.0-alpha"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -59,6 +59,11 @@ class Menu:
         """Shows the menu."""
         self._show_kwargs.update(kwargs)
         return show_menu(self.entries, **self._show_kwargs)
+    def run(self, name):
+        for entry in self.entries:
+            if entry.name == name:
+                run_func(entry)
+                break
 
 ##==============================================================#
 ## SECTION: Function Definitions                                #
@@ -148,6 +153,13 @@ def show_menu(entries, **kwargs):
         show_banner()
     choice = ask(msg, vld=valid)
     entry = [i for i in entries if i.name == choice][0]
+    run_func(entry)
+    if "desc" == returns:
+        return entry.desc
+    return choice
+
+def run_func(entry):
+    """Runs the function associated with the given entry."""
     if entry.func:
         if entry.args and entry.krgs:
             entry.func(*entry.args, **entry.krgs)
@@ -157,9 +169,6 @@ def show_menu(entries, **kwargs):
             entry.func(**entry.krgs)
         else:
             entry.func()
-    if "desc" == returns:
-        return entry.desc
-    return choice
 
 def enum_menu(strs, start=0, **kwargs):
     """Enumerates the given list of strings into a menu."""
@@ -310,6 +319,10 @@ def title(msg):
     """Sets the title of the console window."""
     if sys.platform.startswith("win"):
         ctypes.windll.kernel32.SetConsoleTitleA(msg)
+
+def hrule(width=65, char="="):
+    """Outputs a horizontal line of the given character."""
+    echo("".join([char for _ in range(width)]))
 
 ##==============================================================#
 ## SECTION: Main Body                                           #
