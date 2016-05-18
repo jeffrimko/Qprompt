@@ -27,6 +27,14 @@ class TestCase(unittest.TestCase):
         result = ask_int()
         test.assertEqual(3, result)
 
+        setinput("2\n3")
+        result = ask_int(vld=[3])
+        test.assertEqual(3, result)
+
+        setinput("2\n3")
+        result = ask_int(chk=lambda x: 3 == x)
+        test.assertEqual(3, result)
+
     def test_yesno_1(test):
         setinput("yes")
         result = ask_yesno()
