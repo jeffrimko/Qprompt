@@ -243,7 +243,7 @@ def ask(msg="Enter input", fmt=None, dft=None, vld=None, chk=None, shw=True, blk
                     break
             else:
                 ans = None
-        if ans and hasattr(chk, "__call__"):
+        if ans != None and hasattr(chk, "__call__"):
             ans = ans if chk(ans) else None
     return ans
 
@@ -337,7 +337,4 @@ def hrule(width=65, char="="):
 ##==============================================================#
 
 if __name__ == '__main__':
-    # print(ask(vld=["hi"], chk=lambda x: x.startswith("h")))
-    # print(ask(vld=["1"], fmt=lambda x: int(x)))
-    print(ask_int(chk=lambda x: x > 100))
-    print(ask_int())
+    pass
