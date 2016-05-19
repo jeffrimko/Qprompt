@@ -186,7 +186,7 @@ def cast(val, typ=int):
         val = None
     return val
 
-def ask(msg="Enter input", fmt=None, dft=None, vld=None, chk=None, shw=True, blk=False):
+def ask(msg="Enter input", fmt=None, dft=None, vld=None, shw=True, blk=False):
     """Prompts the user for input and returns the given answer. Optionally
     checks if answer is valid.
 
@@ -194,12 +194,13 @@ def ask(msg="Enter input", fmt=None, dft=None, vld=None, chk=None, shw=True, blk
       - msg (str) - Message to prompt the user with.
       - fmt (func) - Function used to format user input.
       - dft (int|float|str) - Default value if input is left blank.
-      - vld ([int|float|str]) - Valid input entries.
-      - chk (func) - Function used check if input is valid.
+      - vld ([int|float|str|func]) - Valid input entries.
       - shw (bool) - If true, show the user's input as typed.
       - blk (bool) - If true, accept a blank string as valid input.
     """
     vld = vld or []
+    if not hasattr(vld, "__iter__"):
+        vld = [vld]
     if not hasattr(fmt, "__call__"):
         fmt = lambda x: x
     msg = "%s%s" % (QSTR, msg)
@@ -217,10 +218,7 @@ def ask(msg="Enter input", fmt=None, dft=None, vld=None, chk=None, shw=True, blk
         ans = get_input(msg)
         if "?" == ans:
             if vld:
-                echo(vld, end=" ")
-            if chk:
-                echo("(input checked via function)")
-            echo("")
+                echo("%r %s" % (vld, "(may be blank)" if blk else ""))
             ans = None
             continue
         if "" == ans:
@@ -239,12 +237,16 @@ def ask(msg="Enter input", fmt=None, dft=None, vld=None, chk=None, shw=True, blk
                 if type(v) is type and cast(ans, v) is not None:
                     ans = cast(ans, v)
                     break
+                elif hasattr(v, "__call__"):
+                    try:
+                        if v(ans):
+                            break
+                    except:
+                        pass
                 elif ans in vld:
                     break
             else:
                 ans = None
-        if ans != None and hasattr(chk, "__call__"):
-            ans = ans if chk(ans) else None
     return ans
 
 def ask_yesno(msg="Proceed?", dft=None):
@@ -256,17 +258,17 @@ def ask_yesno(msg="Proceed?", dft=None):
         dft = yes[0] if (dft in yes or dft == True) else no[0]
     return ask(msg, dft=dft, vld=yes+no) in yes
 
-def ask_int(msg="Enter an integer", dft=None, vld=[int], chk=None):
+def ask_int(msg="Enter an integer", dft=None, vld=[int]):
     """Prompts the user for an integer."""
-    return ask(msg, dft=dft, vld=vld, chk=chk, fmt=partial(cast, typ=int))
+    return ask(msg, dft=dft, vld=vld, fmt=partial(cast, typ=int))
 
-def ask_float(msg="Enter a float", dft=None, vld=[float], chk=None):
+def ask_float(msg="Enter a float", dft=None, vld=[float]):
     """Prompts the user for a float."""
-    return ask(msg, dft=dft, vld=vld, chk=chk, fmt=partial(cast, typ=float))
+    return ask(msg, dft=dft, vld=vld, fmt=partial(cast, typ=float))
 
-def ask_str(msg="Enter a string", dft=None, vld=[str], chk=None, shw=True, blk=True):
+def ask_str(msg="Enter a string", dft=None, vld=[str], shw=True, blk=True):
     """Prompts the user for a string."""
-    return ask(msg, dft=dft, vld=vld, chk=chk, shw=shw, blk=blk)
+    return ask(msg, dft=dft, vld=vld, shw=shw, blk=blk)
 
 def pause():
     """Pauses and waits for user interaction."""
@@ -328,7 +330,7 @@ def title(msg):
     if sys.platform.startswith("win"):
         ctypes.windll.kernel32.SetConsoleTitleA(msg)
 
-def hrule(width=65, char="="):
+def hrule(width=65, char="-"):
     """Outputs a horizontal line of the given character."""
     echo("".join([char for _ in range(width)]))
 
@@ -337,4 +339,4 @@ def hrule(width=65, char="="):
 ##==============================================================#
 
 if __name__ == '__main__':
-    pass
+    val = ask_int()
