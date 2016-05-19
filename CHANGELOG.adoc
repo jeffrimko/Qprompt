@@ -1,5 +1,18 @@
 = Qprompt Changelog
 
+== qprompt-0.6.0 (2016-05-18)
+=== Release highlights
+  - Various convenience and consistency updates.
+
+=== All additions and changes
+  - Added `hrule()` function.
+  - Added `run()` method to `Menu`.
+  - Can now pass functions into `vld` parameter of `ask` functions.
+  - When using `status()` as function, must pass `func` args (`fargs`) as list and kwargs (`fkrgs`) as dictionary.
+
+=== Bug fixes
+Not applicable.
+
 == qprompt-0.5.0 (2016-05-01)
 === Release highlights
   - Added API documentation.

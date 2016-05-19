@@ -23,7 +23,7 @@ from functools import partial
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.6.0-alpha"
+__version__ = "0.6.0"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -202,7 +202,7 @@ def ask(msg="Enter input", fmt=None, dft=None, vld=None, shw=True, blk=False):
     if not hasattr(vld, "__iter__"):
         vld = [vld]
     if not hasattr(fmt, "__call__"):
-        fmt = lambda x: x
+        fmt = lambda x: x  # NOTE: Defaults to function that does nothing.
     msg = "%s%s" % (QSTR, msg)
     if dft != None:
         dft = fmt(dft)
@@ -339,4 +339,4 @@ def hrule(width=65, char="-"):
 ##==============================================================#
 
 if __name__ == '__main__':
-    val = ask_int()
+    pass
