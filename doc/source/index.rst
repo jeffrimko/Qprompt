@@ -31,7 +31,10 @@ These functions accept only specific data types:
 .. autofunction:: qprompt.ask_str
 .. autofunction:: qprompt.ask_int
 .. autofunction:: qprompt.ask_float
-.. autofunction:: qprompt.ask_float
+
+Additional input functions:
+
+.. autofunction:: qprompt.ask_captcha
 
 Menus
 -----
