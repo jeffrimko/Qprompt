@@ -52,5 +52,6 @@ The following projects are similar and may be worth checking out:
 
   - https://github.com/Sleft/cliask[cliask]
   - https://github.com/aventurella/promptly[Promptly]
-  - https://github.com/tylerdave/prompter[prompter]
   - https://github.com/magmax/python-inquirer[python-inquirer]
+  - https://github.com/sfischer13/python-prompt[python-prompt]
+  - https://github.com/tylerdave/prompter[prompter]
