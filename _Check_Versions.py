@@ -3,13 +3,13 @@
 ##==============================================================#
 
 import qprompt
-from verace import VerChecker, VerInfo
+import verace
 
 ##==============================================================#
 ## SECTION: Global Definitions                                  #
 ##==============================================================#
 
-VERCHK = VerChecker("Verace", __file__)
+VERCHK = verace.VerChecker("Qprompt", __file__)
 VERCHK.include(r"lib\setup.py", opts={'match':"version = ", 'delim':'"'})
 VERCHK.include(r"lib\qprompt.py", match="__version__ = ", delim='"')
 VERCHK.include(r"doc\source\conf.py", match="version = ", delim="'")

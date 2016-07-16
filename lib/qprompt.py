@@ -11,9 +11,11 @@ user input."""
 
 from __future__ import print_function
 
-import sys
 import copy
 import ctypes
+import random
+import string
+import sys
 from getpass import getpass
 from collections import namedtuple
 from functools import partial
@@ -23,7 +25,7 @@ from functools import partial
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.6.0"
+__version__ = "0.7.0-alpha"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -269,6 +271,11 @@ def ask_float(msg="Enter a float", dft=None, vld=[float]):
 def ask_str(msg="Enter a string", dft=None, vld=[str], shw=True, blk=True):
     """Prompts the user for a string."""
     return ask(msg, dft=dft, vld=vld, shw=shw, blk=blk)
+
+def ask_captcha(length=4):
+    """Prompts the user for a random string."""
+    captcha = "".join(random.choice(string.ascii_lowercase) for _ in range(length))
+    ask_str('Enter the following letters, "%s"' % (captcha), vld=[captcha, captcha.upper()], blk=False)
 
 def pause():
     """Pauses and waits for user interaction."""
