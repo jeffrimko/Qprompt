@@ -23,7 +23,21 @@ Qprompt can be installed with pip using the following command: `pip install qpro
 Additional, Qprompt can be installed from source by running: `python setup.py install`
 
 == Usage
-The following are basic examples of Qprompt (all examples can be found https://github.com/jeffrimko/Qprompt/tree/master/examples[here]):
+The following is an example of basic input usage:
+
+    num = qprompt.ask_int("Enter a multiple of 3", vld=lambda x: x > 0)
+    if qprompt.ask_yesno("Show number?", dft=True):
+        print(num)
+
+The following is an example of basic menu usage:
+
+    menu = qprompt.Menu()
+    menu.add("p", "Previous")
+    menu.add("n", "Next")
+    menu.add("e", "Exit")
+    choice = menu.show()
+
+Check out the following additional examples of Qprompt; more can be found https://github.com/jeffrimko/Qprompt/tree/master/examples[here]:
 
   - https://github.com/jeffrimko/Qprompt/blob/master/examples/ask_1.py[examples/ask_1.py] - Basic info prompting.
   - https://github.com/jeffrimko/Qprompt/blob/master/examples/menu_1.py[examples/menu_1.py] - Basic menu usage.
