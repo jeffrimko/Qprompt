@@ -1,5 +1,8 @@
 = Qprompt
 
+image:http://img.shields.io/:license-mit-blue.svg?style=flat-square["License", link="https://github.com/jeffrimko/Qprompt/blob/master/LICENSE"]
+image:https://travis-ci.org/jeffrimko/Qprompt.svg?branch=master["Build Status"]
+
 == Introduction
 This project provides a Python 2.7/3.x library that allows the user to quickly create CLI prompts for user input. The main features are the following:
 
