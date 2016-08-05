@@ -25,7 +25,7 @@ from functools import partial
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.7.0"
+__version__ = "0.8.0-alpha"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -55,7 +55,7 @@ class Menu:
         self.entries.append(MenuEntry(name, desc, func, args or [], krgs or {}))
     def enum(self, desc, func=None, args=None, krgs=None):
         """Add a menu entry."""
-        name = str(len(self.entries))
+        name = str(len(self.entries)+1)
         self.entries.append(MenuEntry(name, desc, func, args or [], krgs or {}))
     def show(self, **kwargs):
         """Shows the menu."""
@@ -172,12 +172,12 @@ def run_func(entry):
         else:
             entry.func()
 
-def enum_menu(strs, start=0, **kwargs):
-    """Enumerates the given list of strings into a menu."""
-    entries = []
-    for i,s in enumerate(strs, start):
-        entries.append(MenuEntry(str(i), str(s), None, None, None))
-    return show_menu(entries, **kwargs)
+def enum_menu(strs, **kwargs):
+    """Enumerates the given list of strings into returned menu."""
+    menu = kwargs.get('menu', Menu())
+    for s in strs:
+        menu.enum(s)
+    return menu
 
 def cast(val, typ=int):
     """Attempts to cast the given value to the given type otherwise None is

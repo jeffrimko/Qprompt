@@ -18,16 +18,16 @@ class TestCase(unittest.TestCase):
         """Check for limit functionality."""
         items = ["foo", "bar", "baz", "qux", "quux"]
 
-        setinput("3")
+        setinput("4")
         with test.assertRaises(EOFError):
-            result = enum_menu(items, limit=3, returns="desc")
+            enum_menu(items).show(limit=3, returns="desc")
 
-        setinput("n\n3\n")
-        result = enum_menu(items, limit=3, returns="desc")
+        setinput("n\n4\n")
+        result = enum_menu(items).show(limit=3, returns="desc")
         test.assertEqual("qux", result)
 
-        setinput("n\np\n0")
-        result = enum_menu(items, limit=3, returns="desc")
+        setinput("n\np\n1")
+        result = enum_menu(items).show(limit=3, returns="desc")
         test.assertEqual("foo", result)
 
 ##==============================================================#
