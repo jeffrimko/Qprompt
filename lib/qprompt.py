@@ -25,7 +25,7 @@ from functools import partial
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.8.0-alpha"
+__version__ = "0.8.0"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -62,6 +62,7 @@ class Menu:
         self._show_kwargs.update(kwargs)
         return show_menu(self.entries, **self._show_kwargs)
     def run(self, name):
+        """Runs the function associated with the given entry name."""
         for entry in self.entries:
             if entry.name == name:
                 run_func(entry)
@@ -172,9 +173,15 @@ def run_func(entry):
         else:
             entry.func()
 
-def enum_menu(strs, **kwargs):
-    """Enumerates the given list of strings into returned menu."""
-    menu = kwargs.get('menu', Menu())
+def enum_menu(strs, menu=None):
+    """Enumerates the given list of strings into returned menu.
+
+    **Params**:
+      - menu (Menu) - Existing menu to append. If not provided, a new menu will
+        be created.
+    """
+    if not menu:
+        menu = Menu()
     for s in strs:
         menu.enum(s)
     return menu
