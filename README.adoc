@@ -34,11 +34,17 @@ The following is an example of basic input usage:
 
 The following is an example of basic menu usage:
 
-    menu = qprompt.Menu()
-    menu.add("p", "Previous")
-    menu.add("n", "Next")
-    menu.add("e", "Exit")
-    choice = menu.show()
+    >>> menu = qprompt.Menu()
+    >>> menu.add("p", "Previous")
+    >>> menu.add("n", "Next")
+    >>> menu.add("e", "Exit")
+    >>> choice = menu.show()
+    ** MENU **
+      (p) Previous
+      (n) Next
+      (e) Exit
+    [?] Enter menu selection:
+
 
 At any prompt, the user can enter the `?` character to show valid entries:
 
