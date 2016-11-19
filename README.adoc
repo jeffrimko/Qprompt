@@ -28,7 +28,7 @@ Additional, Qprompt can be installed from source by running: `python setup.py in
 == Usage
 The following is an example of basic input usage:
 
-    num = qprompt.ask_int("Enter a multiple of 3", vld=lambda x: x > 0)
+    num = qprompt.ask_int("Enter a multiple of 3", vld=lambda x: x % 3 == 0)
     if qprompt.ask_yesno("Show number?", dft=True):
         print(num)
 
