@@ -1,4 +1,4 @@
-= image:doc\logo\qprompt.png[]
+= image:doc\logo\qprompt.png[Qprompt]
 
 image:http://img.shields.io/:license-mit-blue.svg["License", link="https://github.com/jeffrimko/Qprompt/blob/master/LICENSE"]
 image:https://travis-ci.org/jeffrimko/Qprompt.svg?branch=master["Build Status"]
