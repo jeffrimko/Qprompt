@@ -36,6 +36,12 @@ QSTR = "[?] "
 #: User input start character sequence.
 ISTR = ": "
 
+#: Default horizontal rule width.
+HRWIDTH = 65
+
+#: Default horizontal rule character.
+HRCHAR = "-"
+
 #: User input function.
 _input = input if sys.version_info >= (3, 0) else raw_input
 
@@ -72,12 +78,18 @@ class Menu:
 ## SECTION: Function Definitions                                #
 ##==============================================================#
 
+#: Returns a line of characters at the given width.
+getline = lambda c, w: "".join([c for _ in range(w)])[:w]
+
+#: String index replace.
+stridxrep = lambda s, i, r: "".join([(s[x] if x != i else r) for x in range(len(s))])
+
 try:
     print("", end="", flush=True)
     echo = partial(print, end="\n", flush=True)
 except TypeError:
     # TypeError: 'flush' is an invalid keyword argument for this function
-    def echo(text, end="\n", flush=True):
+    def echo(text="", end="\n", flush=True):
         """Generic echo/print function; based off code from ``blessed`` package."""
         sys.stdout.write(u'{0}{1}'.format(text, end))
         if flush:
@@ -344,9 +356,24 @@ def title(msg):
     if sys.platform.startswith("win"):
         ctypes.windll.kernel32.SetConsoleTitleA(msg)
 
-def hrule(width=65, char="-"):
-    """Outputs a horizontal line of the given character."""
-    echo("".join([char for _ in range(width)]))
+def hrule(width=None, char=None):
+    """Outputs or returns a horizontal line of the given character and width."""
+    width = width or HRWIDTH
+    char = char or HRCHAR
+    echo(getline(char, width))
+
+def wrap(body, header="", show=True, width=None, char=None):
+    """Wraps the given body content between horizontal lines."""
+    width = width or HRWIDTH
+    char = char or HRCHAR
+    top = "/"
+    if header:
+        top += "^"
+        alert(header)
+    top += getline(char, width-len(top))
+    echo(top)
+    echo(body)
+    echo("\\" + getline(char, width-1))
 
 ##==============================================================#
 ## SECTION: Main Body                                           #
