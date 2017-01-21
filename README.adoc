@@ -107,7 +107,7 @@ qprompt.error("qux")
 # [ERROR] qux
 --------
 
-Got a function that takes a while, show that it is running with `status` which can be used as a function or decorator:
+Got a function that takes a while? Show that it is running with `status` which can be used as a function or decorator:
 
 [source,python]
 --------
