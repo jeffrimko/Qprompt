@@ -23,34 +23,119 @@ Qprompt should run on any Python 2.7/3.x interpreter without additional dependen
 == Installation
 Qprompt can be installed with pip using the following command: `pip install qprompt`
 
-Additional, Qprompt can be installed from source by running: `python setup.py install`
+Additionally, Qprompt can be installed from source by running: `python setup.py install`
 
 == Usage
-The following is an example of basic input usage:
+Start by importing Qprompt into your Python script:
 
-    num = qprompt.ask_int("Enter a multiple of 3", vld=lambda x: x % 3 == 0)
-    if qprompt.ask_yesno("Show multiple?", dft=True):
-        print(num / 3)
+[source,python]
+--------
+import qprompt
+--------
 
-The following is an example of basic menu usage:
+All user prompts requiring user input will start with `[?]`, for example:
 
-    >>> menu = qprompt.Menu()
-    >>> menu.add("p", "Previous")
-    >>> menu.add("n", "Next")
-    >>> menu.add("e", "Exit")
-    >>> choice = menu.show()
-    ** MENU **
-      (p) Previous
-      (n) Next
-      (e) Exit
-    [?] Enter menu selection:
-
+[source,python]
+--------
+qprompt.ask()
+# [?] Enter input:
+--------
 
 At any prompt, the user can enter the `?` character to show valid entries:
 
-    >>> qprompt.ask_yesno()
-    [?] Proceed?: ?
-    ['N', 'NO', 'Y', 'YES', 'n', 'no', 'y', 'yes']
+[source,python]
+--------
+qprompt.ask_yesno()
+# [?] Proceed?: ?
+# ['N', 'NO', 'Y', 'YES', 'n', 'no', 'y', 'yes']
+--------
+
+You can prompt the user for various input types:
+
+[source,python]
+--------
+qprompt.ask_yesno()
+qprompt.ask_int()
+qprompt.ask_float()
+qprompt.ask_str()
+qprompt.ask_captcha()
+--------
+
+Optional validity checks can be added:
+
+[source,python]
+--------
+qprompt.ask_int(vld=[1,2,3])
+# [?] Enter an integer: 4
+# [?] Enter an integer: 1
+
+qprompt.ask_str(vld=lambda x: x.startswith("spa"))
+# [?] Enter a string: foo
+# [?] Enter a string: spam
+--------
+
+Here is a basic menu:
+
+[source,python]
+--------
+menu = qprompt.Menu()
+menu.add("p", "Previous")
+menu.add("n", "Next")
+menu.add("e", "Exit")
+choice = menu.show()
+# ** MENU **
+#   (p) Previous
+#   (n) Next
+#   (e) Exit
+# [?] Enter menu selection:
+--------
+
+Some print-like functions:
+
+[source,python]
+--------
+qprompt.echo("foo")
+# foo
+
+qprompt.alert("bar")
+# [!] bar
+
+qprompt.warn("baz")
+# [WARNING] baz
+
+qprompt.error("qux")
+# [ERROR] qux
+--------
+
+Got a function that takes a while, show that it is running with `status` which can be used as a function or decorator:
+
+[source,python]
+--------
+qprompt.status("Doing stuff...", time.sleep, [1])
+# [!] Doing stuff... DONE.
+
+@qprompt.status("Doing more stuff...")
+def do_stuff():
+    time.sleep(1)
+do_stuff()
+# [!] Doing more stuff... DONE.
+--------
+
+Additional convenience functions:
+
+[source,python]
+--------
+qprompt.pause()
+# Press ENTER to continue...
+
+qprompt.hrule(10)
+# ----------
+
+qprompt.wrap("hello world", "hi", 10)
+# /-- hi ---
+# hello world
+# \---------
+--------
 
 Check out the following additional examples of Qprompt; more can be found https://github.com/jeffrimko/Qprompt/tree/master/examples[here]:
 
