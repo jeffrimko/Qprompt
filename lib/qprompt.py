@@ -25,7 +25,7 @@ from functools import partial
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.8.0"
+__version__ = "0.8.1"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -41,6 +41,12 @@ HRWIDTH = 65
 
 #: Default horizontal rule character.
 HRCHAR = "-"
+
+#: Default top wrap character.
+TCHAR = "-"
+
+#: Default bottom wrap character.
+BCHAR = "-"
 
 #: User input function.
 _input = input if sys.version_info >= (3, 0) else raw_input
@@ -362,18 +368,20 @@ def hrule(width=None, char=None):
     char = char or HRCHAR
     echo(getline(char, width))
 
-def wrap(body, header="", show=True, width=None, char=None):
+def wrap(body, header="", width=None, tchar=TCHAR, bchar=BCHAR, char=""):
     """Wraps the given body content between horizontal lines."""
+    if char:
+        bchar = tchar = char
     width = width or HRWIDTH
-    char = char or HRCHAR
-    top = "/"
+    top = "/" + getline(tchar, width-1)
     if header:
-        top += "^"
-        alert(header)
-    top += getline(char, width-len(top))
+        top = stridxrep(top, 3, " ")
+        for i,c in enumerate(header):
+            top = stridxrep(top, i+4, header[i])
+        top = stridxrep(top, i+5, " ")
     echo(top)
     echo(body)
-    echo("\\" + getline(char, width-1))
+    echo("\\" + getline(bchar, width-1))
 
 ##==============================================================#
 ## SECTION: Main Body                                           #
