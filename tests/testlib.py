@@ -9,7 +9,7 @@ import sys
 import unittest
 
 # Allows development version of library to be used instead of installed.
-libdir = op.join(op.abspath(op.dirname(__file__)), r"..\lib")
+libdir = op.normpath(op.join(op.abspath(op.dirname(__file__)), r"..\lib"))
 sys.path.insert(0, libdir)
 
 # Handle Python 2/3 differences.
