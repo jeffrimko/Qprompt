@@ -38,6 +38,7 @@ def run_tests():
 
 if __name__ == '__main__':
     pause = True
+    os.chdir(os.path.dirname(__file__))
     if len(sys.argv) > 1 and "nopause" == sys.argv[1]:
         pause = False
     okay = run_tests()
