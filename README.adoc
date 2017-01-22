@@ -58,7 +58,14 @@ qprompt.ask_yesno()
 qprompt.ask_int()
 qprompt.ask_float()
 qprompt.ask_str()
-qprompt.ask_captcha()
+--------
+
+The default prompt message can be changed:
+
+[source,python]
+--------
+qprompt.ask_str("Enter your name")
+# [?] Enter your name: Joe
 --------
 
 Optional validity checks can be added:
@@ -72,6 +79,20 @@ qprompt.ask_int(vld=[1,2,3])
 qprompt.ask_str(vld=lambda x: x.startswith("spa"))
 # [?] Enter a string: foo
 # [?] Enter a string: spam
+
+qprompt.ask_str("Enter a path", vld=lambda x: os.path.exists(x))
+# [?] Enter a path: C:\Windows
+--------
+
+Robot problem? Try using a captcha:
+
+[source,python]
+--------
+qprompt.ask_captcha()
+# [?] Enter the following letters, "kslg":
+
+qprompt.ask_captcha(length=6)
+# [?] Enter the following letters, "dkixzp":
 --------
 
 Here is a basic menu:
@@ -128,10 +149,10 @@ Additional convenience functions:
 qprompt.pause()
 # Press ENTER to continue...
 
-qprompt.hrule(10)
+qprompt.hrule(width=10)
 # ----------
 
-qprompt.wrap("hello world", "hi", 10)
+qprompt.wrap("hello world", "hi", width=10)
 # /-- hi ---
 # hello world
 # \---------
