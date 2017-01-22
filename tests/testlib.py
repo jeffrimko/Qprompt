@@ -7,6 +7,9 @@
 import sys
 import unittest
 
+# Allows development version of library to be used instead of installed.
+sys.path.insert(0, r"..\lib")
+
 # Handle Python 2/3 differences.
 if sys.version_info >= (3, 0):
     from io import StringIO
@@ -16,8 +19,6 @@ else:
 ##==============================================================#
 ## SECTION: Global Definitions                                  #
 ##==============================================================#
-
-sys.path.append(r"..\lib")
 
 #{-- Allows stdin to be set via function setinput(). --
 sys.stdin = StringIO()
