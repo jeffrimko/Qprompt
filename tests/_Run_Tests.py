@@ -22,7 +22,7 @@ def run_tests():
     okay = []
     for i in os.listdir("."):
         if i.find("_test_") > -1 and i.endswith(".py"):
-            if 0 != subprocess.call("python " + i):
+            if 0 != subprocess.call("python " + i, shell=True):
                 fail.append(i)
             else:
                 okay.append(i)
@@ -38,7 +38,7 @@ def run_tests():
 
 if __name__ == '__main__':
     pause = True
-    os.chdir(os.path.dirname(__file__))
+    os.chdir(os.path.abspath(os.path.dirname(__file__)))
     if len(sys.argv) > 1 and "nopause" == sys.argv[1]:
         pause = False
     okay = run_tests()
