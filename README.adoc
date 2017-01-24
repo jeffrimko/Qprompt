@@ -33,12 +33,22 @@ Start by importing Qprompt into your Python script:
 import qprompt
 --------
 
-All user prompts requiring user input will start with `[?]`, for example:
+You can prompt the user for various input types:
 
 [source,python]
 --------
-qprompt.ask()
-# [?] Enter input:
+qprompt.ask_yesno()
+qprompt.ask_int()
+qprompt.ask_float()
+qprompt.ask_str()
+--------
+
+All prompts requiring user input will start with `[?]`:
+
+[source,python]
+--------
+qprompt.ask_int()
+# [?] Enter an integer:
 --------
 
 At any prompt, the user can enter the `?` character to show valid entries:
@@ -50,22 +60,20 @@ qprompt.ask_yesno()
 # ['N', 'NO', 'Y', 'YES', 'n', 'no', 'y', 'yes']
 --------
 
-You can prompt the user for various input types:
-
-[source,python]
---------
-qprompt.ask_yesno()
-qprompt.ask_int()
-qprompt.ask_float()
-qprompt.ask_str()
---------
-
 The default prompt message can be changed:
 
 [source,python]
 --------
 qprompt.ask_str("Enter your name")
-# [?] Enter your name: Joe
+# [?] Enter your name:
+--------
+
+A optional default value can be supplied:
+
+[source,python]
+--------
+qprompt.ask_yesno(dft="y")
+# [?] Proceed? [y]:
 --------
 
 Optional validity checks can be added:
@@ -95,7 +103,7 @@ qprompt.ask_captcha(length=6)
 # [?] Enter the following letters, "dkixzp":
 --------
 
-Here is a basic menu:
+Menus are easy to make:
 
 [source,python]
 --------
@@ -109,6 +117,15 @@ choice = menu.show()
 #   (n) Next
 #   (e) Exit
 # [?] Enter menu selection:
+--------
+
+Your menus can do cool stuff by registering functions:
+
+[source,python]
+--------
+def foo(a, b):
+    print(a + b)
+menu.add("f", "foo", foo, [1, 2])
 --------
 
 Some print-like functions:
