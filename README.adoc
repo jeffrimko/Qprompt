@@ -68,7 +68,7 @@ qprompt.ask_str("Enter your name")
 # [?] Enter your name:
 --------
 
-A optional default value can be supplied:
+An optional default value can be supplied:
 
 [source,python]
 --------
