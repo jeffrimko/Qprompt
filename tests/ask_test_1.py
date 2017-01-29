@@ -23,6 +23,10 @@ class TestCase(unittest.TestCase):
         result = ask_int()
         test.assertEqual(3, result)
 
+        setinput("\n")
+        result = ask_int(dft=4)
+        test.assertEqual(4, result)
+
         setinput("\n3")
         result = ask_int()
         test.assertEqual(3, result)
