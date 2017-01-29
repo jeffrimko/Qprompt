@@ -1,0 +1,9 @@
+= Qprompt Authors
+
+Qprompt is currently developed and maintained by:
+
+  - Jeff Rimko
+
+Thank you to the following for their contributions and input:
+
+  - Andreas Urke

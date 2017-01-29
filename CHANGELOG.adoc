@@ -1,5 +1,15 @@
 = Qprompt Changelog
 
+== qprompt-0.8.2 (2017-01-29)
+=== Release highlights
+  - Python3 related bug fix.
+
+=== All additions and changes
+Not applicable.
+
+=== Bug fixes
+  - Fixed Python3 `TypeError` exception thrown when `dft` keyword argument was set in an `ask` function; thanks to Andreas Urke for discovering.
+
 == qprompt-0.8.1 (2017-01-21)
 === Release highlights
   - Added convenience function.
