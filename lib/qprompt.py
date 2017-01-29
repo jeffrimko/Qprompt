@@ -237,7 +237,10 @@ def ask(msg="Enter input", fmt=None, dft=None, vld=None, shw=True, blk=False):
         vld.append(dft)
     if vld:
         # Sanitize valid inputs.
-        vld = sorted(list(set([fmt(v) if fmt(v) else v for v in vld])))
+        vld = list(set([fmt(v) if fmt(v) else v for v in vld]))
+        # NOTE: The following fixes a Py3 related bug found in `0.8.1`.
+        try: vld = sorted(vld)
+        except: pass
     msg += ISTR
     ans = None
     while ans is None:
