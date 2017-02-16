@@ -231,8 +231,8 @@ def ask(msg="Enter input", fmt=None, dft=None, vld=None, shw=True, blk=False):
     if not hasattr(fmt, "__call__"):
         fmt = lambda x: x  # NOTE: Defaults to function that does nothing.
     msg = "%s%s" % (QSTR, msg)
+    dft = fmt(dft) if dft != None else None # Prevents showing [None] default.
     if dft != None:
-        dft = fmt(dft)
         msg += " [%s]" % (dft if type(dft) is str else repr(dft))
         vld.append(dft)
     if vld:
