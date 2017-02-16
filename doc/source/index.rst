@@ -6,7 +6,7 @@
 Qprompt API
 ===========
 
-This is the main documentation for the Qprompt API. Qprompt is a Python library for quickly creating user input prompts and various related functionality.
+This is the main documentation for Qprompt, a Python library for quickly creating user input prompts and various related functionality.
 
 Console Output
 --------------
