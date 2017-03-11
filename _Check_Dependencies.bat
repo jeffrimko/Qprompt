@@ -14,11 +14,11 @@
 ::=============================================================::
 
 :: Check for Python.
-call:ChkDepVer^
+call:ChkDep^
     "Python"^
     "Python language interpreter."^
     "www.python.org"^
-    "2.7"^
+    "2.7/3.x"^
     python -V
 
 :: Check for Verace.

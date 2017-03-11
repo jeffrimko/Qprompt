@@ -1,5 +1,19 @@
 = Qprompt Changelog
 
+== qprompt-0.9.0 (2017-03-11)
+=== Release highlights
+  - New helper functions and classes.
+  - Minor logic updates.
+
+=== All additions and changes
+  - Added `StdinSetup` and `StdinAuto` helper classes along with `stdin_setup` and `stdin_auto` globals.
+  - Added `main()` method to `Menu` to handle standard main logic.
+  - Added `clear()` and `setinput()` functions.
+  - The `blk` parameter for all `ask` functions will now automatically be set false if `vld` is supplied.
+
+=== Bug fixes
+Not applicable.
+
 == qprompt-0.8.2 (2017-01-29)
 === Release highlights
   - Python3 related bug fix.
