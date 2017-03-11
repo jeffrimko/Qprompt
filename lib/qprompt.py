@@ -289,10 +289,10 @@ def ask(msg="Enter input", fmt=None, dft=None, vld=None, shw=True, blk=False):
         msg += " [%s]" % (dft if type(dft) is str else repr(dft))
         vld.append(dft)
     if vld:
-        # Input cannot be blank if validity check provided.
-        blk = False
         # Sanitize valid inputs.
         vld = list(set([fmt(v) if fmt(v) else v for v in vld]))
+        if str not in vld:
+            blk = False
         # NOTE: The following fixes a Py3 related bug found in `0.8.1`.
         try: vld = sorted(vld)
         except: pass
@@ -303,7 +303,7 @@ def ask(msg="Enter input", fmt=None, dft=None, vld=None, shw=True, blk=False):
         ans = get_input(msg)
         if "?" == ans:
             if vld:
-                echo(vld)
+                echo("%r %s" % (vld, "(may be blank)" if blk else ""))
             ans = None
             continue
         if "" == ans:
