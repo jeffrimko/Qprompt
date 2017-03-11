@@ -32,7 +32,7 @@ else:
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.8.3-alpha"
+__version__ = "0.9.0-alpha"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -64,13 +64,31 @@ _input = input if sys.version_info >= (3, 0) else raw_input
 
 class StdinSetup:
     """Sets up stdin to be supplied via `setinput()`."""
-    def __enter__(self):
+    def __init__(self, stream=None):
+        self._stream = stream or StringIO()
         self.original = sys.stdin
-        sys.stdin = StringIO()
+    def setup(self):
+        sys.stdin = self._stream
+    def teardown(self):
+        sys.stdin = self.original
+    def __enter__(self):
+        self.setup()
         return self
     def __exit__(self, type, value, traceback):
-        sys.stdin = self.original
+        self.teardown()
 stdin_setup = StdinSetup()
+
+class StdinAuto:
+    """Automatically set stdin using supplied list."""
+    def __init__(self, auto=None):
+        self.auto = auto or sys.argv[1:]
+    def __enter__(self, auto=None):
+        if self.auto:
+            stdin_setup.setup()
+            setinput("\n".join(self.auto))
+    def __exit__(self, type, value, traceback):
+        stdin_setup.teardown()
+stdin_auto = StdinAuto()
 
 class Menu:
     """Menu object that will show the associated MenuEntry items."""
@@ -96,19 +114,11 @@ class Menu:
             if entry.name == name:
                 run_func(entry)
                 break
-    def main(self, auto=None, loop=True, quit=("q", "Quit"), **kwargs):
+    def main(self, auto=None, loop=False, quit=("q", "Quit"), **kwargs):
         """Runs the standard menu main logic."""
-        if auto:
-            autostr = "\n".join(sys.argv[1:])
-            with stdin_setup:
-                setinput(autostr)
-                try:
-                    self.show(**kwargs)
-                except EOFError:
-                    error("Issue processing input!")
-        else:
-            if quit:
-                self.add(quit[0], quit[1])
+        if quit:
+            self.add(quit[0], quit[1])
+        with StdinAuto(auto):
             if loop:
                 while self.show(**kwargs) not in quit:
                     pass
@@ -440,19 +450,21 @@ def wrap(body, header="", width=None, tchar=TCHAR, bchar=BCHAR, char=""):
 ##==============================================================#
 
 if __name__ == '__main__':
-    # def add(a=None, b=None):
-    #     a = a if a != None else ask_int()
-    #     b = b if b != None else ask_int()
-    #     echo(a + b)
-    # def sub(a=None, b=None):
-    #     a = a if a != None else ask_int()
-    #     b = b if b != None else ask_int()
-    #     echo(a - b)
-    # menu = Menu()
-    # menu.add("a", "Add", add)
-    # menu.add("s", "Sub", sub)
+    def add(a=None, b=None):
+        a = a if a != None else ask_int()
+        b = b if b != None else ask_int()
+        echo(a + b)
+    def sub(a=None, b=None):
+        a = a if a != None else ask_int()
+        b = b if b != None else ask_int()
+        echo(a - b)
+    menu = Menu()
+    menu.add("a", "Add", add)
+    menu.add("s", "Sub", sub)
+    menu.main(loop=True)
     # menu.main(sys.argv[1:])
     # echo("BLAH")
     # pause()
     # clear()
-    pass
+    # with stdin_auto:
+    #     ask_int()
