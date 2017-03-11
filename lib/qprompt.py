@@ -288,6 +288,8 @@ def ask(msg="Enter input", fmt=None, dft=None, vld=None, shw=True, blk=False):
         msg += " [%s]" % (dft if type(dft) is str else repr(dft))
         vld.append(dft)
     if vld:
+        # Input cannot be blank if validity check provided.
+        blk = False
         # Sanitize valid inputs.
         vld = list(set([fmt(v) if fmt(v) else v for v in vld]))
         # NOTE: The following fixes a Py3 related bug found in `0.8.1`.
@@ -300,7 +302,7 @@ def ask(msg="Enter input", fmt=None, dft=None, vld=None, shw=True, blk=False):
         ans = get_input(msg)
         if "?" == ans:
             if vld:
-                echo("%r %s" % (vld, "(may be blank)" if blk else ""))
+                echo(vld)
             ans = None
             continue
         if "" == ans:
