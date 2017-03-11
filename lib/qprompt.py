@@ -117,7 +117,8 @@ class Menu:
     def main(self, auto=None, loop=False, quit=("q", "Quit"), **kwargs):
         """Runs the standard menu main logic."""
         if quit:
-            self.add(quit[0], quit[1])
+            if self.entries[-1][:2] != quit:
+                self.add(*quit)
         with StdinAuto(auto):
             if loop:
                 while self.show(**kwargs) not in quit:
@@ -452,21 +453,4 @@ def wrap(body, header="", width=None, tchar=TCHAR, bchar=BCHAR, char=""):
 ##==============================================================#
 
 if __name__ == '__main__':
-    def add(a=None, b=None):
-        a = a if a != None else ask_int()
-        b = b if b != None else ask_int()
-        echo(a + b)
-    def sub(a=None, b=None):
-        a = a if a != None else ask_int()
-        b = b if b != None else ask_int()
-        echo(a - b)
-    menu = Menu()
-    menu.add("a", "Add", add)
-    menu.add("s", "Sub", sub)
-    menu.main(loop=True)
-    # menu.main(sys.argv[1:])
-    # echo("BLAH")
-    # pause()
-    # clear()
-    # with stdin_auto:
-    #     ask_int()
+    pass
