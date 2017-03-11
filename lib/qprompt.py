@@ -20,12 +20,18 @@ from getpass import getpass
 from collections import namedtuple
 from functools import partial
 
+# Handle Python 2/3 differences.
+if sys.version_info >= (3, 0):
+    from io import StringIO
+else:
+    from StringIO import StringIO
+
 ##==============================================================#
 ## SECTION: Global Definitions                                  #
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.8.2"
+__version__ = "0.8.3-alpha"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -55,6 +61,16 @@ _input = input if sys.version_info >= (3, 0) else raw_input
 ## SECTION: Class Definitions                                   #
 ##==============================================================#
 
+class StdinSetup:
+    """Sets up stdin to be supplied via `setinput()`."""
+    def __enter__(self):
+        self.original = sys.stdin
+        sys.stdin = StringIO()
+        return self
+    def __exit__(self, type, value, traceback):
+        sys.stdin = self.original
+stdin_setup = StdinSetup()
+
 class Menu:
     """Menu object that will show the associated MenuEntry items."""
     def __init__(self, entries=None, **kwargs):
@@ -79,6 +95,23 @@ class Menu:
             if entry.name == name:
                 run_func(entry)
                 break
+    def main(self, auto=None, quit=("q", "Quit"), **kwargs):
+        """Runs the standard menu main logic."""
+        if auto:
+            autostr = "\n".join(sys.argv[1:])
+            with stdin_setup:
+                setinput(autostr)
+                try:
+                    self.show(**kwargs)
+                except EOFError:
+                    error("Ran out of input!")
+        else:
+            if quit:
+                self.add(quit[0], quit[1])
+                while self.show(**kwargs) not in quit:
+                    pass
+            else:
+                self.show(**kwargs)
 
 ##==============================================================#
 ## SECTION: Function Definitions                                #
@@ -89,6 +122,13 @@ getline = lambda c, w: "".join([c for _ in range(w)])[:w]
 
 #: String index replace.
 stridxrep = lambda s, i, r: "".join([(s[x] if x != i else r) for x in range(len(s))])
+
+#: Allows stdin to be set via function; use with `stdin_setup` context.
+setinput = lambda x: [
+        sys.stdin.seek(0),
+        sys.stdin.truncate(0),
+        sys.stdin.write(x),
+        sys.stdin.seek(0)]
 
 try:
     print("", end="", flush=True)
@@ -391,4 +431,15 @@ def wrap(body, header="", width=None, tchar=TCHAR, bchar=BCHAR, char=""):
 ##==============================================================#
 
 if __name__ == '__main__':
-    pass
+    def add(a=None, b=None):
+        a = a if a != None else ask_int()
+        b = b if b != None else ask_int()
+        echo(a + b)
+    def sub(a=None, b=None):
+        a = a if a != None else ask_int()
+        b = b if b != None else ask_int()
+        echo(a - b)
+    menu = Menu()
+    menu.add("a", "Add", add)
+    menu.add("s", "Sub", sub)
+    menu.main(sys.argv[1:])
