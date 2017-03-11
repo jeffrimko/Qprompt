@@ -1,5 +1,8 @@
 *.pyc
-dist/
+*__backup*
+*__output*
+*__temp*
+.rundoc*
 build/
+dist/
 qprompt.egg-info/
-*__*
