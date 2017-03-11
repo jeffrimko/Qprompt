@@ -23,5 +23,5 @@ def cleanup_readme():
 
 if __name__ == '__main__':
     generate_readme()
-    subprocess.call("python setup.py install", shell=True)
+    subprocess.call("pip install -e .", shell=True)
     cleanup_readme()

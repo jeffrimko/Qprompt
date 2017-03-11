@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Qprompt API
-===========
+Qprompt
+=======
 
 This is the main documentation for Qprompt, a Python library for quickly creating user input prompts and various related functionality.
 
