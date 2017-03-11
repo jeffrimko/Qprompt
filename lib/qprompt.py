@@ -2,7 +2,7 @@
 user input."""
 
 ##==============================================================#
-## DEVELOPED 2015, REVISED 2015, Jeff Rimko.                    #
+## DEVELOPED 2015, REVISED 2017, Jeff Rimko.                    #
 ##==============================================================#
 
 ##==============================================================#
@@ -16,9 +16,10 @@ import ctypes
 import random
 import string
 import sys
-from getpass import getpass
 from collections import namedtuple
 from functools import partial
+from getpass import getpass
+from subprocess import call
 
 # Handle Python 2/3 differences.
 if sys.version_info >= (3, 0):
@@ -95,7 +96,7 @@ class Menu:
             if entry.name == name:
                 run_func(entry)
                 break
-    def main(self, auto=None, quit=("q", "Quit"), **kwargs):
+    def main(self, auto=None, loop=True, quit=("q", "Quit"), **kwargs):
         """Runs the standard menu main logic."""
         if auto:
             autostr = "\n".join(sys.argv[1:])
@@ -108,6 +109,7 @@ class Menu:
         else:
             if quit:
                 self.add(quit[0], quit[1])
+            if loop:
                 while self.show(**kwargs) not in quit:
                     pass
             else:
@@ -349,6 +351,13 @@ def pause():
     """Pauses and waits for user interaction."""
     getpass("Press ENTER to continue...")
 
+def clear():
+    """Clears the terminal."""
+    if sys.platform.startswith("win"):
+        call("cls", shell=True)
+    else:
+        call("clear", shell=True)
+
 def status(*args, **kwargs):
     """Prints a status message at the start and finish of an associated
     function. Can be used as a function decorator or as a function that accepts
@@ -431,15 +440,19 @@ def wrap(body, header="", width=None, tchar=TCHAR, bchar=BCHAR, char=""):
 ##==============================================================#
 
 if __name__ == '__main__':
-    def add(a=None, b=None):
-        a = a if a != None else ask_int()
-        b = b if b != None else ask_int()
-        echo(a + b)
-    def sub(a=None, b=None):
-        a = a if a != None else ask_int()
-        b = b if b != None else ask_int()
-        echo(a - b)
-    menu = Menu()
-    menu.add("a", "Add", add)
-    menu.add("s", "Sub", sub)
-    menu.main(sys.argv[1:])
+    # def add(a=None, b=None):
+    #     a = a if a != None else ask_int()
+    #     b = b if b != None else ask_int()
+    #     echo(a + b)
+    # def sub(a=None, b=None):
+    #     a = a if a != None else ask_int()
+    #     b = b if b != None else ask_int()
+    #     echo(a - b)
+    # menu = Menu()
+    # menu.add("a", "Add", add)
+    # menu.add("s", "Sub", sub)
+    # menu.main(sys.argv[1:])
+    # echo("BLAH")
+    # pause()
+    # clear()
+    pass
