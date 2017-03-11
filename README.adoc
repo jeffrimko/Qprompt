@@ -4,7 +4,7 @@ image:http://img.shields.io/:license-mit-blue.svg["License", link="https://githu
 image:https://travis-ci.org/jeffrimko/Qprompt.svg?branch=master["Build Status"]
 
 == Introduction
-This project provides a Python 2.7/3.x library that allows the user to quickly create CLI prompts for user input. The main features are the following:
+This project provides a Python 2.7/3.x library that allows the user to quickly create CLI prompts for user input. The main features of this library are:
 
   - Simple multi-entry menus.
   - Prompt for yes/no response.
@@ -183,7 +183,7 @@ Check out the following additional examples of Qprompt; more can be found https:
   - https://github.com/jeffrimko/Qprompt/blob/master/examples/status_1.py[examples/status_1.py] - Basic status function usage.
 
 == Documentation
-The full documentation for this project can be found http://qprompt.readthedocs.io/en/latest/[here on Read the Docs].
+The full documentation for this project can be found http://qprompt.readthedocs.io[here on Read the Docs].
 
 == Similar
 The following projects are similar and may be worth checking out:
