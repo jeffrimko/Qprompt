@@ -104,7 +104,7 @@ class Menu:
                 try:
                     self.show(**kwargs)
                 except EOFError:
-                    error("Ran out of input!")
+                    error("Issue processing input!")
         else:
             if quit:
                 self.add(quit[0], quit[1])
