@@ -10,6 +10,7 @@
   - Added `main()` method to `Menu` to handle standard main logic.
   - Added `clear()` and `setinput()` functions.
   - The `blk` parameter for all `ask` functions will now automatically be set false if `vld` is supplied.
+  - Scripts can now automatically use stdin as input using either `Menu.main()` or `StdinAuto`.
 
 === Bug fixes
 Not applicable.
