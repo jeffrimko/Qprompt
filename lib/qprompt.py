@@ -93,8 +93,8 @@ stdin_auto = StdinAuto()
 class Menu:
     """Menu object that will show the associated MenuEntry items."""
     def __init__(self, entries=None, **kwargs):
-        """Initializes menu object. Any kwargs supplied will be passed as
-        defaults to show_menu()."""
+        """Initializes menu object. Any `kwargs` supplied will be passed as
+        defaults to `show_menu()`."""
         self.entries = entries or []
         self._show_kwargs = kwargs
     def add(self, name, desc, func=None, args=None, krgs=None):
@@ -105,17 +105,25 @@ class Menu:
         name = str(len(self.entries)+1)
         self.entries.append(MenuEntry(name, desc, func, args or [], krgs or {}))
     def show(self, **kwargs):
-        """Shows the menu."""
+        """Shows the menu. Any `kwargs` supplied will be passed to
+        `show_menu()`."""
         self._show_kwargs.update(kwargs)
         return show_menu(self.entries, **self._show_kwargs)
     def run(self, name):
-        """Runs the function associated with the given entry name."""
+        """Runs the function associated with the given entry `name`."""
         for entry in self.entries:
             if entry.name == name:
                 run_func(entry)
                 break
     def main(self, auto=None, loop=False, quit=("q", "Quit"), **kwargs):
-        """Runs the standard menu main logic."""
+        """Runs the standard menu main logic. Any `kwargs` supplied will be pass
+        to `Menu.show()`.
+
+        **Params:**
+          - auto (str) - If provided, the
+          - loop (bool) - If true, the menu will loop until quit.
+          - quit ((str,str)) - If provided, adds a quit option to the menu.
+        """
         if quit:
             if self.entries[-1][:2] != quit:
                 self.add(*quit)
@@ -156,7 +164,7 @@ except TypeError:
 
 def show_limit(entries, **kwargs):
     """Shows a menu but limits the number of entries shown at a time.
-    Functionally equivalent to show_menu() with the limit parameter set."""
+    Functionally equivalent to `show_menu()` with the `limit` parameter set."""
     limit = kwargs.pop('limit', 5)
     if limit <= 0:
         limit = 1
@@ -202,7 +210,7 @@ def show_limit(entries, **kwargs):
             return result
 
 def show_menu(entries, **kwargs):
-    """Showns a menu with the given list of MenuEntry items.
+    """Shows a menu with the given list of `MenuEntry` items.
 
     **Params**:
       - header (str) - String to show above menu.
@@ -377,6 +385,7 @@ def status(*args, **kwargs):
     another function as the first parameter.
 
     **Params:**
+
     The following parameters are available when used as a decorator:
 
       - msg (str) [args] - Message to print at start of `func`.
