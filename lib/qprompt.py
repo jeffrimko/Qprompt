@@ -365,7 +365,7 @@ def pause():
     getpass("Press ENTER to continue...")
 
 def clear():
-    """Clears the terminal."""
+    """Clears the console."""
     if sys.platform.startswith("win"):
         call("cls", shell=True)
     else:
