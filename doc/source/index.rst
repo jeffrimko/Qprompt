@@ -63,5 +63,9 @@ Helpers
 The following are miscellaneous convenience functions:
 
 .. autofunction:: qprompt.cast
+.. autofunction:: qprompt.clear
+.. autofunction:: qprompt.hrule
+.. autofunction:: qprompt.pause
 .. autofunction:: qprompt.status
 .. autofunction:: qprompt.title
+.. autofunction:: qprompt.wrap

@@ -17,6 +17,8 @@ This project provides a Python 2.7/3.x library that allows the user to quickly c
 == Status
 Currently, this project is in the **development release** stage. While this project is suitable for use, please note that there may be incompatibilities in new releases.
 
+Release notes are maintained in the project link:CHANGELOG.adoc[changelog].
+
 == Requirements
 Qprompt should run on any Python 2.7/3.x interpreter without additional dependencies.
 
@@ -184,6 +186,11 @@ Check out the following additional examples of Qprompt; more can be found https:
 
 == Documentation
 The full documentation for this project can be found http://qprompt.readthedocs.io[here on Read the Docs].
+
+== Roadmap
+The following potential updates are under consideration:
+
+  - Default value for menus.
 
 == Similar
 The following projects are similar and may be worth checking out:
