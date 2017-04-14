@@ -112,12 +112,12 @@ Menus are easy to make:
 menu = qprompt.Menu()
 menu.add("p", "Previous")
 menu.add("n", "Next")
-menu.add("e", "Exit")
+menu.add("q", "Quit")
 choice = menu.show()
 # ** MENU **
 #   (p) Previous
 #   (n) Next
-#   (e) Exit
+#   (q) Quit
 # [?] Enter menu selection:
 --------
 
