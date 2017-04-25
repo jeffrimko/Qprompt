@@ -131,10 +131,12 @@ class Menu:
                 self.add(*quit)
         with StdinAuto(auto):
             if loop:
-                while self.show(**kwargs) not in quit:
+                note = "Menu loops until quit."
+                while self.show(note=note, **kwargs) not in quit:
                     pass
             else:
-                self.show(**kwargs)
+                note = "Menu does not loop, single entry."
+                self.show(note=note, **kwargs)
 
 ##==============================================================#
 ## SECTION: Function Definitions                                #
@@ -216,6 +218,7 @@ def show_menu(entries, **kwargs):
 
     **Params**:
       - header (str) - String to show above menu.
+      - note (str) - String to show as a note below menu.
       - msg (str) - String to show below menu.
       - compact (bool) - If true, the menu items will not be displayed.
       - returns (str) - Controls what part of the menu entry is returned.
@@ -223,6 +226,7 @@ def show_menu(entries, **kwargs):
     """
     header = kwargs.get('header', "** MENU **")
     msg = kwargs.get('msg', "Enter menu selection")
+    note = kwargs.get('note', "")
     compact = kwargs.get('compact', False)
     returns = kwargs.get('returns', "name")
     limit = kwargs.get('limit', None)
@@ -235,6 +239,8 @@ def show_menu(entries, **kwargs):
     valid = [i.name for i in entries]
     if not compact:
         show_banner()
+    if note:
+        alert(note)
     choice = ask(msg, vld=valid)
     entry = [i for i in entries if i.name == choice][0]
     run_func(entry)
