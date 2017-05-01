@@ -192,6 +192,7 @@ The following potential updates are under consideration:
 
   - Accept multiple menu choices from user at once; e.g. space separated entries like `1 2 q`.
   - Default value for menus.
+  - Timeouts for prompt inputs; default value used if timed out.
 
 == Similar
 The following projects are similar and may be worth checking out:

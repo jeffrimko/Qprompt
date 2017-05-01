@@ -1,5 +1,16 @@
 = Qprompt Changelog
 
+== qprompt-0.9.1 (2017-04-30)
+=== Release highlights
+  - Minor convenience update.
+
+=== All additions and changes
+  - Added optional `note` text to `Menu`.
+  - The `note` text will automatically be set when using `Menu.main` to show if menu will loop or not.
+
+=== Bug fixes
+Not applicable.
+
 == qprompt-0.9.0 (2017-03-11)
 === Release highlights
   - New helper functions and classes.
