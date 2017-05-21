@@ -7,6 +7,7 @@
 import os
 import os.path as op
 import sys
+import subprocess
 import unittest
 
 # Allows development version of library to be used instead of installed.
