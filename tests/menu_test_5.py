@@ -18,9 +18,9 @@ class TestCase(unittest.TestCase):
         """Check for main() call from console functionality."""
 
         test.assertFalse(op.exists("generated_file.txt"))
-        subprocess.call("menu_helper_1.py g q", shell=True)
+        subprocess.call("python ./menu_helper_1.py g q", shell=True)
         test.assertTrue(op.exists("generated_file.txt"))
-        subprocess.call("menu_helper_1.py d q", shell=True)
+        subprocess.call("python ./menu_helper_1.py d q", shell=True)
         test.assertFalse(op.exists("generated_file.txt"))
 
 ##==============================================================#
