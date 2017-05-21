@@ -17,11 +17,11 @@ class TestCase(unittest.TestCase):
     def test_menu_1(test):
         """Check for main() call from console functionality."""
 
-        test.assertFalse(op.exists(r"misc\generated_file.txt"))
-        subprocess.call(r"misc\menu_check_1.py g q", shell=True)
-        test.assertTrue(op.exists(r"misc\generated_file.txt"))
-        subprocess.call(r"misc\menu_check_1.py d q", shell=True)
-        test.assertFalse(op.exists(r"misc\generated_file.txt"))
+        test.assertFalse(op.exists("generated_file.txt"))
+        subprocess.call("menu_helper_1.py g q", shell=True)
+        test.assertTrue(op.exists("generated_file.txt"))
+        subprocess.call("menu_helper_1.py d q", shell=True)
+        test.assertFalse(op.exists("generated_file.txt"))
 
 ##==============================================================#
 ## SECTION: Main Body                                           #
