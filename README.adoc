@@ -12,7 +12,7 @@ This project provides a Python 2.7/3.x library that allows the user to quickly c
   - Prompt for float response.
   - Optional default value.
   - Optional validity check.
-  - User input can optionally be supplied from command-line arguments allowing for task runner like automation.
+  - User input can optionally be supplied from command-line arguments allowing for simple automation.
   - Should work on any platform without additional dependencies.
 
 == Status
