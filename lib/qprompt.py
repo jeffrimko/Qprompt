@@ -224,7 +224,7 @@ def show_menu(entries, **kwargs):
       - returns (str) - Controls what part of the menu entry is returned.
       - limit (int) - If set, limits the number of menu entries show at a time.
     """
-    header = kwargs.get('header', "** MENU **")
+    header = kwargs.get('header', "-- MENU --")
     msg = kwargs.get('msg', "Enter menu selection")
     note = kwargs.get('note', "")
     compact = kwargs.get('compact', False)
