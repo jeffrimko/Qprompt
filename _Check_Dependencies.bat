@@ -26,7 +26,7 @@ call:ChkDep^
     "Verace"^
     "Python library for version checking."^
     "github.com/jeffrimko/Verace"^
-    "0.2.0"^
+    "latest"^
     python -c "import verace"
 
 pause

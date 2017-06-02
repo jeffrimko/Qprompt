@@ -220,8 +220,8 @@ Menus can be automated using the `main()` method:
 [source,python]
 --------
 menu = qprompt.Menu
-menu.add("f", "foo", some_useful_function)
-menu.add("b", "bar", another_useful_function)
+menu.add("f", "Foo", some_useful_function)
+menu.add("b", "Bar", another_useful_function)
 menu.main()
 # $ python example.py f
 # some_useful_function() ran just now!
@@ -232,8 +232,8 @@ Menus can optionally loop allowing for multiple tasks to be run:
 [source,python]
 --------
 menu = qprompt.Menu
-menu.add("f", "foo", some_useful_function)
-menu.add("b", "bar", another_useful_function)
+menu.add("f", "Foo", some_useful_function)
+menu.add("b", "Bar", another_useful_function)
 menu.main()
 # $ python example.py f b q
 # some_useful_function() ran just now!
