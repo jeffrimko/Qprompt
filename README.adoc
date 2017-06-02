@@ -234,11 +234,13 @@ Menus can optionally loop allowing for multiple tasks to be run:
 menu = qprompt.Menu
 menu.add("f", "Foo", some_useful_function)
 menu.add("b", "Bar", another_useful_function)
-menu.main()
+menu.main(loop=True)
 # $ python example.py f b q
 # some_useful_function() ran just now!
 # another_useful_function() ran just now!
 --------
+
+If no arguments are passed to the script, the input prompts will act as normal.
 
 == Documentation
 The full documentation for this project can be found http://qprompt.readthedocs.io[here on Read the Docs].
