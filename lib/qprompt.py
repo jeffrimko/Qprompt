@@ -63,7 +63,8 @@ _input = input if sys.version_info >= (3, 0) else raw_input
 ##==============================================================#
 
 class StdinSetup:
-    """Sets up stdin to be supplied via `setinput()`."""
+    """Sets up stdin to be supplied via `setinput()`; a default context manager
+    is provided by `stdin_setup`."""
     def __init__(self, stream=None):
         self._stream = stream or StringIO()
         self.original = sys.stdin
@@ -76,11 +77,11 @@ class StdinSetup:
         return self
     def __exit__(self, type, value, traceback):
         self.teardown()
-#: Default context manager for `StdinSetup()`.
 stdin_setup = StdinSetup()
 
 class StdinAuto:
-    """Automatically set stdin using supplied list."""
+    """Automatically set stdin using supplied list; a default context manager
+    is provided by `stdin_auto`."""
     def __init__(self, auto=None):
         self.auto = auto or sys.argv[1:]
     def __enter__(self, auto=None):
@@ -89,7 +90,6 @@ class StdinAuto:
             setinput("\n".join(self.auto))
     def __exit__(self, type, value, traceback):
         stdin_setup.teardown()
-#: Default context manager for `StdinAuto()`.
 stdin_auto = StdinAuto()
 
 class Menu:

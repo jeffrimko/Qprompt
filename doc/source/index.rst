@@ -75,7 +75,5 @@ Automation
 The following helpers are provided for automation:
 
 .. autofunction:: qprompt.StdinSetup
-.. autofunction:: qprompt.stdin_setup
 .. autofunction:: qprompt.setinput
 .. autofunction:: qprompt.StdinAuto
-.. autofunction:: qprompt.stdin_auto
