@@ -12,12 +12,13 @@ This project provides a Python 2.7/3.x library that allows the user to quickly c
   - Prompt for float response.
   - Optional default value.
   - Optional validity check.
+  - User input can optionally be supplied from command-line arguments allowing for task runner like automation.
   - Should work on any platform without additional dependencies.
 
 == Status
 Currently, this project is in the **development release** stage. While this project is suitable for use, please note that there may be incompatibilities in new releases.
 
-Release notes are maintained in the project link:CHANGELOG.adoc[changelog].
+Release notes are maintained in the project https://github.com/jeffrimko/Qprompt/blob/master/CHANGELOG.adoc[changelog].
 
 == Requirements
 Qprompt should run on any Python 2.7/3.x interpreter without additional dependencies.
@@ -114,7 +115,7 @@ menu.add("p", "Previous")
 menu.add("n", "Next")
 menu.add("q", "Quit")
 choice = menu.show()
-# ** MENU **
+# -- MENU --
 #   (p) Previous
 #   (n) Next
 #   (q) Quit
@@ -183,6 +184,61 @@ Check out the following additional examples of Qprompt; more can be found https:
   - https://github.com/jeffrimko/Qprompt/blob/master/examples/menu_1.py[examples/menu_1.py] - Basic menu usage.
   - https://github.com/jeffrimko/Qprompt/blob/master/examples/display_1.py[examples/display_1.py] - Basic display functions.
   - https://github.com/jeffrimko/Qprompt/blob/master/examples/status_1.py[examples/status_1.py] - Basic status function usage.
+
+=== Input Automation
+User input can be automated using command-line arguments.
+
+Use the `StdinAuto()` context manager to automatically pass a list of strings to input functions:
+
+[source,python]
+--------
+with qprompt.StdinAuto(["foo","bar","42"]):
+    print(ask_str())
+    print(ask_str())
+    print(ask_int())
+# foo
+# bar
+# 42
+--------
+
+The `stdin_auto` context manager will automatically pass command-line arguments to input functions:
+
+[source,python]
+--------
+with qprompt.stdin_auto:
+    print(ask_str())
+    print(ask_str())
+    print(ask_int())
+# $ python example.py foo bar 42
+# foo
+# bar
+# 42
+--------
+
+Menus can be automated using the `main()` method:
+
+[source,python]
+--------
+menu = qprompt.Menu
+menu.add("f", "foo", some_useful_function)
+menu.add("b", "bar", another_useful_function)
+menu.main()
+# $ python example.py f
+# some_useful_function() ran just now!
+--------
+
+Menus can optionally loop allowing for multiple tasks to be run:
+
+[source,python]
+--------
+menu = qprompt.Menu
+menu.add("f", "foo", some_useful_function)
+menu.add("b", "bar", another_useful_function)
+menu.main()
+# $ python example.py f b q
+# some_useful_function() ran just now!
+# another_useful_function() ran just now!
+--------
 
 == Documentation
 The full documentation for this project can be found http://qprompt.readthedocs.io[here on Read the Docs].
