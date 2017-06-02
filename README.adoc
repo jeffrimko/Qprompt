@@ -186,7 +186,7 @@ Check out the following additional examples of Qprompt; more can be found https:
   - https://github.com/jeffrimko/Qprompt/blob/master/examples/status_1.py[examples/status_1.py] - Basic status function usage.
 
 === Input Automation
-User input can be automated using command-line arguments.
+User input can be automated using command-line arguments to the script.
 
 Use the `StdinAuto()` context manager to automatically pass a list of strings to input functions:
 
@@ -201,7 +201,7 @@ with qprompt.StdinAuto(["foo","bar","42"]):
 # 42
 --------
 
-The `stdin_auto` context manager will automatically pass command-line arguments to input functions:
+The `stdin_auto` context manager will automatically pass script command-line arguments to input functions:
 
 [source,python]
 --------
