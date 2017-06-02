@@ -69,3 +69,13 @@ The following are miscellaneous convenience functions:
 .. autofunction:: qprompt.status
 .. autofunction:: qprompt.title
 .. autofunction:: qprompt.wrap
+
+Automation
+~~~~~~~~~~
+The following helpers are provided for automation:
+
+.. autofunction:: qprompt.StdinSetup
+.. autofunction:: qprompt.stdin_setup
+.. autofunction:: qprompt.setinput
+.. autofunction:: qprompt.StdinAuto
+.. autofunction:: qprompt.stdin_auto

@@ -76,6 +76,7 @@ class StdinSetup:
         return self
     def __exit__(self, type, value, traceback):
         self.teardown()
+#: Default context manager for `StdinSetup()`.
 stdin_setup = StdinSetup()
 
 class StdinAuto:
@@ -88,6 +89,7 @@ class StdinAuto:
             setinput("\n".join(self.auto))
     def __exit__(self, type, value, traceback):
         stdin_setup.teardown()
+#: Default context manager for `StdinAuto()`.
 stdin_auto = StdinAuto()
 
 class Menu:
