@@ -7,11 +7,9 @@ image:https://travis-ci.org/jeffrimko/Qprompt.svg?branch=master["Build Status"]
 This project provides a Python 2.7/3.x library that allows the user to quickly create CLI prompts for user input. The main features of this library are:
 
   - Simple multi-entry menus.
-  - Prompt for yes/no response.
-  - Prompt for integer response.
-  - Prompt for float response.
-  - Optional default value.
-  - Optional validity check.
+  - Prompt for typed (integer/float/string) input.
+  - Optional default values and validity checks.
+  - Various CLI convenience functions.
   - User input can optionally be supplied from script command-line arguments allowing for simple automation.
   - Should work on any platform without additional dependencies.
 
