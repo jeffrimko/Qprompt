@@ -1,5 +1,15 @@
 = Qprompt Changelog
 
+== qprompt-0.9.3 (2017-07-22)
+=== Release highlights
+  - Bug fix and minor feature update.
+
+=== All additions and changes
+  - Can now return any part of of a `MenuEntry` from `show_menu()`.
+
+=== Bug fixes
+  - Added missing return statement for `Menu.main`.
+
 == qprompt-0.9.2 (2017-06-02)
 === Release highlights
   - No functional changes, just documentation and minor style updates.

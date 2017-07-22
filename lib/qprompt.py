@@ -32,7 +32,7 @@ else:
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.9.2"
+__version__ = "0.9.3"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -138,7 +138,7 @@ class Menu:
                     pass
             else:
                 note = "Menu does not loop, single entry."
-                self.show(note=note, **kwargs)
+                return self.show(note=note, **kwargs)
 
 ##==============================================================#
 ## SECTION: Function Definitions                                #
@@ -195,14 +195,14 @@ def show_limit(entries, **kwargs):
             for i in ["n", "N", "next", "NEXT", "->", ">>", ">>>"]:
                 if i not in names:
                     nnext = i
-                    dnext = "Next %u entries." % (unext)
+                    dnext = "Next %u entries" % (unext)
                     group.append(MenuEntry(nnext, dnext, None, None, None))
                     break
         if uprev:
             for i in ["p", "P", "prev", "PREV", "<-", "<<", "<<<"]:
                 if i not in names:
                     nprev = i
-                    dprev = "Previous %u entries." % (uprev)
+                    dprev = "Previous %u entries" % (uprev)
                     group.append(MenuEntry(nprev, dprev, None, None, None))
                     break
         result = show_menu(group, **kwargs)
@@ -222,13 +222,13 @@ def show_menu(entries, **kwargs):
       - header (str) - String to show above menu.
       - note (str) - String to show as a note below menu.
       - msg (str) - String to show below menu.
-      - compact (bool) - If true, the menu items will not be displayed.
-      - returns (str) - Controls what part of the menu entry is returned.
-      - limit (int) - If set, limits the number of menu entries show at a time.
+      - compact (bool) - If true, the menu items will not be displayed [default: False].
+      - returns (str) - Controls what part of the menu entry is returned [default: name].
+      - limit (int) - If set, limits the number of menu entries show at a time [default: None].
     """
     header = kwargs.get('header', "-- MENU --")
-    msg = kwargs.get('msg', "Enter menu selection")
     note = kwargs.get('note', "")
+    msg = kwargs.get('msg', "Enter menu selection")
     compact = kwargs.get('compact', False)
     returns = kwargs.get('returns', "name")
     limit = kwargs.get('limit', None)
@@ -246,9 +246,7 @@ def show_menu(entries, **kwargs):
     choice = ask(msg, vld=valid)
     entry = [i for i in entries if i.name == choice][0]
     run_func(entry)
-    if "desc" == returns:
-        return entry.desc
-    return choice
+    return getattr(entry, returns)
 
 def run_func(entry):
     """Runs the function associated with the given entry."""
