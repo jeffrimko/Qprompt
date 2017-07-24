@@ -120,6 +120,19 @@ choice = menu.show()
 # [?] Enter menu selection:
 --------
 
+The menu entry name (first parameter of `add()`) is returned by default but can be changed:
+
+[source, python]
+--------
+print(menu.show())
+# [?] Enter menu selection: p
+# p
+
+print(menu.show(returns="desc"))
+# [?] Enter menu selection: p
+# Previous
+--------
+
 Your menus can do cool stuff by registering functions:
 
 [source,python]
