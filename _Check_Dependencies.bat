@@ -1,5 +1,5 @@
 ::=============================================================::
-:: DEVELOPED 2015, REVISED 2015, Jeff Rimko.                   ::
+:: DEVELOPED 2015, REVISED 2017, Jeff Rimko.                   ::
 ::=============================================================::
 
 ::=============================================================::
@@ -13,7 +13,6 @@
 :: SECTION: Main Body                                          ::
 ::=============================================================::
 
-:: Check for Python.
 call:ChkDep^
     "Python"^
     "Python language interpreter."^
@@ -21,7 +20,6 @@ call:ChkDep^
     "2.7/3.x"^
     python -V
 
-:: Check for Verace.
 call:ChkDep^
     "Verace"^
     "Python library for version checking."^
@@ -76,7 +74,7 @@ exit /b 0
 ::     utility -c "non-blocking cmd"
 ::-------------------------------------------------------------::
 :ChkDep
-echo Checking dependency for %~1...
+echo Checking dependency %~1...
 shift
 echo     %~1
 shift
