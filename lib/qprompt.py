@@ -309,7 +309,8 @@ def ask(msg="Enter input", fmt=None, dft=None, vld=None, shw=True, blk=False):
       - dft (int|float|str) - Default value if input is left blank.
       - vld ([int|float|str|func]) - Valid input entries.
       - shw (bool) - If true, show the user's input as typed.
-      - blk (bool) - If true, accept a blank string as valid input.
+      - blk (bool) - If true, accept a blank string as valid input. Note that
+        supplying a default value will disable accepting blank input.
     """
     vld = vld or []
     if not hasattr(vld, "__iter__"):
@@ -321,11 +322,12 @@ def ask(msg="Enter input", fmt=None, dft=None, vld=None, shw=True, blk=False):
     if dft != None:
         msg += " [%s]" % (dft if type(dft) is str else repr(dft))
         vld.append(dft)
+        blk = False
     if vld:
         # Sanitize valid inputs.
         vld = list(set([fmt(v) if fmt(v) else v for v in vld]))
-        if str not in vld:
-            blk = False
+        if blk and "" not in vld:
+            vld.append("")
         # NOTE: The following fixes a Py3 related bug found in `0.8.1`.
         try: vld = sorted(vld)
         except: pass
@@ -336,14 +338,14 @@ def ask(msg="Enter input", fmt=None, dft=None, vld=None, shw=True, blk=False):
         ans = get_input(msg)
         if "?" == ans:
             if vld:
-                echo("%r %s" % (vld, "(may be blank)" if blk else ""))
+                echo(vld)
             ans = None
             continue
         if "" == ans:
             if dft != None:
                 ans = dft if not fmt else fmt(dft)
                 break
-            if not blk:
+            if "" not in vld:
                 ans = None
                 continue
         try:

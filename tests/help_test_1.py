@@ -21,13 +21,13 @@ class TestCase(unittest.TestCase):
         setinput("?\n\n")
         result = ask_int(dft=1)
         test.assertEqual(1, result)
-        test.assertEqual(stdout.getvalue(), "[?] Enter an integer [1]: [1, <class 'int'>] \n[?] Enter an integer [1]: ")
+        test.assertEqual(stdout.getvalue(), "[?] Enter an integer [1]: [1, <class 'int'>]\n[?] Enter an integer [1]: ")
 
         sys.stdout = stdout = StringIO()
         setinput("?\n\n")
         result = ask_int(dft=2)
         test.assertEqual(2, result)
-        test.assertEqual(stdout.getvalue(), "[?] Enter an integer [2]: [2, <class 'int'>] \n[?] Enter an integer [2]: ")
+        test.assertEqual(stdout.getvalue(), "[?] Enter an integer [2]: [2, <class 'int'>]\n[?] Enter an integer [2]: ")
 
 ##==============================================================#
 ## SECTION: Main Body                                           #
