@@ -7,3 +7,4 @@ Qprompt is currently developed and maintained by:
 Thank you to the following for their contributions and input:
 
   - Andreas Urke
+  - Thorsten Kampe

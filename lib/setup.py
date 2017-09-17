@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = "qprompt",
-    version = "0.9.3",
+    version = "0.9.4",
     author = "Jeff Rimko",
     author_email = "jeffrimko@gmail.com",
     description = "Library for quick CLI user prompts, input, and menus.",
