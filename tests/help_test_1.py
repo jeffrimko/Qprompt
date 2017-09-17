@@ -6,7 +6,7 @@
 
 from testlib import *
 
-from qprompt import ask_int, ask_yesno, ask_float, ask_str
+from qprompt import ask_int
 
 ##==============================================================#
 ## SECTION: Class Definitions                                   #
