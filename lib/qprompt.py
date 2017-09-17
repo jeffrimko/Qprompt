@@ -168,21 +168,26 @@ except TypeError:
         if flush:
             sys.stdout.flush()
 
-def _format_kwargs(formats):
+def _format_kwargs(func):
     """Decorator to handle formatting kwargs to the proper names expected by
-    the associated function. The supplied dictionary string keys will be used
-    as expected function kwargs and the value list of strings will be renamed
-    to the associated key string."""
-    def wrap(func):
-        def inner(*args, **kwargs):
-            for k in formats.keys():
-                for v in formats[k]:
-                    if v in kwargs:
-                        kwargs[k] = kwargs[v]
-                        kwargs.pop(v)
-            return func(*args, **kwargs)
-        return inner
-    return wrap
+    the associated function. The formats dictionary string keys will be used as
+    expected function kwargs and the value list of strings will be renamed to
+    the associated key string."""
+    formats = {}
+    formats['msg'] = ["message"]
+    formats['dft'] = ["default"]
+    formats['vld'] = ["valid"]
+    formats['blk'] = ["blank"]
+    formats['shw'] = ["show"]
+    formats['hlp'] = ["help"]
+    def inner(*args, **kwargs):
+        for k in formats.keys():
+            for v in formats[k]:
+                if v in kwargs:
+                    kwargs[k] = kwargs[v]
+                    kwargs.pop(v)
+        return func(*args, **kwargs)
+    return inner
 
 def show_limit(entries, **kwargs):
     """Shows a menu but limits the number of entries shown at a time.
@@ -298,8 +303,8 @@ def cast(val, typ=int):
         val = None
     return val
 
-@_format_kwargs({'msg':["message"], 'dft':["default"], 'vld':["valid"], 'shw':["show"], 'blk':["blank"]})
-def ask(msg="Enter input", fmt=None, dft=None, vld=None, shw=True, blk=False):
+@_format_kwargs
+def ask(msg="Enter input", fmt=None, dft=None, vld=None, shw=True, blk=False, hlp=None):
     """Prompts the user for input and returns the given answer. Optionally
     checks if answer is valid.
 
@@ -313,6 +318,7 @@ def ask(msg="Enter input", fmt=None, dft=None, vld=None, shw=True, blk=False):
         supplying a default value will disable accepting blank input.
     """
     vld = vld or []
+    hlp = hlp or ""
     if not hasattr(vld, "__iter__"):
         vld = [vld]
     if not hasattr(fmt, "__call__"):
@@ -338,7 +344,7 @@ def ask(msg="Enter input", fmt=None, dft=None, vld=None, shw=True, blk=False):
         ans = get_input(msg)
         if "?" == ans:
             if vld:
-                echo(vld)
+                echo(str([v for v in vld if not callable(v)]) + " " + hlp)
             ans = None
             continue
         if "" == ans:
@@ -369,7 +375,7 @@ def ask(msg="Enter input", fmt=None, dft=None, vld=None, shw=True, blk=False):
                 ans = None
     return ans
 
-@_format_kwargs({'msg':["message"], 'dft':["default"]})
+@_format_kwargs
 def ask_yesno(msg="Proceed?", dft=None):
     """Prompts the user for a yes or no answer. Returns True for yes, False
     for no."""
@@ -379,23 +385,23 @@ def ask_yesno(msg="Proceed?", dft=None):
         dft = yes[0] if (dft in yes or dft == True) else no[0]
     return ask(msg, dft=dft, vld=yes+no) in yes
 
-@_format_kwargs({'msg':["message"], 'dft':["default"], 'vld':["valid"]})
-def ask_int(msg="Enter an integer", dft=None, vld=None):
+@_format_kwargs
+def ask_int(msg="Enter an integer", dft=None, vld=None, hlp=None):
     """Prompts the user for an integer."""
     vld = vld or [int]
-    return ask(msg, dft=dft, vld=vld, fmt=partial(cast, typ=int))
+    return ask(msg, dft=dft, vld=vld, fmt=partial(cast, typ=int), hlp=hlp)
 
-@_format_kwargs({'msg':["message"], 'dft':["default"], 'vld':["valid"]})
-def ask_float(msg="Enter a float", dft=None, vld=None):
+@_format_kwargs
+def ask_float(msg="Enter a float", dft=None, vld=None, hlp=None):
     """Prompts the user for a float."""
     vld = vld or [float]
-    return ask(msg, dft=dft, vld=vld, fmt=partial(cast, typ=float))
+    return ask(msg, dft=dft, vld=vld, fmt=partial(cast, typ=float), hlp=hlp)
 
-@_format_kwargs({'msg':["message"], 'dft':["default"], 'vld':["valid"], 'shw':["show"], 'blk':["blank"]})
-def ask_str(msg="Enter a string", dft=None, vld=None, shw=True, blk=True):
+@_format_kwargs
+def ask_str(msg="Enter a string", dft=None, vld=None, shw=True, blk=True, hlp=None):
     """Prompts the user for a string."""
     vld = vld or [str]
-    return ask(msg, dft=dft, vld=vld, shw=shw, blk=blk)
+    return ask(msg, dft=dft, vld=vld, shw=shw, blk=blk, hlp=hlp)
 
 def ask_captcha(length=4):
     """Prompts the user for a random string."""
