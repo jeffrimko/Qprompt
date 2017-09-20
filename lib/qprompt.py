@@ -32,7 +32,7 @@ else:
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.9.4"
+__version__ = "0.9.5"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -317,6 +317,27 @@ def ask(msg="Enter input", fmt=None, dft=None, vld=None, shw=True, blk=False, hl
       - blk (bool) - If true, accept a blank string as valid input. Note that
         supplying a default value will disable accepting blank input.
     """
+    def print_help():
+        lst = [v for v in vld if not callable(v)]
+        if blk:
+            lst.remove("")
+        for v in vld:
+            if not callable(v):
+                continue
+            if int == v:
+                lst.append("<int>")
+            elif float == v:
+                lst.append("<float>")
+            elif str == v:
+                lst.append("<str>")
+            else:
+                lst.append("(" + v.__name__ + ")")
+        if lst:
+            echo("[HELP] Valid input: %s" % (" | ".join([str(l) for l in lst])))
+        if hlp:
+            echo("[HELP] Extra notes: " + hlp)
+        if blk:
+            echo("[HELP] Input may be blank.")
     vld = vld or []
     hlp = hlp or ""
     if not hasattr(vld, "__iter__"):
@@ -343,8 +364,7 @@ def ask(msg="Enter input", fmt=None, dft=None, vld=None, shw=True, blk=False, hl
         get_input = _input if shw else getpass
         ans = get_input(msg)
         if "?" == ans:
-            if vld:
-                echo(str([v for v in vld if not callable(v)]) + " " + hlp)
+            print_help()
             ans = None
             continue
         if "" == ans:
