@@ -1,5 +1,16 @@
 = Qprompt Changelog
 
+== qprompt-0.9.6 (2017-12-03)
+=== Release highlights
+  - Added new `fatal()` function.
+  - Minor updates for consistency of short/long keywords.
+
+=== All additions and changes
+Not applicable.
+
+=== Bug fixes
+Not applicable.
+
 == qprompt-0.9.5 (2017-09-19)
 === Release highlights
   - Minor update to help messages.

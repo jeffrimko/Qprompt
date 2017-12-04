@@ -32,7 +32,7 @@ else:
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.9.5"
+__version__ = "0.9.6"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -174,12 +174,13 @@ def _format_kwargs(func):
     expected function kwargs and the value list of strings will be renamed to
     the associated key string."""
     formats = {}
-    formats['msg'] = ["message"]
-    formats['dft'] = ["default"]
-    formats['vld'] = ["valid"]
     formats['blk'] = ["blank"]
-    formats['shw'] = ["show"]
+    formats['dft'] = ["default"]
+    formats['hdr'] = ["header"]
     formats['hlp'] = ["help"]
+    formats['msg'] = ["message"]
+    formats['shw'] = ["show"]
+    formats['vld'] = ["valid"]
     def inner(*args, **kwargs):
         for k in formats.keys():
             for v in formats[k]:
@@ -189,6 +190,7 @@ def _format_kwargs(func):
         return func(*args, **kwargs)
     return inner
 
+@_format_kwargs
 def show_limit(entries, **kwargs):
     """Shows a menu but limits the number of entries shown at a time.
     Functionally equivalent to `show_menu()` with the `limit` parameter set."""
@@ -236,6 +238,7 @@ def show_limit(entries, **kwargs):
         else:
             return result
 
+@_format_kwargs
 def show_menu(entries, **kwargs):
     """Shows a menu with the given list of `MenuEntry` items.
 
@@ -247,7 +250,7 @@ def show_menu(entries, **kwargs):
       - returns (str) - Controls what part of the menu entry is returned [default: name].
       - limit (int) - If set, limits the number of menu entries show at a time [default: None].
     """
-    header = kwargs.get('header', "-- MENU --")
+    hdr = kwargs.get('hdr', "")
     note = kwargs.get('note', "")
     msg = kwargs.get('msg', "Enter menu selection")
     compact = kwargs.get('compact', False)
@@ -256,7 +259,11 @@ def show_menu(entries, **kwargs):
     if limit:
         return show_limit(entries, **kwargs)
     def show_banner():
-        echo(header)
+        banner = "-- MENU"
+        if hdr:
+            banner += ": " + hdr
+        banner += " --"
+        echo(banner)
         for i in entries:
             echo("  (%s) %s" % (i.name, i.desc))
     valid = [i.name for i in entries]
@@ -483,6 +490,13 @@ def alert(msg, **kwargs):
     """Prints alert message to console."""
     echo("[!] " + msg, **kwargs)
 
+def fatal(msg, exitcode=1, **kwargs):
+    """Prints a message then exits the program. Optionally pause before exit."""
+    echo("[FATAL] " + msg, **kwargs)
+    if kwargs.get('pause'):
+        pause()
+    sys.exit(exitcode)
+
 def error(msg, **kwargs):
     """Prints error message to console."""
     echo("[ERROR] " + msg, **kwargs)
@@ -502,16 +516,18 @@ def hrule(width=None, char=None):
     char = char or HRCHAR
     echo(getline(char, width))
 
-def wrap(body, header="", width=None, tchar=TCHAR, bchar=BCHAR, char=""):
+@_format_kwargs
+def wrap(body, width=None, tchar=TCHAR, bchar=BCHAR, char="", **kwargs):
     """Wraps the given body content between horizontal lines."""
+    hdr = kwargs.get('hdr', "")
     if char:
         bchar = tchar = char
     width = width or HRWIDTH
     top = "/" + getline(tchar, width-1)
-    if header:
+    if hdr:
         top = stridxrep(top, 3, " ")
-        for i,c in enumerate(header):
-            top = stridxrep(top, i+4, header[i])
+        for i,c in enumerate(hdr):
+            top = stridxrep(top, i+4, hdr[i])
         top = stridxrep(top, i+5, " ")
     echo(top)
     echo(body)
