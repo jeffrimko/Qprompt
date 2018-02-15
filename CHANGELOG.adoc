@@ -1,5 +1,15 @@
 = Qprompt Changelog
 
+== qprompt-0.9.7 (2018-02-14)
+=== Release highlights
+  - Minor bug fix.
+
+=== All additions and changes
+Not applicable.
+
+=== Bug fixes
+  - Fixed error when passing `pause=True` to `fatal()`.
+
 == qprompt-0.9.6 (2017-12-03)
 === Release highlights
   - Added new `fatal()` function.

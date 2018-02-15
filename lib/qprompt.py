@@ -32,7 +32,7 @@ else:
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.9.6"
+__version__ = "0.9.7"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
