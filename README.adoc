@@ -157,6 +157,9 @@ qprompt.warn("baz")
 
 qprompt.error("qux")
 # [ERROR] qux
+
+qprompt.fatal("ugh")
+# [FATAL] ugh
 --------
 
 Got a function that takes a while? Show that it is running with `status` which can be used as a function or decorator:
