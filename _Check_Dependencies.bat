@@ -22,7 +22,7 @@ call:ChkDep^
 
 call:ChkDep^
     "Verace"^
-    "Python library for version checking."^
+    "Python library for checking string consistency between files."^
     "github.com/jeffrimko/Verace"^
     "latest"^
     python -c "import verace"
