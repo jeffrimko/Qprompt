@@ -8,6 +8,12 @@ Qprompt
 
 This is the main documentation for Qprompt, a Python library for quickly creating user input prompts and various related functionality.
 
+For more information:
+
+  - **Readme** - https://github.com/jeffrimko/Qprompt/blob/master/README.adoc - Main readme file.
+  - **GitHub** - https://github.com/jeffrimko/Qprompt - Main version control repository.
+  - **PyPI** - https://pypi.python.org/pypi/qrompt - Package index page.
+
 Console Output
 --------------
 These functions write to the console. They are essentially slight variations of the Python3 ``print()`` function and each adds a prefix to the displayed message.
