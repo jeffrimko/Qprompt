@@ -22,7 +22,7 @@ Release notes are maintained in the project https://github.com/jeffrimko/Qprompt
 Qprompt should run on any Python 2.7/3.x interpreter without additional dependencies.
 
 == Installation
-Qprompt can be installed with pip using the following command: `pip install qprompt`
+Qprompt is https://pypi.python.org/pypi/qprompt[available on PyPI here] and can be installed with pip using the following command: `pip install qprompt`
 
 Additionally, Qprompt can be installed from source by running: `python setup.py install`
 
