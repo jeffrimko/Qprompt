@@ -1,4 +1,13 @@
 = Qprompt Changelog
+== qprompt-0.9.8 (2018-04-06)
+=== Release highlights
+  - Minor bug fix.
+
+=== All additions and changes
+Not applicable.
+
+=== Bug fixes
+  - Fixed incorrect behavior of `show_limit()`.
 
 == qprompt-0.9.7 (2018-02-14)
 === Release highlights
