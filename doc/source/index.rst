@@ -29,6 +29,7 @@ Note that for backwards compatibility purposes, the following `kwargs` are equiv
 For example, the following calls are equivalent:
 
 .. code-block:: python
+
     qprompt.ask_yesno(dft="y")
     qprompt.ask_yesno(default="y")
 

@@ -192,7 +192,7 @@ qprompt.wrap("hello world", "hi", width=10)
 # \---------
 --------
 
-Note that for backwards compatibility purposes, the following `kwargs` are synonymous:
+Note that for backwards compatibility purposes, the following `kwargs` are equivalent:
 
   - `blk` = `blank`
   - `dft` = `default`
