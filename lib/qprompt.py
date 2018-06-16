@@ -246,6 +246,7 @@ def show_menu(entries, **kwargs):
       - header (str) - String to show above menu.
       - note (str) - String to show as a note below menu.
       - msg (str) - String to show below menu.
+      - dft (str) - Default value if input is left blank.
       - compact (bool) - If true, the menu items will not be displayed [default: False].
       - returns (str) - Controls what part of the menu entry is returned [default: name].
       - limit (int) - If set, limits the number of menu entries show at a time [default: None].
@@ -253,6 +254,7 @@ def show_menu(entries, **kwargs):
     hdr = kwargs.get('hdr', "")
     note = kwargs.get('note', "")
     msg = kwargs.get('msg', "Enter menu selection")
+    dft = kwargs.get('dft', "")
     compact = kwargs.get('compact', False)
     returns = kwargs.get('returns', "name")
     limit = kwargs.get('limit', None)
@@ -271,7 +273,7 @@ def show_menu(entries, **kwargs):
         show_banner()
     if note:
         alert(note)
-    choice = ask(msg, vld=valid)
+    choice = ask(msg, vld=valid, dft=dft)
     entry = [i for i in entries if i.name == choice][0]
     run_func(entry)
     return getattr(entry, returns)
