@@ -1,4 +1,4 @@
-"""Tests the menu features."""
+"""Check for menu limit functionality."""
 
 ##==============================================================#
 ## SECTION: Imports                                             #
@@ -14,20 +14,22 @@ from qprompt import enum_menu
 
 class TestCase(unittest.TestCase):
 
-    def test_menu_1(test):
-        """Check for limit functionality."""
-        items = ["foo", "bar", "baz", "qux", "quux"]
+    def setUp(test):
+        test.items = ["foo", "bar", "baz", "qux", "quux"]
 
+    def test_menu_1(test):
         setinput("4")
         with test.assertRaises(EOFError):
-            enum_menu(items).show(limit=3, returns="desc")
+            enum_menu(test.items).show(limit=3, returns="desc")
 
+    def test_menu_2(test):
         setinput("n\n4\n")
-        result = enum_menu(items).show(limit=3, returns="desc")
+        result = enum_menu(test.items).show(limit=3, returns="desc")
         test.assertEqual("qux", result)
 
+    def test_menu_3(test):
         setinput("n\np\n1")
-        result = enum_menu(items).show(limit=3, returns="desc")
+        result = enum_menu(test.items).show(limit=3, returns="desc")
         test.assertEqual("foo", result)
 
 ##==============================================================#

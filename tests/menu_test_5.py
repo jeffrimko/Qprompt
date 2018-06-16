@@ -1,4 +1,4 @@
-"""Tests the menu features."""
+"""Check for main() call from console functionality."""
 
 ##==============================================================#
 ## SECTION: Imports                                             #
@@ -15,8 +15,6 @@ from qprompt import enum_menu
 class TestCase(unittest.TestCase):
 
     def test_menu_1(test):
-        """Check for main() call from console functionality."""
-
         test.assertFalse(op.exists("generated_file.txt"))
         subprocess.call("python ./menu_helper_1.py g q", shell=True)
         test.assertTrue(op.exists("generated_file.txt"))

@@ -109,8 +109,9 @@ class Menu:
     def show(self, **kwargs):
         """Shows the menu. Any `kwargs` supplied will be passed to
         `show_menu()`."""
-        self._show_kwargs.update(kwargs)
-        return show_menu(self.entries, **self._show_kwargs)
+        show_kwargs = copy.deepcopy(self._show_kwargs)
+        show_kwargs.update(kwargs)
+        return show_menu(self.entries, **show_kwargs)
     def run(self, name):
         """Runs the function associated with the given entry `name`."""
         for entry in self.entries:
@@ -122,7 +123,7 @@ class Menu:
         pass to `Menu.show()`. If `argv` is provided to the script, it will be
         used as the `auto` parameter.
 
-        **Params:**
+        **Params**:
           - auto ([str]) - If provided, the list of strings with be used as
             input for the menu prompts.
           - loop (bool) - If true, the menu will loop until quit.
@@ -256,6 +257,7 @@ def show_menu(entries, **kwargs):
     compact = kwargs.get('compact', False)
     returns = kwargs.get('returns', "name")
     limit = kwargs.get('limit', None)
+    dft = kwargs.get('dft', None)
     if limit:
         return show_limit(entries, **kwargs)
     def show_banner():
@@ -267,11 +269,15 @@ def show_menu(entries, **kwargs):
         for i in entries:
             echo("  (%s) %s" % (i.name, i.desc))
     valid = [i.name for i in entries]
+    if type(dft) == int:
+        dft = str(dft)
+    if dft not in valid:
+        dft = None
     if not compact:
         show_banner()
     if note:
         alert(note)
-    choice = ask(msg, vld=valid)
+    choice = ask(msg, vld=valid, dft=dft)
     entry = [i for i in entries if i.name == choice][0]
     run_func(entry)
     return getattr(entry, returns)
@@ -288,7 +294,7 @@ def run_func(entry):
         else:
             entry.func()
 
-def enum_menu(strs, menu=None):
+def enum_menu(strs, menu=None, *args, **kwargs):
     """Enumerates the given list of strings into returned menu.
 
     **Params**:
@@ -296,7 +302,7 @@ def enum_menu(strs, menu=None):
         be created.
     """
     if not menu:
-        menu = Menu()
+        menu = Menu(*args, **kwargs)
     for s in strs:
         menu.enum(s)
     return menu
@@ -315,7 +321,7 @@ def ask(msg="Enter input", fmt=None, dft=None, vld=None, shw=True, blk=False, hl
     """Prompts the user for input and returns the given answer. Optionally
     checks if answer is valid.
 
-    **Params:**
+    **Params**:
       - msg (str) - Message to prompt the user with.
       - fmt (func) - Function used to format user input.
       - dft (int|float|str) - Default value if input is left blank.
@@ -451,7 +457,7 @@ def status(*args, **kwargs):
     function. Can be used as a function decorator or as a function that accepts
     another function as the first parameter.
 
-    **Params:**
+    **Params**:
 
     The following parameters are available when used as a decorator:
 
