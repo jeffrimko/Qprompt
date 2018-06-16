@@ -1,5 +1,15 @@
 = Qprompt Changelog
 
+== qprompt-0.10.0 (2018-06-15)
+=== Release highlights
+  - Minor convenience update and bug fix.
+
+=== All additions and changes
+  - Can now specify a optional default for `show_menu()`.
+
+=== Bug fixes
+  - Fixed incorrect `kwargs` behavior in `show_menu()`.
+
 == qprompt-0.9.8 (2018-04-06)
 === Release highlights
   - Minor bug fix.
