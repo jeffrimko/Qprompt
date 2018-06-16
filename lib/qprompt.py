@@ -200,6 +200,9 @@ def show_limit(entries, **kwargs):
         return show_menu(entries, **kwargs)
     istart = 0 # Index of group start.
     iend = limit # Index of group end.
+    dft = kwargs.pop('dft', None)
+    if type(dft) == int:
+        dft = str(dft)
     while True:
         if iend > len(entries):
             iend = len(entries)
@@ -221,6 +224,7 @@ def show_limit(entries, **kwargs):
                     nnext = i
                     dnext = "Next %u of %u entries" % (unext, len(entries))
                     group.append(MenuEntry(nnext, dnext, None, None, None))
+                    names.append("n")
                     break
         if uprev > 0:
             for i in ["p", "P", "prev", "PREV", "<-", "<<", "<<<"]:
@@ -228,8 +232,16 @@ def show_limit(entries, **kwargs):
                     nprev = i
                     dprev = "Previous %u of %u entries" % (uprev, len(entries))
                     group.append(MenuEntry(nprev, dprev, None, None, None))
+                    names.append("p")
                     break
-        result = show_menu(group, **kwargs)
+        tmpdft = None
+        if dft != None:
+            if dft not in names:
+                if "n" in names:
+                    tmpdft = "n"
+            else:
+                tmpdft = dft
+        result = show_menu(group, dft=tmpdft, **kwargs)
         if result == nnext or result == dnext:
             istart += limit
             iend += limit
