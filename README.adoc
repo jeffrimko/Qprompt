@@ -73,7 +73,7 @@ An optional default value can be supplied:
 
 [source,python]
 --------
-qprompt.ask_yesno(dft="y")
+qprompt.ask_yesno(default="y")
 # [?] Proceed? [y]:
 --------
 
@@ -81,15 +81,15 @@ Optional validity checks can be added:
 
 [source,python]
 --------
-qprompt.ask_int(vld=[1,2,3])
+qprompt.ask_int(valid=[1,2,3])
 # [?] Enter an integer: 4
 # [?] Enter an integer: 1
 
-qprompt.ask_str(vld=lambda x: x.startswith("spa"))
+qprompt.ask_str(valid=lambda x: x.startswith("spa"))
 # [?] Enter a string: foo
 # [?] Enter a string: spam
 
-qprompt.ask_str("Enter a path", vld=lambda x: os.path.exists(x))
+qprompt.ask_str("Enter a path", valid=lambda x: os.path.exists(x))
 # [?] Enter a path: C:\Windows
 --------
 
@@ -190,6 +190,24 @@ qprompt.wrap("hello world", "hi", width=10)
 # /-- hi ---
 # hello world
 # \---------
+--------
+
+Note that for backwards compatibility purposes, the following `kwargs` are synonymous:
+
+  - `blk` = `blank`
+  - `dft` = `default`
+  - `hdr` = `header`
+  - `hlp` = `help`
+  - `msg` = `message`
+  - `shw` = `show`
+  - `vld` = `valid`
+
+For example, the following calls are equivalent:
+
+[source,python]
+--------
+qprompt.ask_yesno(dft="y")
+qprompt.ask_yesno(default="y")
 --------
 
 Check out the following additional examples of Qprompt; more can be found https://github.com/jeffrimko/Qprompt/tree/master/examples[here]:

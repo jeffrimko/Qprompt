@@ -14,6 +14,24 @@ For more information:
   - **GitHub** - https://github.com/jeffrimko/Qprompt - Main version control repository.
   - **PyPI** - https://pypi.python.org/pypi/qrompt - Package index page.
 
+Compatibility Note
+------------------
+Note that for backwards compatibility purposes, the following `kwargs` are equivalent:
+
+  - `blk` = `blank`
+  - `dft` = `default`
+  - `hdr` = `header`
+  - `hlp` = `help`
+  - `msg` = `message`
+  - `shw` = `show`
+  - `vld` = `valid`
+
+For example, the following calls are equivalent:
+
+.. code-block:: python
+    qprompt.ask_yesno(dft="y")
+    qprompt.ask_yesno(default="y")
+
 Console Output
 --------------
 These functions write to the console. They are essentially slight variations of the Python3 ``print()`` function and each adds a prefix to the displayed message.
