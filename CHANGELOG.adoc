@@ -1,5 +1,17 @@
 = Qprompt Changelog
 
+== qprompt-0.11.0 (2018-07-28)
+=== Release highlights
+  - Various `Menu` updates.
+
+=== All additions and changes
+  - No longer throw a EOFError when passing in CLI arguments to `Menu.main()` that are not terminated with `quit`.
+  - Menus can now return function result using `returns=func`.
+  - When `Menu.main(loop=True, returns=func)`, the last non-quit result will be returned.
+
+=== Bug fixes
+Not applicable.
+
 == qprompt-0.10.0 (2018-06-15)
 === Release highlights
   - Minor convenience update and bug fix.

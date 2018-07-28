@@ -132,14 +132,23 @@ class Menu:
         if quit:
             if self.entries[-1][:2] != quit:
                 self.add(*quit)
-        with StdinAuto(auto):
+        with StdinAuto(auto) as stdinauto:
+            result = None
             if loop:
                 note = "Menu loops until quit."
-                while self.show(note=note, **kwargs) not in quit:
+                try:
+                    while True:
+                        mresult = self.show(note=note, **kwargs)
+                        if mresult in quit:
+                            break
+                        result = mresult
+                except EOFError:
                     pass
+                return result
             else:
                 note = "Menu does not loop, single entry."
-                return self.show(note=note, **kwargs)
+                result = self.show(note=note, **kwargs)
+            return result
 
 ##==============================================================#
 ## SECTION: Function Definitions                                #
@@ -164,7 +173,8 @@ try:
 except TypeError:
     # TypeError: 'flush' is an invalid keyword argument for this function
     def echo(text="", end="\n", flush=True):
-        """Generic echo/print function; based off code from ``blessed`` package."""
+        """Generic echo/print function; based off code from ``blessed``
+        package."""
         sys.stdout.write(u'{0}{1}'.format(text, end))
         if flush:
             sys.stdout.flush()
@@ -260,9 +270,12 @@ def show_menu(entries, **kwargs):
       - note (str) - String to show as a note below menu.
       - msg (str) - String to show below menu.
       - dft (str) - Default value if input is left blank.
-      - compact (bool) - If true, the menu items will not be displayed [default: False].
-      - returns (str) - Controls what part of the menu entry is returned [default: name].
-      - limit (int) - If set, limits the number of menu entries show at a time [default: None].
+      - compact (bool) - If true, the menu items will not be displayed
+        [default: False].
+      - returns (str) - Controls what part of the menu entry is returned,
+        'func' returns function result [default: name].
+      - limit (int) - If set, limits the number of menu entries show at a time
+        [default: None].
     """
     hdr = kwargs.get('hdr', "")
     note = kwargs.get('note', "")
@@ -293,20 +306,25 @@ def show_menu(entries, **kwargs):
         alert(note)
     choice = ask(msg, vld=valid, dft=dft)
     entry = [i for i in entries if i.name == choice][0]
-    run_func(entry)
-    return getattr(entry, returns)
+    if entry.func:
+        fresult = run_func(entry)
+        if "func" == returns:
+            return fresult
+    try:
+        return getattr(entry, returns)
+    except:
+        return getattr(entry, "name")
 
 def run_func(entry):
     """Runs the function associated with the given entry."""
     if entry.func:
         if entry.args and entry.krgs:
-            entry.func(*entry.args, **entry.krgs)
-        elif entry.args:
-            entry.func(*entry.args)
-        elif entry.krgs:
-            entry.func(**entry.krgs)
-        else:
-            entry.func()
+            return entry.func(*entry.args, **entry.krgs)
+        if entry.args:
+            return entry.func(*entry.args)
+        if entry.krgs:
+            return entry.func(**entry.krgs)
+        return entry.func()
 
 def enum_menu(strs, menu=None, *args, **kwargs):
     """Enumerates the given list of strings into returned menu.
