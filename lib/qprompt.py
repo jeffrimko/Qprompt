@@ -32,7 +32,7 @@ else:
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.11.0"
+__version__ = "0.11.1"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -94,16 +94,18 @@ stdin_auto = StdinAuto()
 
 class Menu:
     """Menu object that will show the associated MenuEntry items."""
-    def __init__(self, entries=None, **kwargs):
+    def __init__(self, *entries, **kwargs):
         """Initializes menu object. Any `kwargs` supplied will be passed as
         defaults to `show_menu()`."""
-        self.entries = entries or []
+        self.entries = []
+        for entry in entries:
+            self.add(*entry)
         self._show_kwargs = kwargs
     def add(self, name, desc, func=None, args=None, krgs=None):
         """Add a menu entry."""
         self.entries.append(MenuEntry(name, desc, func, args or [], krgs or {}))
     def enum(self, desc, func=None, args=None, krgs=None):
-        """Add a menu entry."""
+        """Add a menu entry whose name will be an auto indexed number."""
         name = str(len(self.entries)+1)
         self.entries.append(MenuEntry(name, desc, func, args or [], krgs or {}))
     def show(self, **kwargs):
@@ -131,7 +133,7 @@ class Menu:
         """
         if quit:
             if self.entries[-1][:2] != quit:
-                self.add(*quit)
+                self.add(*quit, func=lambda: quit[0])
         with StdinAuto(auto) as stdinauto:
             result = None
             if loop:
@@ -316,7 +318,7 @@ def show_menu(entries, **kwargs):
         return getattr(entry, "name")
 
 def run_func(entry):
-    """Runs the function associated with the given entry."""
+    """Runs the function associated with the given MenuEntry."""
     if entry.func:
         if entry.args and entry.krgs:
             return entry.func(*entry.args, **entry.krgs)

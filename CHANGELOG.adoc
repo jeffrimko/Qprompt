@@ -1,5 +1,16 @@
 = Qprompt Changelog
 
+== qprompt-0.11.1 (2018-08-07)
+=== Release highlights
+  - Menu bug fix.
+  - Minor Menu convenience update.
+
+=== All additions and changes
+  - Can now initialize `Menu()` with any number of entries that can be passed to `Menu.add()`.
+
+=== Bug fixes
+  - Fixed `Menu.main(loop=True, returns="func")` infinite loop.
+
 == qprompt-0.11.0 (2018-07-28)
 === Release highlights
   - Various `Menu` updates.
