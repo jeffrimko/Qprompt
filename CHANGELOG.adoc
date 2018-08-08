@@ -2,8 +2,8 @@
 
 == qprompt-0.11.1 (2018-08-07)
 === Release highlights
-  - Menu bug fix.
-  - Minor Menu convenience update.
+  - `Menu` bug fix.
+  - Minor `Menu` convenience update.
 
 === All additions and changes
   - Can now initialize `Menu()` with any number of entries that can be passed to `Menu.add()`.
