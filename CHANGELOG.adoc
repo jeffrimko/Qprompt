@@ -1,5 +1,15 @@
 = Qprompt Changelog
 
+== qprompt-0.12.0 (2018-08-08)
+=== Release highlights
+  - Updates to `Menu` auto run functionality.
+
+=== All additions and changes
+  - When running automatically from `Menu.main()` the full menu is not shown and the auto input is shown.
+
+=== Bug fixes
+Not applicable.
+
 == qprompt-0.11.1 (2018-08-07)
 === Release highlights
   - `Menu` bug fix.
