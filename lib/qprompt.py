@@ -56,7 +56,7 @@ TCHAR = "-"
 BCHAR = "-"
 
 #: Flag to indicate if running in auto mode.
-AUTO = False
+_AUTO = False
 
 #: User input function.
 _input = input if sys.version_info >= (3, 0) else raw_input
@@ -134,14 +134,14 @@ class Menu:
           - loop (bool) - If true, the menu will loop until quit.
           - quit ((str,str)) - If provided, adds a quit option to the menu.
         """
-        global AUTO
-        AUTO = False
+        global _AUTO
+        _AUTO = False
         if quit:
             if self.entries[-1][:2] != quit:
                 self.add(*quit, func=lambda: quit[0])
         with stdin_auto:
             if stdin_auto.auto:
-                AUTO = True
+                _AUTO = True
             result = None
             if loop:
                 note = "Menu loops until quit."
@@ -286,7 +286,7 @@ def show_menu(entries, **kwargs):
       - limit (int) - If set, limits the number of menu entries show at a time
         [default: None].
     """
-    global AUTO
+    global _AUTO
     hdr = kwargs.get('hdr', "")
     note = kwargs.get('note', "")
     msg = kwargs.get('msg', "Enter menu selection")
@@ -303,7 +303,7 @@ def show_menu(entries, **kwargs):
             banner += ": " + hdr
         banner += " --"
         echo(banner)
-        if AUTO:
+        if _AUTO:
             return
         for i in entries:
             echo("  (%s) %s" % (i.name, i.desc))
@@ -314,7 +314,7 @@ def show_menu(entries, **kwargs):
         dft = None
     if not compact:
         show_banner()
-    if note and not AUTO:
+    if note and not _AUTO:
         alert(note)
     choice = ask(msg, vld=valid, dft=dft)
     entry = [i for i in entries if i.name == choice][0]
@@ -374,7 +374,7 @@ def ask(msg="Enter input", fmt=None, dft=None, vld=None, shw=True, blk=False, hl
       - blk (bool) - If true, accept a blank string as valid input. Note that
         supplying a default value will disable accepting blank input.
     """
-    global AUTO
+    global _AUTO
     def print_help():
         lst = [v for v in vld if not callable(v)]
         if blk:
@@ -421,7 +421,7 @@ def ask(msg="Enter input", fmt=None, dft=None, vld=None, shw=True, blk=False, hl
     while ans is None:
         get_input = _input if shw else getpass
         ans = get_input(msg)
-        if AUTO:
+        if _AUTO:
             echo(ans)
         if "?" == ans:
             print_help()
@@ -593,14 +593,5 @@ def wrap(body, width=None, tchar=TCHAR, bchar=BCHAR, char="", **kwargs):
 ## SECTION: Main Body                                           #
 ##==============================================================#
 
-def doathing():
-    i = ask_int()
-    print(f"entered {i}")
-
 if __name__ == '__main__':
-
-    menu = Menu()
-    menu.add("1", "1", print, ['one'])
-    menu.add("2", "2", print, ['two'])
-    menu.add("3", "3", doathing)
-    menu.show()
+    pass
