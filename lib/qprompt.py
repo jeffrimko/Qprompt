@@ -601,13 +601,5 @@ def wrap(body, **kwargs):
 ## SECTION: Main Body                                           #
 ##==============================================================#
 
-def func():
-    with Wrap(header="blah"):
-        print(f"hello")
-        print(f"hello")
-        print(f"hello")
-        print(f"hello")
-    print(f"hello")
-
 if __name__ == '__main__':
     func()
