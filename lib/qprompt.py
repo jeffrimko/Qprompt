@@ -21,11 +21,37 @@ from functools import partial
 from getpass import getpass
 from subprocess import call
 
+##==============================================================#
+## SECTION: Special Setup                                       #
+##==============================================================#
+
 # Handle Python 2/3 differences.
 if sys.version_info >= (3, 0):
     from io import StringIO
 else:
     from StringIO import StringIO
+
+def _format_kwargs(func):
+    """Decorator to handle formatting kwargs to the proper names expected by
+    the associated function. The formats dictionary string keys will be used as
+    expected function kwargs and the value list of strings will be renamed to
+    the associated key string."""
+    formats = {}
+    formats['blk'] = ["blank"]
+    formats['dft'] = ["default"]
+    formats['hdr'] = ["header"]
+    formats['hlp'] = ["help"]
+    formats['msg'] = ["message"]
+    formats['shw'] = ["show"]
+    formats['vld'] = ["valid"]
+    def inner(*args, **kwargs):
+        for k in formats.keys():
+            for v in formats[k]:
+                if v in kwargs:
+                    kwargs[k] = kwargs[v]
+                    kwargs.pop(v)
+        return func(*args, **kwargs)
+    return inner
 
 ##==============================================================#
 ## SECTION: Global Definitions                                  #
@@ -48,12 +74,6 @@ HRWIDTH = 65
 
 #: Default horizontal rule character.
 HRCHAR = "-"
-
-#: Default top wrap character.
-TCHAR = "-"
-
-#: Default bottom wrap character.
-BCHAR = "-"
 
 #: Flag to indicate if running in auto mode.
 _AUTO = False
@@ -159,6 +179,27 @@ class Menu:
                 result = self.show(note=note, **kwargs)
             return result
 
+class Wrap(object):
+    """Context manager that wraps content between horizontal lines."""
+    @_format_kwargs
+    def __init__(self, width=None, char="", **kwargs):
+        hdr = kwargs.get('hdr', "")
+        char = char or HRCHAR
+        width = width or HRWIDTH
+        top = "/" + getline(char, width-1)
+        if hdr:
+            top = stridxrep(top, 3, " ")
+            for i,c in enumerate(hdr):
+                top = stridxrep(top, i+4, hdr[i])
+            top = stridxrep(top, i+5, " ")
+        self.top = top
+        self.bot = "\\" + getline(char, width-1)
+    def __enter__(self):
+        echo(self.top)
+        return self
+    def __exit__(self, type, value, traceback):
+        echo(self.bot)
+
 ##==============================================================#
 ## SECTION: Function Definitions                                #
 ##==============================================================#
@@ -187,28 +228,6 @@ except TypeError:
         sys.stdout.write(u'{0}{1}'.format(text, end))
         if flush:
             sys.stdout.flush()
-
-def _format_kwargs(func):
-    """Decorator to handle formatting kwargs to the proper names expected by
-    the associated function. The formats dictionary string keys will be used as
-    expected function kwargs and the value list of strings will be renamed to
-    the associated key string."""
-    formats = {}
-    formats['blk'] = ["blank"]
-    formats['dft'] = ["default"]
-    formats['hdr'] = ["header"]
-    formats['hlp'] = ["help"]
-    formats['msg'] = ["message"]
-    formats['shw'] = ["show"]
-    formats['vld'] = ["valid"]
-    def inner(*args, **kwargs):
-        for k in formats.keys():
-            for v in formats[k]:
-                if v in kwargs:
-                    kwargs[k] = kwargs[v]
-                    kwargs.pop(v)
-        return func(*args, **kwargs)
-    return inner
 
 @_format_kwargs
 def show_limit(entries, **kwargs):
@@ -573,25 +592,22 @@ def hrule(width=None, char=None):
     echo(getline(char, width))
 
 @_format_kwargs
-def wrap(body, width=None, tchar=TCHAR, bchar=BCHAR, char="", **kwargs):
+def wrap(body, **kwargs):
     """Wraps the given body content between horizontal lines."""
-    hdr = kwargs.get('hdr', "")
-    if char:
-        bchar = tchar = char
-    width = width or HRWIDTH
-    top = "/" + getline(tchar, width-1)
-    if hdr:
-        top = stridxrep(top, 3, " ")
-        for i,c in enumerate(hdr):
-            top = stridxrep(top, i+4, hdr[i])
-        top = stridxrep(top, i+5, " ")
-    echo(top)
-    echo(body)
-    echo("\\" + getline(bchar, width-1))
+    with Wrap(**kwargs):
+        echo(body)
 
 ##==============================================================#
 ## SECTION: Main Body                                           #
 ##==============================================================#
 
+def func():
+    with Wrap(header="blah"):
+        print(f"hello")
+        print(f"hello")
+        print(f"hello")
+        print(f"hello")
+    print(f"hello")
+
 if __name__ == '__main__':
-    pass
+    func()
