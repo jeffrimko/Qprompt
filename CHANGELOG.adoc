@@ -1,5 +1,15 @@
 = Qprompt Changelog
 
+== qprompt-0.12.0 (2018-08-22)
+=== Release highlights
+  - Added convenience class.
+
+=== All additions and changes
+  - Added `Wrap` context manager class.
+
+=== Bug fixes
+Not applicable.
+
 == qprompt-0.12.0 (2018-08-08)
 === Release highlights
   - Updates to `Menu` auto run functionality.
