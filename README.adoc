@@ -285,6 +285,11 @@ The following potential updates are under consideration:
   - Accept multiple menu choices from user at once; e.g. space separated entries like `1 2 q`.
   - Timeouts for prompt inputs; default value used if timed out.
 
+== Contributing
+Contributions or feedback is welcome and encouraged!
+
+A list of those who have help with this project is available in the https://github.com/jeffrimko/Qprompt/blob/master/AUTHORS.adoc[authors file].
+
 == Similar
 The following projects are similar and may be worth checking out:
 
