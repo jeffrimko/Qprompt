@@ -288,7 +288,7 @@ The following potential updates are under consideration:
 == Contributing
 Contributions or feedback is welcome and encouraged!
 
-A list of those who have help with this project is available in the https://github.com/jeffrimko/Qprompt/blob/master/AUTHORS.adoc[authors file].
+A list of those who have helped with this project is available in the https://github.com/jeffrimko/Qprompt/blob/master/AUTHORS.adoc[authors file].
 
 == Similar
 The following projects are similar and may be worth checking out:
