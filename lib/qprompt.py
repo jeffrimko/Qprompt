@@ -28,8 +28,10 @@ from subprocess import call
 # Handle Python 2/3 differences.
 if sys.version_info >= (3, 0):
     from io import StringIO
+    tounicode = lambda s: s
 else:
     from StringIO import StringIO
+    tounicode = lambda s: unicode(s, "utf-8")
 
 def _format_kwargs(func):
     """Decorator to handle formatting kwargs to the proper names expected by
@@ -583,7 +585,7 @@ def warn(msg, **kwargs):
 def title(msg):
     """Sets the title of the console window."""
     if sys.platform.startswith("win"):
-        ctypes.windll.kernel32.SetConsoleTitleA(msg)
+        ctypes.windll.kernel32.SetConsoleTitleW(tounicode(msg))
 
 def hrule(width=None, char=None):
     """Outputs or returns a horizontal line of the given character and width."""
@@ -602,4 +604,4 @@ def wrap(body, **kwargs):
 ##==============================================================#
 
 if __name__ == '__main__':
-    func()
+    pass
