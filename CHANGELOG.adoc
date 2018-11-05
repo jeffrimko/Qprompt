@@ -1,5 +1,15 @@
 = Qprompt Changelog
 
+== qprompt-0.12.2 (2018-11-05)
+=== Release highlights
+  - Minor bug fix.
+
+=== All additions and changes
+Not applicable.
+
+=== Bug fixes
+  - Fixed issue with `title()` only setting the first letter of the window title under Python3.
+
 == qprompt-0.12.1 (2018-08-22)
 === Release highlights
   - Added convenience class.
