@@ -53,9 +53,10 @@ This is the generic user input function:
 These functions accept only specific data types:
 
 .. autofunction:: qprompt.ask_yesno
-.. autofunction:: qprompt.ask_str
 .. autofunction:: qprompt.ask_int
 .. autofunction:: qprompt.ask_float
+.. autofunction:: qprompt.ask_str
+.. autofunction:: qprompt.ask_pass
 
 Additional input functions:
 
@@ -91,8 +92,8 @@ The following are miscellaneous convenience functions:
 .. autofunction:: qprompt.clear
 .. autofunction:: qprompt.hrule
 .. autofunction:: qprompt.pause
-.. autofunction:: qprompt.status
 .. autofunction:: qprompt.title
+.. autofunction:: qprompt.status
 .. autofunction:: qprompt.wrap
 
 Automation
