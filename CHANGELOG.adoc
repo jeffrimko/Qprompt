@@ -1,5 +1,9 @@
 = Qprompt Changelog
 
+== qprompt-0.13.1 (2018-11-09)
+=== Added
+  - Added `ECHORETURN` flag.
+
 == qprompt-0.13.0 (2018-11-09)
 === Highlights
   - Updated CHANGELOG format.

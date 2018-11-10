@@ -58,7 +58,7 @@ def _format_kwargs(func):
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.13.0"
+__version__ = "0.13.1"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -83,6 +83,9 @@ _input = input if sys.version_info >= (3, 0) else raw_input
 
 #: If true, prevents stdout from displaying.
 SILENT = False
+
+#: If true, echo() returns the string to print.
+ECHORETURN = True
 
 ##==============================================================#
 ## SECTION: Class Definitions                                   #
@@ -225,7 +228,8 @@ try:
     def echo(text="", end="\n", flush=True):
         if not SILENT:
             print(text, end=end, flush=flush)
-        return text + end
+        if ECHORETURN:
+            return text + end
 except TypeError:
     def echo(text="", end="\n", flush=True):
         """Generic echo/print function; based off code from ``blessed``
@@ -234,7 +238,8 @@ except TypeError:
             sys.stdout.write(u'{0}{1}'.format(text, end))
             if flush:
                 sys.stdout.flush()
-        return text + end
+        if ECHORETURN:
+            return text + end
 
 @_format_kwargs
 def show_limit(entries, **kwargs):
