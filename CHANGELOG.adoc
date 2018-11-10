@@ -1,6 +1,6 @@
 = Qprompt Changelog
 
-== qprompt-0.13.2
+== qprompt-0.13.0 (2018-11-09)
 === Highlights
   - Updated CHANGELOG format.
 
