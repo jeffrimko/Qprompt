@@ -2,10 +2,6 @@
 user input."""
 
 ##==============================================================#
-## DEVELOPED 2015, REVISED 2017, Jeff Rimko.                    #
-##==============================================================#
-
-##==============================================================#
 ## SECTION: Imports                                             #
 ##==============================================================#
 
@@ -82,6 +78,9 @@ _AUTO = False
 
 #: User input function.
 _input = input if sys.version_info >= (3, 0) else raw_input
+
+#: If true, prevents stdout from displaying.
+SILENT = False
 
 ##==============================================================#
 ## SECTION: Class Definitions                                   #
@@ -221,15 +220,19 @@ setinput = lambda x: [
 
 try:
     print("", end="", flush=True)
-    echo = partial(print, end="\n", flush=True)
+    def echo(text="", end="\n", flush=True):
+        if not SILENT:
+            print(text, end=end, flush=flush)
+        return text + end
 except TypeError:
-    # TypeError: 'flush' is an invalid keyword argument for this function
     def echo(text="", end="\n", flush=True):
         """Generic echo/print function; based off code from ``blessed``
-        package."""
-        sys.stdout.write(u'{0}{1}'.format(text, end))
-        if flush:
-            sys.stdout.flush()
+        package. Returns the printed string."""
+        if not SILENT:
+            sys.stdout.write(u'{0}{1}'.format(text, end))
+            if flush:
+                sys.stdout.flush()
+        return text + end
 
 @_format_kwargs
 def show_limit(entries, **kwargs):
@@ -504,6 +507,9 @@ def ask_str(msg="Enter a string", dft=None, vld=None, shw=True, blk=True, hlp=No
     vld = vld or [str]
     return ask(msg, dft=dft, vld=vld, shw=shw, blk=blk, hlp=hlp)
 
+#: Alias for `ask_str(show=False)`.
+ask_password = partial(ask_str, msg="Enter password", show=False)
+
 def ask_captcha(length=4):
     """Prompts the user for a random string."""
     captcha = "".join(random.choice(string.ascii_lowercase) for _ in range(length))
@@ -560,10 +566,6 @@ def status(*args, **kwargs):
     msg = args.pop(0)
     return decor
 
-def alert(msg, **kwargs):
-    """Prints alert message to console."""
-    echo("[!] " + msg, **kwargs)
-
 def fatal(msg, exitcode=1, **kwargs):
     """Prints a message then exits the program. Optionally pause before exit
     with `pause=True` kwarg."""
@@ -575,29 +577,50 @@ def fatal(msg, exitcode=1, **kwargs):
     sys.exit(exitcode)
 
 def error(msg, **kwargs):
-    """Prints error message to console."""
-    echo("[ERROR] " + msg, **kwargs)
+    """Prints error message to console. Returns printed string."""
+    return echo("[ERROR] " + msg, **kwargs)
 
 def warn(msg, **kwargs):
-    """Prints warning message to console."""
-    echo("[WARNING] " + msg, **kwargs)
+    """Prints warning message to console. Returns printed string."""
+    return echo("[WARNING] " + msg, **kwargs)
+
+def info(msg, **kwargs):
+    """Prints info message to console. Returns printed string."""
+    return echo("[INFO] " + msg, **kwargs)
+
+def alert(msg, **kwargs):
+    """Prints alert message to console. Returns printed string."""
+    return echo("[!] " + msg, **kwargs)
+
+def hrule(width=None, char=None):
+    """Outputs or returns a horizontal line of the given character and width.
+    Returns printed string."""
+    width = width or HRWIDTH
+    char = char or HRCHAR
+    return echo(getline(char, width))
 
 def title(msg):
     """Sets the title of the console window."""
     if sys.platform.startswith("win"):
         ctypes.windll.kernel32.SetConsoleTitleW(tounicode(msg))
 
-def hrule(width=None, char=None):
-    """Outputs or returns a horizontal line of the given character and width."""
-    width = width or HRWIDTH
-    char = char or HRCHAR
-    echo(getline(char, width))
-
 @_format_kwargs
-def wrap(body, **kwargs):
-    """Wraps the given body content between horizontal lines."""
+def wrap(item, args=None, krgs=None, **kwargs):
+    """Wraps the given item content between horizontal lines. Item can be a
+    string or a function.
+
+    **Examples**:
+    ::
+        qprompt.wrap("Hi, this will be wrapped.")  # String item.
+        qprompt.wrap(myfunc, [arg1, arg2], {'krgk': krgv})  # Func item.
+    """
     with Wrap(**kwargs):
-        echo(body)
+        if callable(item):
+            args = args or []
+            krgs = krgs or {}
+            item(*args, **krgs)
+        else:
+            echo(item)
 
 ##==============================================================#
 ## SECTION: Main Body                                           #
