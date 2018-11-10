@@ -553,8 +553,12 @@ def status(*args, **kwargs):
         @qprompt.status("Something is happening...")
         def do_something(a):
             time.sleep(a)
-        do_something()  # [!] Something is happening... DONE.
+
+        do_something()
+        # [!] Something is happening... DONE.
+
         qprompt.status("Doing a thing...", myfunc, [arg1], {krgk: krgv})
+        # [!] Doing a thing... DONE.
     """
     def decor(func):
         @wraps(func)
