@@ -39,6 +39,7 @@ These functions write to the console. They are essentially slight variations of 
 
 .. autofunction:: qprompt.echo
 .. autofunction:: qprompt.alert
+.. autofunction:: qprompt.info
 .. autofunction:: qprompt.warn
 .. autofunction:: qprompt.error
 
