@@ -16,6 +16,7 @@ from collections import namedtuple
 from functools import partial
 from getpass import getpass
 from subprocess import call
+from functools import wraps
 
 ##==============================================================#
 ## SECTION: Special Setup                                       #
@@ -42,6 +43,7 @@ def _format_kwargs(func):
     formats['msg'] = ["message"]
     formats['shw'] = ["show"]
     formats['vld'] = ["valid"]
+    @wraps(func)
     def inner(*args, **kwargs):
         for k in formats.keys():
             for v in formats[k]:
@@ -507,8 +509,8 @@ def ask_str(msg="Enter a string", dft=None, vld=None, shw=True, blk=True, hlp=No
     vld = vld or [str]
     return ask(msg, dft=dft, vld=vld, shw=shw, blk=blk, hlp=hlp)
 
-#: Alias for `ask_str(show=False)`.
-ask_password = partial(ask_str, msg="Enter password", show=False)
+#: Alias for `ask_str(shw=False)`.
+ask_pass = partial(ask_str, msg="Enter password", shw=False)
 
 def ask_captcha(length=4):
     """Prompts the user for a random string."""
@@ -545,8 +547,17 @@ def status(*args, **kwargs):
       - fargs (list) - List of `args` passed to `func`.
       - fkrgs (dict) - Dictionary of `kwargs` passed to `func`.
       - fin (str) [kwargs] - Message to print when `func` finishes.
+
+    **Examples**:
+    ::
+        @qprompt.status("Something is happening...")
+        def do_something(a):
+            time.sleep(a)
+        do_something()  # [!] Something is happening... DONE.
+        qprompt.status("Doing a thing...", myfunc, [arg1], {krgk: krgv})
     """
     def decor(func):
+        @wraps(func)
         def wrapper(*args, **krgs):
             echo("[!] " + msg, end=" ", flush=True)
             result = func(*args, **krgs)
