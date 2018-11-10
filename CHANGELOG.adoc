@@ -41,7 +41,7 @@
 === Changed
   - Can now initialize `Menu()` with any number of entries that can be passed to `Menu.add()`.
 
-=== Bug fixes
+=== Fixed
   - Fixed `Menu.main(loop=True, returns="func")` infinite loop.
 
 == qprompt-0.11.0 (2018-07-28)
@@ -60,21 +60,21 @@
 === Changed
   - Can now specify a optional default for `show_menu()`.
 
-=== Bug fixes
+=== Fixed
   - Fixed incorrect `kwargs` behavior in `show_menu()`.
 
 == qprompt-0.9.8 (2018-04-06)
 === Highlights
   - Minor bug fix.
 
-=== Bug fixes
+=== Fixed
   - Fixed incorrect behavior of `show_limit()`.
 
 == qprompt-0.9.7 (2018-02-14)
 === Highlights
   - Minor bug fix.
 
-=== Bug fixes
+=== Fixed
   - Fixed error when passing `pause=True` to `fatal()`.
 
 == qprompt-0.9.6 (2017-12-03)
@@ -95,7 +95,7 @@
   - Functions/lambdas representation are no longer shown in `?` help message.
   - Added ability to supply additional `help` message.
 
-=== Bug fixes
+=== Fixed
   - Default values are no longer accumulated in help messages.
   - Can now use blank string along with valid inputs.
 
@@ -106,7 +106,7 @@
 === Changed
   - Can now return any part of of a `MenuEntry` from `show_menu()`.
 
-=== Bug fixes
+=== Fixed
   - Added missing return statement for `Menu.main`.
 
 == qprompt-0.9.2 (2017-06-02)
@@ -137,7 +137,7 @@
 === Highlights
   - Python3 related bug fix.
 
-=== Bug fixes
+=== Fixed
   - Fixed Python3 `TypeError` exception thrown when `dft` keyword argument was set in an `ask` function; thanks to Andreas Urke for discovering.
 
 == qprompt-0.8.1 (2017-01-21)
@@ -190,7 +190,7 @@
 === Changed
   - Added ability to pass default `show_menu()` keyword arguments during `Menu()` initialization.
 
-=== Bug fixes
+=== Fixed
   - Fixed issue with `Menu()` entries over multiple menus.
 
 == qprompt-0.4.0 (2016-03-29)
@@ -202,7 +202,7 @@
   - Added `echo()`, essentially a portable replacement for `print()`.
   - When used as function, first argument to `status()` is message and second is function.
 
-=== Bug fixes
+=== Fixed
   - Fixed potential bug with Python 2.x and print statement.
 
 == qprompt-0.3.0 (2016-02-27)
@@ -232,7 +232,7 @@
 === Highlights
   - Minor bug fix.
 
-=== Bug fixes
+=== Fixed
   - Fixed 0 as default value in `ask_int(dft=0)`.
 
 == qprompt-0.1.9 (2015-10-19)
