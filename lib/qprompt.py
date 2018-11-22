@@ -11,6 +11,7 @@ import copy
 import ctypes
 import random
 import string
+import os
 import sys
 from collections import namedtuple
 from functools import partial
@@ -323,13 +324,13 @@ def show_menu(entries, **kwargs):
     global _AUTO
     hdr = kwargs.get('hdr', "")
     note = kwargs.get('note', "")
-    msg = kwargs.get('msg', "Enter menu selection")
     dft = kwargs.get('dft', "")
     fzf = kwargs.pop('fzf', False)
     compact = kwargs.get('compact', False)
     returns = kwargs.get('returns', "name")
     limit = kwargs.get('limit', None)
     dft = kwargs.get('dft', None)
+    msg = []
     if limit:
         return show_limit(entries, **kwargs)
     def show_banner():
@@ -337,11 +338,11 @@ def show_menu(entries, **kwargs):
         if hdr:
             banner += ": " + hdr
         banner += " --"
-        echo(banner)
+        msg.append(banner)
         if _AUTO:
             return
         for i in entries:
-            echo("  (%s) %s" % (i.name, i.desc))
+            msg.append("  (%s) %s" % (i.name, i.desc))
     valid = [i.name for i in entries]
     if type(dft) == int:
         dft = str(dft)
@@ -353,7 +354,9 @@ def show_menu(entries, **kwargs):
         alert(note)
     if fzf:
         valid.append(FCHR)
-    choice = ask(msg, vld=valid, dft=dft)
+    msg.append(QSTR + kwargs.get('msg', "Enter menu selection"))
+    msg = os.linesep.join(msg)
+    choice = ask(msg, vld=valid, dft=dft, qstr=False)
     if choice == FCHR and fzf:
         try:
             from iterfzf import iterfzf
@@ -361,7 +364,7 @@ def show_menu(entries, **kwargs):
         except:
             warn("Issue encountered during FZF search.")
             valid.remove(FCHR)
-            choice = ask(msg, vld=valid, dft=dft)
+            choice = ask(msg, vld=valid, dft=dft, qstr=False)
     entry = [i for i in entries if i.name == choice][0]
     if entry.func:
         fresult = run_func(entry)
@@ -406,7 +409,7 @@ def cast(val, typ=int):
     return val
 
 @_format_kwargs
-def ask(msg="Enter input", fmt=None, dft=None, vld=None, shw=True, blk=False, hlp=None):
+def ask(msg="Enter input", fmt=None, dft=None, vld=None, shw=True, blk=False, hlp=None, qstr=True):
     """Prompts the user for input and returns the given answer. Optionally
     checks if answer is valid.
 
@@ -447,7 +450,7 @@ def ask(msg="Enter input", fmt=None, dft=None, vld=None, shw=True, blk=False, hl
         vld = [vld]
     if not hasattr(fmt, "__call__"):
         fmt = lambda x: x  # NOTE: Defaults to function that does nothing.
-    msg = "%s%s" % (QSTR, msg)
+    msg = "%s%s" % (QSTR if qstr else "", msg)
     dft = fmt(dft) if dft != None else None # Prevents showing [None] default.
     if dft != None:
         msg += " [%s]" % (dft if type(dft) is str else repr(dft))
