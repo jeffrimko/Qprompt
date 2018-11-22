@@ -58,7 +58,7 @@ def _format_kwargs(func):
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.13.1"
+__version__ = "0.14.0-alpha"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -74,6 +74,9 @@ HRWIDTH = 65
 
 #: Default horizontal rule character.
 HRCHAR = "-"
+
+#: Default search command character.
+FCHR = "/"
 
 #: Flag to indicate if running in auto mode.
 _AUTO = False
@@ -322,6 +325,7 @@ def show_menu(entries, **kwargs):
     note = kwargs.get('note', "")
     msg = kwargs.get('msg', "Enter menu selection")
     dft = kwargs.get('dft', "")
+    fzf = kwargs.pop('fzf', False)
     compact = kwargs.get('compact', False)
     returns = kwargs.get('returns', "name")
     limit = kwargs.get('limit', None)
@@ -347,7 +351,17 @@ def show_menu(entries, **kwargs):
         show_banner()
     if note and not _AUTO:
         alert(note)
+    if fzf:
+        valid.append(FCHR)
     choice = ask(msg, vld=valid, dft=dft)
+    if choice == FCHR and fzf:
+        try:
+            from iterfzf import iterfzf
+            choice = iterfzf(reversed(["%s\t%s" % (i.name, i.desc) for i in entries])).strip("\0").split("\t", 1)[0]
+        except:
+            warn("Issue encountered during FZF search.")
+            valid.remove(FCHR)
+            choice = ask(msg, vld=valid, dft=dft)
     entry = [i for i in entries if i.name == choice][0]
     if entry.func:
         fresult = run_func(entry)
@@ -647,4 +661,37 @@ def wrap(item, args=None, krgs=None, **kwargs):
 ##==============================================================#
 
 if __name__ == '__main__':
-    pass
+    teams = [
+            "Anaheim Ducks",
+            "Arizona Coyotes",
+            "Boston Bruins",
+            "Buffalo Sabres",
+            "Calgary Flames",
+            "Carolina Hurricanes",
+            "Chicago Blackhawks",
+            "Colorado Avalanche",
+            "Columbus Blue Jackets",
+            "Dallas Stars",
+            "Detroit Red Wings",
+            "Edmonton Oilers",
+            "Florida Panthers",
+            "Los Angeles Kings",
+            "Minnesota Wild",
+            "Montreal Canadiens",
+            "Nashville Predators",
+            "New Jersey Devils",
+            "New York Islanders",
+            "New York Rangers",
+            "Ottawa Senators",
+            "Philadelphia Flyers",
+            "Pittsburgh Penguins",
+            "San Jose Sharks",
+            "St. Louis Blues",
+            "Tampa Bay Lightning",
+            "Toronto Maple Leafs",
+            "Vancouver Canucks",
+            "Vegas Golden Knights",
+            "Washington Capitals",
+            "Winnipeg Jets",
+        ]
+    print(enum_menu(teams).show(returns="desc", fzf=True))
