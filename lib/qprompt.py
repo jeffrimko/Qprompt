@@ -470,10 +470,7 @@ def ask(msg="Enter input", fmt=None, dft=None, vld=None, shw=True, blk=False, hl
     ans = None
     while ans is None:
         get_input = _input if shw else getpass
-        try:
-            ans = get_input(msg)
-        except (KeyboardInterrupt, EOFError):
-            sys.exit(1)
+        ans = get_input(msg)
         if _AUTO:
             echo(ans)
         if "?" == ans:
