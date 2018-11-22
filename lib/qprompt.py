@@ -356,16 +356,18 @@ def show_menu(entries, **kwargs):
         valid.append(FCHR)
     msg.append(QSTR + kwargs.get('msg', "Enter menu selection"))
     msg = os.linesep.join(msg)
-    choice = ask(msg, vld=valid, dft=dft, qstr=False)
-    if choice == FCHR and fzf:
-        try:
-            from iterfzf import iterfzf
-            choice = iterfzf(reversed(["%s\t%s" % (i.name, i.desc) for i in entries])).strip("\0").split("\t", 1)[0]
-        except:
-            warn("Issue encountered during FZF search.")
-            valid.remove(FCHR)
-            choice = ask(msg, vld=valid, dft=dft, qstr=False)
-    entry = [i for i in entries if i.name == choice][0]
+    entry = None
+    while entry not in entries:
+        choice = ask(msg, vld=valid, dft=dft, qstr=False)
+        if choice == FCHR and fzf:
+            try:
+                from iterfzf import iterfzf
+                choice = iterfzf(reversed(["%s\t%s" % (i.name, i.desc) for i in entries])).strip("\0").split("\t", 1)[0]
+            except:
+                warn("Issue encountered during FZF search.")
+        match = [i for i in entries if i.name == choice]
+        if match:
+            entry = match[0]
     if entry.func:
         fresult = run_func(entry)
         if "func" == returns:
@@ -468,7 +470,10 @@ def ask(msg="Enter input", fmt=None, dft=None, vld=None, shw=True, blk=False, hl
     ans = None
     while ans is None:
         get_input = _input if shw else getpass
-        ans = get_input(msg)
+        try:
+            ans = get_input(msg)
+        except (KeyboardInterrupt, EOFError):
+            sys.exit(1)
         if _AUTO:
             echo(ans)
         if "?" == ans:
