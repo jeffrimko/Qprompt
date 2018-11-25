@@ -76,7 +76,7 @@ HRWIDTH = 65
 #: Default horizontal rule character.
 HRCHAR = "-"
 
-#: Default search command character.
+#: Default find/search command character.
 FCHR = "/"
 
 #: Flag to indicate if running in auto mode.
