@@ -1,5 +1,9 @@
 = Qprompt Changelog
 
+== qprompt-0.14.0 (2018-11-25)
+=== Added
+  - Added fzf menu search functionality; uses the excellent https://github.com/dahlia/iterfzf[iterfzf library by dahlia].
+
 == qprompt-0.13.1 (2018-11-09)
 === Added
   - Added `ECHORETURN` flag.

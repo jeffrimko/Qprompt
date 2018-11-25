@@ -21,7 +21,7 @@ Currently, this project is in the **development release** stage. While this proj
 Release notes are maintained in the project https://github.com/jeffrimko/Qprompt/blob/master/CHANGELOG.adoc[changelog].
 
 == Requirements
-Qprompt should run on any Python 2.7/3.3+ interpreter without additional dependencies.
+Qprompt should run on any Python 2.7/3.3+ interpreter and uses some third-party libraries.
 
 == Installation
 Qprompt is https://pypi.python.org/pypi/qprompt[available on PyPI here] and can be installed with pip using the following command: `pip install qprompt`

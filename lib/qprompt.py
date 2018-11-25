@@ -59,7 +59,7 @@ def _format_kwargs(func):
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.14.0-alpha"
+__version__ = "0.14.0"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -76,7 +76,7 @@ HRWIDTH = 65
 #: Default horizontal rule character.
 HRCHAR = "-"
 
-#: Default find/search command character.
+#: Default menu find/search command character.
 FCHR = "/"
 
 #: Flag to indicate if running in auto mode.
@@ -320,12 +320,13 @@ def show_menu(entries, **kwargs):
         'func' returns function result [default: name].
       - limit (int) - If set, limits the number of menu entries show at a time
         [default: None].
+      - fzf (bool) - If true, can enter FCHR at the menu prompt to search menu.
     """
     global _AUTO
     hdr = kwargs.get('hdr', "")
     note = kwargs.get('note', "")
     dft = kwargs.get('dft', "")
-    fzf = kwargs.pop('fzf', False)
+    fzf = kwargs.pop('fzf', True)
     compact = kwargs.get('compact', False)
     returns = kwargs.get('returns', "name")
     limit = kwargs.get('limit', None)
@@ -364,7 +365,7 @@ def show_menu(entries, **kwargs):
                 from iterfzf import iterfzf
                 choice = iterfzf(reversed(["%s\t%s" % (i.name, i.desc) for i in entries])).strip("\0").split("\t", 1)[0]
             except:
-                warn("Issue encountered during FZF search.")
+                warn("Issue encountered during fzf search.")
         match = [i for i in entries if i.name == choice]
         if match:
             entry = match[0]
@@ -699,4 +700,4 @@ if __name__ == '__main__':
             "Washington Capitals",
             "Winnipeg Jets",
         ]
-    print(enum_menu(teams).show(returns="desc", fzf=True))
+    print(enum_menu(teams).show(returns="desc"))
