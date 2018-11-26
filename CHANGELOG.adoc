@@ -1,5 +1,9 @@
 = Qprompt Changelog
 
+== qprompt-0.14.1 (2018-11-26)
+=== Fixed
+  - Fixed `pip install qprompt` issue related to missing `requirements.txt` file; thanks to BartlomiejBartnicki for reporting; fixed using https://caremad.io/posts/2013/07/setup-vs-requirement/[method described in this article].
+
 == qprompt-0.14.0 (2018-11-25)
 === Added
   - Added fzf menu search functionality; uses the excellent https://github.com/dahlia/iterfzf[iterfzf library by dahlia].

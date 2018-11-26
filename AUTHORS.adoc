@@ -8,3 +8,4 @@ Thank you to the following for their contributions and feedback:
 
   - Andreas Urke
   - Thorsten Kampe
+  - BartlomiejBartnicki
