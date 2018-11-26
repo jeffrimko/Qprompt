@@ -125,7 +125,9 @@ Your menus can do cool stuff by registering functions:
         print(a + b)
     menu.add("f", "foo", foo, [1, 2])
 
-Additionally, menus can be searched with fzf by entering `/` at the prompt. This features uses the excellent `iterfzf library by dahlia <https://github.com/dahlia/iterfzf>`_.
+Additionally, menus can be searched with fzf by entering `/` at the prompt. This features uses the excellent `iterfzf library by dahlia <https://github.com/dahlia/iterfzf>`_. Example of the menu fzf search feature:
+
+.. image:: ../demos/menu_fzf_demo.gif
 
 Some print-like functions:
 
