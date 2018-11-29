@@ -3,8 +3,16 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Qprompt
-=======
+------------
+
+.. image:: https://raw.githubusercontent.com/jeffrimko/Qprompt/master/doc/logo/qprompt.png
+
+------------
+
+.. image:: http://img.shields.io/:license-mit-blue.svg
+.. image:: https://travis-ci.org/jeffrimko/Qprompt.svg?branch=master
+
+------------
 
 This is the main documentation for Qprompt, a Python library for quickly creating user input prompts and various related functionality.
 
@@ -12,7 +20,7 @@ For more information:
 
   - **Readme** - https://github.com/jeffrimko/Qprompt/blob/master/README.adoc - Main readme file.
   - **GitHub** - https://github.com/jeffrimko/Qprompt - Main version control repository.
-  - **PyPI** - https://pypi.python.org/pypi/qrompt - Package index page.
+  - **PyPI** - https://pypi.python.org/pypi/qprompt - Package index page.
 
 .. include:: readme_excerpt.rst
 
