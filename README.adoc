@@ -15,6 +15,8 @@ This project provides a Python 2.7/3.3+ library that allows the user to quickly 
   - User input can optionally be supplied from script command-line arguments allowing for simple automation.
   - Should work on any platform without additional dependencies.
 
+image:https://raw.githubusercontent.com/jeffrimko/Qprompt/master/doc/demos/main_demo.gif[Demo]
+
 == Status
 Currently, this project is in the **development release** stage. While this project is suitable for use, please note that there may be incompatibilities in new releases.
 

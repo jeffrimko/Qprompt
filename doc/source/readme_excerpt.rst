@@ -18,6 +18,11 @@ are:
 
 -  Should work on any platform without additional dependencies.
 
+|Demo|
+
+.. |Demo| image:: https://raw.githubusercontent.com/jeffrimko/Qprompt/master/doc/demos/main_demo.gif
+
+
 Status
 ------
 
@@ -31,8 +36,8 @@ Release notes are maintained in the project
 Requirements
 ------------
 
-Qprompt should run on any Python 2.7/3.3+ interpreter without additional
-dependencies.
+Qprompt should run on any Python 2.7/3.3+ interpreter and uses some
+third-party libraries.
 
 Installation
 ------------
