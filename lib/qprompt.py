@@ -59,7 +59,7 @@ def _format_kwargs(func):
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.14.1"
+__version__ = "0.14.2"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -352,7 +352,7 @@ def show_menu(entries, **kwargs):
     if not compact:
         show_banner()
     if note and not _AUTO:
-        alert(note)
+        msg.append("[!] " + note)
     if fzf:
         valid.append(FCHR)
     msg.append(QSTR + kwargs.get('msg', "Enter menu selection"))
