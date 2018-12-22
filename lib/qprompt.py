@@ -59,7 +59,7 @@ def _format_kwargs(func):
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.14.2"
+__version__ = "0.15.0"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -132,6 +132,9 @@ class Menu:
         defaults to `show_menu()`."""
         self.entries = []
         for entry in entries:
+            if callable(entry):
+                name = _guess_name(entry.__name__, [e.name for e in self.entries])
+                entry = (name, entry.__name__, entry)
             self.add(*entry)
         self._show_kwargs = kwargs
     def add(self, name, desc, func=None, args=None, krgs=None):
@@ -661,6 +664,25 @@ def wrap(item, args=None, krgs=None, **kwargs):
             item(*args, **krgs)
         else:
             echo(item)
+
+def _guess_name(desc, taken=None):
+    """Attempts to guess the menu entry name from the function name."""
+    taken = taken or []
+    name = ""
+    # Try to find the shortest name based on the given description.
+    for word in desc.split():
+        c = word[0].lower()
+        if not c.isalnum():
+            continue
+        name += c
+        if name not in taken:
+            break
+    # If name is still taken, add a number postfix.
+    count = 2
+    while name in taken:
+        name = f"{name}{count}"
+        count += 1
+    return name
 
 ##==============================================================#
 ## SECTION: Main Body                                           #

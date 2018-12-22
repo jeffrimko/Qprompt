@@ -133,6 +133,12 @@ Your menus can do cool stuff by registering functions:
         print(a + b)
     menu.add("f", "foo", foo, [1, 2])
 
+If you just need a quick menu to call functions:
+
+.. code:: python
+
+    Menu(func1, func2, func3).show()
+
 Additionally, menus can be searched with fzf by entering `/` at the prompt. This features uses the excellent `iterfzf library by dahlia <https://github.com/dahlia/iterfzf>`_. Example of the menu fzf search feature:
 
 .. image:: ../demos/menu_fzf_demo.gif
