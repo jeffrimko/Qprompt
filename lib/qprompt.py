@@ -680,7 +680,7 @@ def _guess_name(desc, taken=None):
     # If name is still taken, add a number postfix.
     count = 2
     while name in taken:
-        name = f"{name}{count}"
+        name = name + str(count)
         count += 1
     return name
 
