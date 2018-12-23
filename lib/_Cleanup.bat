@@ -17,6 +17,7 @@
 ::=============================================================::
 
 del /Q /S *.pyc 2>NUL
+rd /Q /S __pycache__ 2>NUL
 rd /Q /S build 2>NUL
 rd /Q /S dist 2>NUL
 rd /Q /S qprompt.egg-info 2>NUL

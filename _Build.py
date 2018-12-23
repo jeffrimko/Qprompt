@@ -15,6 +15,13 @@ from qprompt import Menu
 ## SECTION: Function Definitions                                #
 ##==============================================================#
 
+@menu
+def cleanup():
+    with fsys.Cwd("lib"):
+        shell.call("_Cleanup.bat")
+    with fsys.Cwd("doc"):
+        shell.call("make clean")
+
 @menu("v")
 def check_version():
     with fsys.Cwd(".", __file__):
@@ -26,20 +33,20 @@ def run_tests():
         shell.call("_Run_Tests.py")
 
 @menu
-def package():
+def package_menu():
     Menu(install_package_locally, upload_to_pypi).main(header="Package")
 
 @menu
-def docs():
+def docs_menu():
     Menu(readme_excerpt, all_docs, open_docs).main(header="Docs")
 
 @menu
-def browse():
+def browse_menu():
     def github(): auxly.open("https://github.com/jeffrimko/qprompt")
     def pypi(): auxly.open("https://pypi.org/project/qprompt/")
     def docs(): auxly.open("https://qprompt.readthedocs.io/")
     def travis(): auxly.open("https://travis-ci.org/jeffrimko/Qprompt")
-    Menu(github, pypi, docs).main()
+    Menu(github, pypi, docs, travis).main(header="Browse")
 
 def install_package_locally():
     with fsys.Cwd("lib", __file__):
