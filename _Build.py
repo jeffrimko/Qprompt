@@ -38,6 +38,7 @@ def browse():
     def github(): auxly.open("https://github.com/jeffrimko/qprompt")
     def pypi(): auxly.open("https://pypi.org/project/qprompt/")
     def docs(): auxly.open("https://qprompt.readthedocs.io/")
+    def travis(): auxly.open("https://travis-ci.org/jeffrimko/Qprompt")
     Menu(github, pypi, docs).main()
 
 def install_package_locally():
