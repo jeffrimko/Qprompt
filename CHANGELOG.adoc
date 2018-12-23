@@ -1,5 +1,9 @@
 = Qprompt Changelog
 
+== qprompt-0.15.1 (2018-12-22)
+=== Fixed
+  - Fixed nested main menu auto behavior.
+
 == qprompt-0.15.0 (2018-12-22)
 === Changed
   - Can now pass functions directly to `Menu()`, e.g. `Menu(func1, func2, func3)`.

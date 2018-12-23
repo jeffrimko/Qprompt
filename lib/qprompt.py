@@ -59,7 +59,7 @@ def _format_kwargs(func):
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.15.0"
+__version__ = "0.15.1"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -134,7 +134,7 @@ class Menu:
         for entry in entries:
             if callable(entry):
                 name = _guess_name(entry.__name__, [e.name for e in self.entries])
-                entry = (name, entry.__name__, entry)
+                entry = (name, entry.__name__.title(), entry)
             self.add(*entry)
         self._show_kwargs = kwargs
     def add(self, name, desc, func=None, args=None, krgs=None):
@@ -167,12 +167,11 @@ class Menu:
           - loop (bool) - If true, the menu will loop until quit.
           - quit ((str,str)) - If provided, adds a quit option to the menu.
         """
-        global _AUTO
-        _AUTO = False
-        if quit:
-            if self.entries[-1][:2] != quit:
-                self.add(*quit, func=lambda: quit[0])
-        with stdin_auto:
+        def _main():
+            global _AUTO
+            if quit:
+                if self.entries[-1][:2] != quit:
+                    self.add(*quit, func=lambda: quit[0])
             if stdin_auto.auto:
                 _AUTO = True
             result = None
@@ -191,6 +190,12 @@ class Menu:
                 note = "Menu does not loop, single entry."
                 result = self.show(note=note, **kwargs)
             return result
+        global _AUTO
+        if _AUTO:
+            return _main()
+        else:
+            with stdin_auto:
+                return _main()
 
 class Wrap(object):
     """Context manager that wraps content between horizontal lines."""
