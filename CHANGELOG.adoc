@@ -1,5 +1,9 @@
 = Qprompt Changelog
 
+== qprompt-0.15.2 (2018-12-22)
+=== Fixed
+  - Minor correction to automatic menu entries descriptions from functions, e.g. `my_cool_thing` will now correctly show up as `My Cool Thing`.
+
 == qprompt-0.15.1 (2018-12-22)
 === Fixed
   - Fixed nested main menu auto behavior.

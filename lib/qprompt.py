@@ -59,7 +59,7 @@ def _format_kwargs(func):
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.15.1"
+__version__ = "0.15.2"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -134,7 +134,8 @@ class Menu:
         for entry in entries:
             if callable(entry):
                 name = _guess_name(entry.__name__, [e.name for e in self.entries])
-                entry = (name, entry.__name__.title(), entry)
+                desc = _guess_desc(entry.__name__)
+                entry = (name, desc, entry)
             self.add(*entry)
         self._show_kwargs = kwargs
     def add(self, name, desc, func=None, args=None, krgs=None):
@@ -688,6 +689,10 @@ def _guess_name(desc, taken=None):
         name = name + str(count)
         count += 1
     return name
+
+def _guess_desc(fname):
+    """Attempts to guess the menu entry description from the function name."""
+    return fname.title().replace("_", " ")
 
 ##==============================================================#
 ## SECTION: Main Body                                           #

@@ -2,39 +2,53 @@
 ## SECTION: Imports                                             #
 ##==============================================================#
 
+import os.path as op
+from xml.etree import ElementTree
+
 import auxly
 import auxly.filesys as fsys
-import os.path as op
 from auxly import shell
 from ubuild import main, menu
-from xml.etree import ElementTree
+from qprompt import Menu
 
 ##==============================================================#
 ## SECTION: Function Definitions                                #
 ##==============================================================#
 
-@menu("t", "Run Tests")
-def test():
-    with fsys.Cwd("tests", __file__):
-        shell.call("_Run_Tests.py")
-
-@menu("v", "Check Version")
-def version():
+@menu("v")
+def check_version():
     with fsys.Cwd(".", __file__):
         shell.call("_Check_Versions.py")
 
-@menu("i", "Install Package Locally")
-def install():
+@menu("t")
+def run_tests():
+    with fsys.Cwd("tests", __file__):
+        shell.call("_Run_Tests.py")
+
+@menu
+def package():
+    Menu(install_package_locally, upload_to_pypi).main(header="Package")
+
+@menu
+def docs():
+    Menu(readme_excerpt, all_docs, open_docs).main(header="Docs")
+
+@menu
+def browse():
+    def github(): auxly.open("https://github.com/jeffrimko/qprompt")
+    def pypi(): auxly.open("https://pypi.org/project/qprompt/")
+    def docs(): auxly.open("https://qprompt.readthedocs.io/")
+    Menu(github, pypi, docs).main()
+
+def install_package_locally():
     with fsys.Cwd("lib", __file__):
         shell.call("_Install_Package.py")
 
-@menu("u", "Upload To PyPI")
-def upload():
+def upload_to_pypi():
     with fsys.Cwd("lib", __file__):
         shell.call("_Upload_PyPI.py")
 
-@menu("r", "Build Readme Excerpt")
-def readme():
+def readme_excerpt():
     tempxml = "temp.xml"
     shell.call(f"asciidoctor -b docbook -o {tempxml} README.adoc")
     e = ElementTree.parse(tempxml).getroot()
@@ -50,18 +64,16 @@ def readme():
     fsys.delete(tempxml)
     print("Readme excerpt generated.")
 
-@menu("d", "Build Docs")
-def docs():
-    readme()
+def all_docs():
+    readme_excerpt()
     with fsys.Cwd("doc", __file__):
         shell.call("make html")
 
-@menu("o", "Open Docs")
-def open_doc():
-    INDEX = r"doc\build\html\index.html"
-    if not op.isfile(INDEX):
+def open_docs():
+    index = r"doc\build\html\index.html"
+    if not op.isfile(index):
         docs()
-    auxly.open(INDEX)
+    auxly.open(index)
 
 ##==============================================================#
 ## SECTION: Main Body                                           #
