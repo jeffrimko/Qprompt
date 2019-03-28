@@ -27,7 +27,7 @@ if __name__ == '__main__':
     if not ver:
         qprompt.alert("Issue with version info!")
         sys.exit(1)
-    if 0 != qprompt.status("Running tests...", sh.silent, [r"..\tests\_Run_Tests.py nopause"]):
+    if 0 != qprompt.status("Running tests...", sh.silent, [r"python ..\tests\_Run_Tests.py nopause"]):
         qprompt.alert("Issue running tests!")
         sys.exit(1)
     if qprompt.ask_yesno("Upload version `%s`?" % (ver)):
