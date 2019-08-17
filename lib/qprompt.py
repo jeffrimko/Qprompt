@@ -59,7 +59,7 @@ def _format_kwargs(func):
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.15.2"
+__version__ = "0.15.3"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -421,7 +421,7 @@ def cast(val, typ=int):
     return val
 
 @_format_kwargs
-def ask(msg="Enter input", fmt=None, dft=None, vld=None, shw=True, blk=False, hlp=None, qstr=True):
+def ask(msg="Enter input", fmt=None, dft=None, vld=None, shw=True, blk=False, hlp=None, qstr=True, multi=False, **kwargs):
     """Prompts the user for input and returns the given answer. Optionally
     checks if answer is valid.
 
@@ -516,7 +516,7 @@ def ask(msg="Enter input", fmt=None, dft=None, vld=None, shw=True, blk=False, hl
     return ans
 
 @_format_kwargs
-def ask_yesno(msg="Proceed?", dft=None):
+def ask_yesno(msg="Proceed?", dft=None, **kwargs):
     """Prompts the user for a yes or no answer. Returns True for yes, False
     for no."""
     yes = ["y", "yes", "Y", "YES"]
@@ -526,19 +526,19 @@ def ask_yesno(msg="Proceed?", dft=None):
     return ask(msg, dft=dft, vld=yes+no) in yes
 
 @_format_kwargs
-def ask_int(msg="Enter an integer", dft=None, vld=None, hlp=None):
+def ask_int(msg="Enter an integer", dft=None, vld=None, hlp=None, **kwargs):
     """Prompts the user for an integer."""
     vld = vld or [int]
     return ask(msg, dft=dft, vld=vld, fmt=partial(cast, typ=int), hlp=hlp)
 
 @_format_kwargs
-def ask_float(msg="Enter a float", dft=None, vld=None, hlp=None):
+def ask_float(msg="Enter a float", dft=None, vld=None, hlp=None, **kwargs):
     """Prompts the user for a float."""
     vld = vld or [float]
     return ask(msg, dft=dft, vld=vld, fmt=partial(cast, typ=float), hlp=hlp)
 
 @_format_kwargs
-def ask_str(msg="Enter a string", dft=None, vld=None, shw=True, blk=True, hlp=None):
+def ask_str(msg="Enter a string", dft=None, vld=None, shw=True, blk=True, hlp=None, **kwargs):
     """Prompts the user for a string."""
     vld = vld or [str]
     return ask(msg, dft=dft, vld=vld, shw=shw, blk=blk, hlp=hlp)
@@ -699,4 +699,8 @@ def _guess_desc(fname):
 ##==============================================================#
 
 if __name__ == '__main__':
-    pass
+    menu = Menu()
+    menu.add("f", "Foo")
+    menu.add("f", "Bar")
+    print(menu.show())
+    ask_yesno("Hi", default=True)
