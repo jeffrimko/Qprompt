@@ -139,7 +139,7 @@ If you just need a quick menu to call functions:
 
     Menu(func1, func2, func3).show()
 
-Additionally, menus can be searched with fzf by entering `/` at the prompt. This features uses the excellent `iterfzf library by dahlia <https://github.com/dahlia/iterfzf>`_. Example of the menu fzf search feature:
+Additionally, menus can be searched with fzf by entering `/` at the prompt. This feature uses the excellent `iterfzf library by dahlia <https://github.com/dahlia/iterfzf>`_. Example of the menu fzf search feature:
 
 .. image:: ../demos/menu_fzf_demo.gif
 
