@@ -1,5 +1,9 @@
 = Qprompt Changelog
 
+== qprompt-0.15.4 (2020-01-09)
+=== Highlights
+  - Added LICENSE to distribution.
+
 == qprompt-0.15.3 (2019-08-17)
 === Fixed
   - Attempt to fix Pylint errors related to using `default` and similar long keyword arguments.

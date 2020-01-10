@@ -5,6 +5,7 @@
 ##==============================================================#
 
 import auxly.shell as sh
+import auxly.filesys as fs
 import sys
 
 import qprompt
@@ -32,7 +33,9 @@ if __name__ == '__main__':
         sys.exit(1)
     if qprompt.ask_yesno("Upload version `%s`?" % (ver)):
         generate_readme()
+        fs.copy(r"..\LICENSE", "LICENSE")
         sh.call("python setup.py sdist upload")
+        fs.delete("LICENSE")
         cleanup_readme()
     if pause:
         qprompt.pause()

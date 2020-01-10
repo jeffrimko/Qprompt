@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = "qprompt",
-    version = "0.15.3",
+    version = "0.15.4",
     author = "Jeff Rimko",
     author_email = "jeffrimko@gmail.com",
     description = "Library for quick CLI user prompts, input, and menus.",
@@ -13,10 +13,13 @@ setup(
     py_modules=["qprompt"],
     install_requires=["iterfzf"],
     long_description=open("README.rst").read() if isfile("README.rst") else "",
+    data_files = [("", ["LICENSE"])],
     classifiers=[
         "Development Status :: 4 - Beta",
         "Topic :: Utilities",
         "Programming Language :: Python :: 2.7",
-        "Programming Language :: Python :: 3"
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
     ],
 )
