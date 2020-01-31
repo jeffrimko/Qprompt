@@ -1,5 +1,9 @@
 = Qprompt Changelog
 
+== qprompt-0.15.5 (2020-01-30)
+=== Highlights
+  - Attempting to restructure package to include tests.
+
 == qprompt-0.15.4 (2020-01-09)
 === Highlights
   - Added LICENSE to distribution.
