@@ -10,10 +10,9 @@ setup(
     license = "MIT",
     keywords = "cli menu prompt input user library",
     url = "https://github.com/jeffrimko/Qprompt",
-    py_modules=["qprompt"],
+    packages=['lib'],
     install_requires=["iterfzf"],
     long_description=open("README.rst").read() if isfile("README.rst") else "",
-    data_files = [("", ["LICENSE"])],
     classifiers=[
         "Development Status :: 4 - Beta",
         "Topic :: Utilities",

@@ -10,9 +10,9 @@ import subprocess
 ##==============================================================#
 
 def generate_readme():
-    subprocess.call("asciidoctor -b docbook ../README.adoc", shell=True)
-    subprocess.call("pandoc -r docbook -w rst -o README.rst ../README.xml", shell=True)
-    os.remove("../README.xml")
+    subprocess.call("asciidoctor -b docbook README.adoc", shell=True)
+    subprocess.call("pandoc -r docbook -w rst -o README.rst README.xml", shell=True)
+    os.remove("README.xml")
 
 def cleanup_readme():
     os.remove("README.rst")
