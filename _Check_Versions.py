@@ -9,7 +9,7 @@ import verace
 ##==============================================================#
 
 VERCHK = verace.VerChecker("Qprompt", __file__)
-VERCHK.include(r"lib\setup.py", match="version = ", splits=[('"',1)])
+VERCHK.include(r"setup.py", match="version = ", splits=[('"',1)])
 VERCHK.include(r"lib\qprompt.py", match="__version__ = ", splits=[('"',1)])
 VERCHK.include(r"doc\source\conf.py", match="version = ", splits=[("'",1)])
 VERCHK.include(r"doc\source\conf.py", match="release = ", splits=[("'",1)])
