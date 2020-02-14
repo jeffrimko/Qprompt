@@ -2,4 +2,5 @@ exclude tests/__pycache__/*
 exclude lib/__temp-*
 exclude *.py
 include setup.py
+include LICENSE
 recursive-include tests *

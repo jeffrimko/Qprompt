@@ -1,6 +1,6 @@
 = Qprompt Changelog
 
-== qprompt-0.15.5 (2020-01-30)
+== qprompt-0.15.5 (2020-02-13)
 === Highlights
   - Attempting to restructure package to include tests.
 
