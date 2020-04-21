@@ -1,5 +1,12 @@
 = Qprompt Changelog
 
+== qprompt-0.16.0 (TODO)
+=== Added
+  - When using `Menu.main(auto=True)` can now pass in `-d` as an argument to run the default menu entry.
+
+=== Fixed
+  - Fixed exception thrown when using `Menu.main(auto=True, loop=False)` and an invalid argument is passed in.
+
 == qprompt-0.15.6 (2020-02-13)
 === Highlights
   - Reverting to old package structure, there was an issue with the new structure.
