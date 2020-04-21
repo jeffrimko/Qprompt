@@ -189,7 +189,10 @@ class Menu:
                 return result
             else:
                 note = "Menu does not loop, single entry."
-                result = self.show(note=note, **kwargs)
+                try:
+                    result = self.show(note=note, **kwargs)
+                except EOFError:
+                    pass
             return result
         global _AUTO
         if _AUTO:
