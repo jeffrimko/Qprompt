@@ -16,4 +16,6 @@ def caz():
     _do_thing("caz")
 
 menu = qprompt.Menu(foo, bar, caz)
-menu.main(default="b", loop=True)
+
+if __name__ == '__main__':
+    menu.main(default="b", loop=True)

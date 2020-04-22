@@ -1,4 +1,5 @@
-"""Test that arguments passed to a script main menu execute properly."""
+"""Test that arguments passed to a script Menu.main(loop=True) execute
+properly."""
 
 ##==============================================================#
 ## SECTION: Imports                                             #

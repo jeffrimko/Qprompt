@@ -1,5 +1,5 @@
-"""Test that arguments passed to a script Menu.main(loop=False) execute
-properly."""
+"""Test that arguments passed to a script Menu.main(loop=True) execute
+properly and args passed into the script are handled properly."""
 
 ##==============================================================#
 ## SECTION: Imports                                             #
@@ -11,7 +11,7 @@ from testlib import *
 ## SECTION: Global Definitions                                  #
 ##==============================================================#
 
-SCRIPT = "script_2.py"
+SCRIPT = "script_3.py"
 
 ##==============================================================#
 ## SECTION: Class Definitions                                   #
@@ -23,64 +23,50 @@ class TestCase(unittest.TestCase):
         rmfile("foo")
         rmfile("bar")
         rmfile("caz")
+        rmfile("args")
 
     def setUp(test):
         test._cleanup()
         test.assertFalse(op.exists("foo"))
         test.assertFalse(op.exists("bar"))
         test.assertFalse(op.exists("caz"))
+        test.assertFalse(op.exists("args"))
 
     def tearDown(test):
         test._cleanup()
 
     def test_script_1(test):
-        result = os.system("python %s x" % SCRIPT)
+        args = ""
+        result = os.system("python %s %s" % (SCRIPT, args))
         test.assertEqual(0, result)
         test.assertFalse(op.exists("foo"))
         test.assertFalse(op.exists("bar"))
         test.assertFalse(op.exists("caz"))
+        test.assertTrue(op.exists("args"))
+        with open("args") as fi:
+            test.assertEqual(fi.read(), args)
 
     def test_script_2(test):
-        result = os.system("python %s f" % SCRIPT)
+        args = "f c"
+        result = os.system("python %s %s" % (SCRIPT, args))
         test.assertEqual(0, result)
         test.assertTrue(op.exists("foo"))
         test.assertFalse(op.exists("bar"))
-        test.assertFalse(op.exists("caz"))
+        test.assertTrue(op.exists("caz"))
+        test.assertTrue(op.exists("args"))
+        with open("args") as fi:
+            test.assertEqual(fi.read(), args)
 
     def test_script_3(test):
-        result = os.system("python %s b" % SCRIPT)
+        args = "-d"
+        result = os.system("python %s %s" % (SCRIPT, args))
         test.assertEqual(0, result)
         test.assertFalse(op.exists("foo"))
         test.assertTrue(op.exists("bar"))
         test.assertFalse(op.exists("caz"))
-
-    def test_script_4(test):
-        result = os.system("python %s f b" % SCRIPT)
-        test.assertEqual(0, result)
-        test.assertTrue(op.exists("foo"))
-        test.assertFalse(op.exists("bar"))
-        test.assertFalse(op.exists("caz"))
-
-    def test_script_5(test):
-        result = os.system("python %s c" % SCRIPT)
-        test.assertEqual(0, result)
-        test.assertFalse(op.exists("foo"))
-        test.assertFalse(op.exists("bar"))
-        test.assertTrue(op.exists("caz"))
-
-    def test_script_6(test):
-        result = os.system("python %s c f" % SCRIPT)
-        test.assertEqual(0, result)
-        test.assertFalse(op.exists("foo"))
-        test.assertFalse(op.exists("bar"))
-        test.assertTrue(op.exists("caz"))
-
-    def test_script_7(test):
-        result = os.system("python %s -d" % SCRIPT)
-        test.assertEqual(0, result)
-        test.assertFalse(op.exists("foo"))
-        test.assertTrue(op.exists("bar"))
-        test.assertFalse(op.exists("caz"))
+        test.assertTrue(op.exists("args"))
+        with open("args") as fi:
+            test.assertEqual(fi.read(), args)
 
 ##==============================================================#
 ## SECTION: Main Body                                           #
