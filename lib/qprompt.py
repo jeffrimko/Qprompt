@@ -706,12 +706,4 @@ def _guess_desc(fname):
 ##==============================================================#
 
 if __name__ == '__main__':
-    def foo():
-        print("foo")
-    def bar():
-        print("bar")
-    menu = Menu()
-    menu.add("f", "Foo", foo)
-    menu.add("b", "Bar", bar)
-    print(menu.main(default="f", loop=True))
-    # ask_yesno("Hi", default=True)
+    pass
