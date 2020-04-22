@@ -1,3 +1,5 @@
+"""Checks that the README in RST format is valid."""
+
 ##==============================================================#
 ## SECTION: Imports                                             #
 ##==============================================================#
@@ -7,7 +9,7 @@ import os
 import qprompt
 
 ##==============================================================#
-## SECTION: Function Definitions                                #
+## SECTION: Class Definitions                                   #
 ##==============================================================#
 
 class ReadmeRst:
@@ -16,6 +18,10 @@ class ReadmeRst:
         _generate_readme()
     def __exit__(self, type, value, traceback):
         _cleanup_readme()
+
+##==============================================================#
+## SECTION: Function Definitions                                #
+##==============================================================#
 
 def _generate_readme():
     os.system("asciidoctor -b docbook ../README.adoc")
