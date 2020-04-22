@@ -1,6 +1,9 @@
 from os.path import isfile
 from setuptools import setup, find_packages
 
+readme = open("README.rst").read() if isfile("README.rst") else ""
+print(readme)
+
 setup(
     name = "qprompt",
     version = "0.16.0",
@@ -12,7 +15,7 @@ setup(
     url = "https://github.com/jeffrimko/Qprompt",
     py_modules=["qprompt"],
     install_requires=["iterfzf"],
-    long_description=open("README.rst").read() if isfile("README.rst") else "",
+    long_description=readme,
     data_files = [("", ["LICENSE"])],
     classifiers=[
         "Development Status :: 4 - Beta",

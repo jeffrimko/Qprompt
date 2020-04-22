@@ -14,7 +14,7 @@ sys.path.append("..")
 sys.dont_write_bytecode = True
 
 from _Check_Versions import VERCHK
-from _Install_Package import generate_readme, cleanup_readme
+from _Check_Readme import ReadmeRst
 
 ##==============================================================#
 ## SECTION: Main Body                                           #
@@ -32,11 +32,10 @@ if __name__ == '__main__':
         qprompt.alert("Issue running tests!")
         sys.exit(1)
     if qprompt.ask_yesno("Upload version `%s`?" % (ver)):
-        generate_readme()
-        fs.copy(r"..\LICENSE", "LICENSE")
-        sh.call("python setup.py sdist upload")
-        fs.delete("LICENSE")
-        cleanup_readme()
+        with ReadmeRst():
+            fs.copy(r"..\LICENSE", "LICENSE")
+            sh.call("python setup.py sdist upload")
+            fs.delete("LICENSE")
     if pause:
         qprompt.pause()
     sys.exit(0)
