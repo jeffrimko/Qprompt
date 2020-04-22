@@ -20,28 +20,28 @@ TOTAL = 0
 
 class TestCase(unittest.TestCase):
 
-    def setUp(test):
+    def setUp(self):
         global TOTAL
         TOTAL = 0
-        test.menu = Menu(inc, dec)
+        self.menu = Menu(inc, dec)
 
-    def test_menu_1(test):
+    def test_menu_1(self):
         global TOTAL
         setinput("i")
-        result = test.menu.show()
-        test.assertEqual(1, TOTAL)
+        result = self.menu.show()
+        self.assertEqual(1, TOTAL)
 
-    def test_menu_2(test):
+    def test_menu_2(self):
         global TOTAL
         setinput("d")
-        result = test.menu.show()
-        test.assertEqual(-1, TOTAL)
+        result = self.menu.show()
+        self.assertEqual(-1, TOTAL)
 
-    def test_menu_3(test):
+    def test_menu_3(self):
         global TOTAL
         setinput("i\ni\nd\ni\n")
-        result = test.menu.main(loop=True)
-        test.assertEqual(2, TOTAL)
+        result = self.menu.main(loop=True)
+        self.assertEqual(2, TOTAL)
 
 def inc():
     global TOTAL

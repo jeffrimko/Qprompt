@@ -14,12 +14,12 @@ from qprompt import enum_menu
 
 class TestCase(unittest.TestCase):
 
-    def test_menu_1(test):
-        test.assertFalse(op.exists("generated_file.txt"))
+    def test_menu_1(self):
+        self.assertFalse(op.exists("generated_file.txt"))
         subprocess.call("python ./menu_helper_1.py g q", shell=True)
-        test.assertTrue(op.exists("generated_file.txt"))
+        self.assertTrue(op.exists("generated_file.txt"))
         subprocess.call("python ./menu_helper_1.py d q", shell=True)
-        test.assertFalse(op.exists("generated_file.txt"))
+        self.assertFalse(op.exists("generated_file.txt"))
 
 ##==============================================================#
 ## SECTION: Main Body                                           #

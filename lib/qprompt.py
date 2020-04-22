@@ -189,7 +189,10 @@ class Menu:
                 return result
             else:
                 note = "Menu does not loop, single entry."
-                result = self.show(note=note, **kwargs)
+                try:
+                    result = self.show(note=note, **kwargs)
+                except EOFError:
+                    pass
             return result
         global _AUTO
         if _AUTO:
@@ -364,11 +367,15 @@ def show_menu(entries, **kwargs):
         msg.append("[!] " + note)
     if fzf:
         valid.append(FCHR)
+    if _AUTO:
+        valid.append("-d")
     msg.append(QSTR + kwargs.get('msg', "Enter menu selection"))
     msg = os.linesep.join(msg)
     entry = None
     while entry not in entries:
         choice = ask(msg, vld=valid, dft=dft, qstr=False)
+        if _AUTO and choice == "-d":
+            choice = dft
         if choice == FCHR and fzf:
             try:
                 from iterfzf import iterfzf
@@ -699,8 +706,12 @@ def _guess_desc(fname):
 ##==============================================================#
 
 if __name__ == '__main__':
+    def foo():
+        print("foo")
+    def bar():
+        print("bar")
     menu = Menu()
-    menu.add("f", "Foo")
-    menu.add("f", "Bar")
-    print(menu.show())
-    ask_yesno("Hi", default=True)
+    menu.add("f", "Foo", foo)
+    menu.add("b", "Bar", bar)
+    print(menu.main(default="f", loop=True))
+    # ask_yesno("Hi", default=True)

@@ -14,23 +14,23 @@ from qprompt import enum_menu
 
 class TestCase(unittest.TestCase):
 
-    def setUp(test):
-        test.items = ["foo", "bar", "baz", "qux", "quux"]
+    def setUp(self):
+        self.items = ["foo", "bar", "baz", "qux", "quux"]
 
-    def test_menu_1(test):
+    def test_menu_1(self):
         setinput("4")
-        with test.assertRaises(EOFError):
-            enum_menu(test.items).show(limit=3, returns="desc")
+        with self.assertRaises(EOFError):
+            enum_menu(self.items).show(limit=3, returns="desc")
 
-    def test_menu_2(test):
+    def test_menu_2(self):
         setinput("n\n4\n")
-        result = enum_menu(test.items).show(limit=3, returns="desc")
-        test.assertEqual("qux", result)
+        result = enum_menu(self.items).show(limit=3, returns="desc")
+        self.assertEqual("qux", result)
 
-    def test_menu_3(test):
+    def test_menu_3(self):
         setinput("n\np\n1")
-        result = enum_menu(test.items).show(limit=3, returns="desc")
-        test.assertEqual("foo", result)
+        result = enum_menu(self.items).show(limit=3, returns="desc")
+        self.assertEqual("foo", result)
 
 ##==============================================================#
 ## SECTION: Main Body                                           #

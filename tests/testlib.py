@@ -32,3 +32,12 @@ setinput = lambda x: [
         sys.stdin.write(x),
         sys.stdin.seek(0)]
 #----}
+
+##==============================================================#
+## SECTION: Function Definitions                                #
+##==============================================================#
+
+def rmfile(fname):
+    """Delete a file if it exists."""
+    if op.isfile(fname):
+        os.remove(fname)
