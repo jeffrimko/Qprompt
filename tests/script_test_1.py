@@ -19,68 +19,68 @@ SCRIPT = "script_1.py"
 
 class TestCase(unittest.TestCase):
 
-    def _cleanup(test):
+    def _cleanup(self):
         rmfile("foo")
         rmfile("bar")
         rmfile("caz")
 
-    def setUp(test):
-        test._cleanup()
-        test.assertFalse(op.exists("foo"))
-        test.assertFalse(op.exists("bar"))
-        test.assertFalse(op.exists("caz"))
+    def setUp(self):
+        self._cleanup()
+        self.assertFalse(op.exists("foo"))
+        self.assertFalse(op.exists("bar"))
+        self.assertFalse(op.exists("caz"))
 
-    def tearDown(test):
-        test._cleanup()
+    def tearDown(self):
+        self._cleanup()
 
-    def test_script_1(test):
+    def test_script_1(self):
         result = os.system("python %s x" % SCRIPT)
-        test.assertEqual(0, result)
-        test.assertFalse(op.exists("foo"))
-        test.assertFalse(op.exists("bar"))
-        test.assertFalse(op.exists("caz"))
+        self.assertEqual(0, result)
+        self.assertFalse(op.exists("foo"))
+        self.assertFalse(op.exists("bar"))
+        self.assertFalse(op.exists("caz"))
 
-    def test_script_2(test):
+    def test_script_2(self):
         result = os.system("python %s f" % SCRIPT)
-        test.assertEqual(0, result)
-        test.assertTrue(op.exists("foo"))
-        test.assertFalse(op.exists("bar"))
-        test.assertFalse(op.exists("caz"))
+        self.assertEqual(0, result)
+        self.assertTrue(op.exists("foo"))
+        self.assertFalse(op.exists("bar"))
+        self.assertFalse(op.exists("caz"))
 
-    def test_script_3(test):
+    def test_script_3(self):
         result = os.system("python %s b" % SCRIPT)
-        test.assertEqual(0, result)
-        test.assertFalse(op.exists("foo"))
-        test.assertTrue(op.exists("bar"))
-        test.assertFalse(op.exists("caz"))
+        self.assertEqual(0, result)
+        self.assertFalse(op.exists("foo"))
+        self.assertTrue(op.exists("bar"))
+        self.assertFalse(op.exists("caz"))
 
-    def test_script_4(test):
+    def test_script_4(self):
         result = os.system("python %s f b" % SCRIPT)
-        test.assertEqual(0, result)
-        test.assertTrue(op.exists("foo"))
-        test.assertTrue(op.exists("bar"))
-        test.assertFalse(op.exists("caz"))
+        self.assertEqual(0, result)
+        self.assertTrue(op.exists("foo"))
+        self.assertTrue(op.exists("bar"))
+        self.assertFalse(op.exists("caz"))
 
-    def test_script_5(test):
+    def test_script_5(self):
         result = os.system("python %s c" % SCRIPT)
-        test.assertEqual(0, result)
-        test.assertFalse(op.exists("foo"))
-        test.assertFalse(op.exists("bar"))
-        test.assertTrue(op.exists("caz"))
+        self.assertEqual(0, result)
+        self.assertFalse(op.exists("foo"))
+        self.assertFalse(op.exists("bar"))
+        self.assertTrue(op.exists("caz"))
 
-    def test_script_6(test):
+    def test_script_6(self):
         result = os.system("python %s c f" % SCRIPT)
-        test.assertEqual(0, result)
-        test.assertTrue(op.exists("foo"))
-        test.assertFalse(op.exists("bar"))
-        test.assertTrue(op.exists("caz"))
+        self.assertEqual(0, result)
+        self.assertTrue(op.exists("foo"))
+        self.assertFalse(op.exists("bar"))
+        self.assertTrue(op.exists("caz"))
 
-    def test_script_7(test):
+    def test_script_7(self):
         result = os.system("python %s -d" % SCRIPT)
-        test.assertEqual(0, result)
-        test.assertFalse(op.exists("foo"))
-        test.assertTrue(op.exists("bar"))
-        test.assertFalse(op.exists("caz"))
+        self.assertEqual(0, result)
+        self.assertFalse(op.exists("foo"))
+        self.assertTrue(op.exists("bar"))
+        self.assertFalse(op.exists("caz"))
 
 ##==============================================================#
 ## SECTION: Main Body                                           #

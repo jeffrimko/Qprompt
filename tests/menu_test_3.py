@@ -14,20 +14,20 @@ from qprompt import MenuEntry, show_menu
 
 class TestCase(unittest.TestCase):
 
-    def setUp(test):
-        test.entries = []
-        test.entries.append(MenuEntry("1", "foo", None, None, None))
-        test.entries.append(MenuEntry("2", "bar", None, None, None))
+    def setUp(self):
+        self.entries = []
+        self.entries.append(MenuEntry("1", "foo", None, None, None))
+        self.entries.append(MenuEntry("2", "bar", None, None, None))
 
-    def test_menu_1(test):
+    def test_menu_1(self):
         setinput("1")
-        result = show_menu(test.entries)
-        test.assertEqual("1", result)
+        result = show_menu(self.entries)
+        self.assertEqual("1", result)
 
-    def test_menu_2(test):
+    def test_menu_2(self):
         setinput("1")
-        result = show_menu(test.entries, returns="desc")
-        test.assertEqual("foo", result)
+        result = show_menu(self.entries, returns="desc")
+        self.assertEqual("foo", result)
 
 ##==============================================================#
 ## SECTION: Main Body                                           #

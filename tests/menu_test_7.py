@@ -14,29 +14,29 @@ from qprompt import enum_menu
 
 class TestCase(unittest.TestCase):
 
-    def setUp(test):
+    def setUp(self):
         items = ["foo", "bar", "baz", "qux", "quux"]
-        test.menu = enum_menu(items, default=1)
+        self.menu = enum_menu(items, default=1)
 
-    def test_menu_1(test):
+    def test_menu_1(self):
         setinput("\n")
-        result = test.menu.show()
-        test.assertEqual("1", result)
+        result = self.menu.show()
+        self.assertEqual("1", result)
 
-    def test_menu_2(test):
+    def test_menu_2(self):
         setinput("2\n")
-        result = test.menu.show()
-        test.assertEqual("2", result)
+        result = self.menu.show()
+        self.assertEqual("2", result)
 
-    def test_menu_3(test):
+    def test_menu_3(self):
         setinput("\n")
-        result = test.menu.show(default=3)
-        test.assertEqual("3", result)
+        result = self.menu.show(default=3)
+        self.assertEqual("3", result)
 
-    def test_menu_4(test):
+    def test_menu_4(self):
         setinput("\n")
-        result = test.menu.show()
-        test.assertEqual("1", result)
+        result = self.menu.show()
+        self.assertEqual("1", result)
 
 ##==============================================================#
 ## SECTION: Main Body                                           #

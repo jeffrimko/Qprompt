@@ -19,54 +19,54 @@ SCRIPT = "script_3.py"
 
 class TestCase(unittest.TestCase):
 
-    def _cleanup(test):
+    def _cleanup(self):
         rmfile("foo")
         rmfile("bar")
         rmfile("caz")
         rmfile("args")
 
-    def setUp(test):
-        test._cleanup()
-        test.assertFalse(op.exists("foo"))
-        test.assertFalse(op.exists("bar"))
-        test.assertFalse(op.exists("caz"))
-        test.assertFalse(op.exists("args"))
+    def setUp(self):
+        self._cleanup()
+        self.assertFalse(op.exists("foo"))
+        self.assertFalse(op.exists("bar"))
+        self.assertFalse(op.exists("caz"))
+        self.assertFalse(op.exists("args"))
 
-    def tearDown(test):
-        test._cleanup()
+    def tearDown(self):
+        self._cleanup()
 
-    def test_script_1(test):
+    def test_script_1(self):
         args = ""
         result = os.system("python %s %s" % (SCRIPT, args))
-        test.assertEqual(0, result)
-        test.assertFalse(op.exists("foo"))
-        test.assertFalse(op.exists("bar"))
-        test.assertFalse(op.exists("caz"))
-        test.assertTrue(op.exists("args"))
+        self.assertEqual(0, result)
+        self.assertFalse(op.exists("foo"))
+        self.assertFalse(op.exists("bar"))
+        self.assertFalse(op.exists("caz"))
+        self.assertTrue(op.exists("args"))
         with open("args") as fi:
-            test.assertEqual(fi.read(), args)
+            self.assertEqual(fi.read(), args)
 
-    def test_script_2(test):
+    def test_script_2(self):
         args = "f c"
         result = os.system("python %s %s" % (SCRIPT, args))
-        test.assertEqual(0, result)
-        test.assertTrue(op.exists("foo"))
-        test.assertFalse(op.exists("bar"))
-        test.assertTrue(op.exists("caz"))
-        test.assertTrue(op.exists("args"))
+        self.assertEqual(0, result)
+        self.assertTrue(op.exists("foo"))
+        self.assertFalse(op.exists("bar"))
+        self.assertTrue(op.exists("caz"))
+        self.assertTrue(op.exists("args"))
         with open("args") as fi:
-            test.assertEqual(fi.read(), args)
+            self.assertEqual(fi.read(), args)
 
-    def test_script_3(test):
+    def test_script_3(self):
         args = "-d"
         result = os.system("python %s %s" % (SCRIPT, args))
-        test.assertEqual(0, result)
-        test.assertFalse(op.exists("foo"))
-        test.assertTrue(op.exists("bar"))
-        test.assertFalse(op.exists("caz"))
-        test.assertTrue(op.exists("args"))
+        self.assertEqual(0, result)
+        self.assertFalse(op.exists("foo"))
+        self.assertTrue(op.exists("bar"))
+        self.assertFalse(op.exists("caz"))
+        self.assertTrue(op.exists("args"))
         with open("args") as fi:
-            test.assertEqual(fi.read(), args)
+            self.assertEqual(fi.read(), args)
 
 ##==============================================================#
 ## SECTION: Main Body                                           #

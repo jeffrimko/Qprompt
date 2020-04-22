@@ -14,27 +14,27 @@ from qprompt import Menu
 
 class TestCase(unittest.TestCase):
 
-    def setUp(test):
-        test.menu = Menu()
-        test.menu.add("1", "foo")
-        test.menu.add("2", "bar")
+    def setUp(self):
+        self.menu = Menu()
+        self.menu.add("1", "foo")
+        self.menu.add("2", "bar")
 
-    def test_menu_1(test):
+    def test_menu_1(self):
         setinput("1")
-        result = test.menu.show()
-        test.assertEqual("1", result)
+        result = self.menu.show()
+        self.assertEqual("1", result)
 
-    def test_menu_2(test):
+    def test_menu_2(self):
         setinput("1")
-        result = test.menu.show(returns="desc")
-        test.assertEqual("foo", result)
+        result = self.menu.show(returns="desc")
+        self.assertEqual("foo", result)
 
-    def test_menu_3(test):
+    def test_menu_3(self):
         setinput("2")
-        result = test.menu.show(returns="desc")
-        test.assertEqual("bar", result)
+        result = self.menu.show(returns="desc")
+        self.assertEqual("bar", result)
 
-    def test_menu_4(test):
+    def test_menu_4(self):
         """Check for regression of fix from `0.4.1`."""
         m1 = Menu()
         m1.add("1", "foo")
@@ -45,8 +45,8 @@ class TestCase(unittest.TestCase):
         m2.add("b", "BBB")
         m2.add("c", "CCC")
 
-        test.assertEqual(len(m1.entries), 2)
-        test.assertEqual(len(m2.entries), 3)
+        self.assertEqual(len(m1.entries), 2)
+        self.assertEqual(len(m2.entries), 3)
 
 ##==============================================================#
 ## SECTION: Main Body                                           #
