@@ -15,8 +15,7 @@ from qprompt import MenuEntry, show_menu
 class TestCase(unittest.TestCase):
 
     def setUp(self):
-        self.entries = []
-        self.entries.append(MenuEntry("1", "foo", None, None, None))
+        self.entries = [MenuEntry("1", "foo", None, None, None)]
         self.entries.append(MenuEntry("2", "bar", None, None, None))
 
     def test_menu_1(self):

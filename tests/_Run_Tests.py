@@ -22,7 +22,7 @@ def run_tests():
     okay = []
     for i in os.listdir("."):
         if i.find("_test_") > -1 and i.endswith(".py"):
-            if 0 != subprocess.call("python " + i, shell=True):
+            if subprocess.call("python " + i, shell=True) != 0:
                 fail.append(i)
             else:
                 okay.append(i)

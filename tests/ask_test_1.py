@@ -36,7 +36,7 @@ class TestCase(unittest.TestCase):
         self.assertEqual(3, result)
 
         setinput("2\n3")
-        result = ask_int(vld=lambda x: 3 == x)
+        result = ask_int(vld=lambda x: x == 3)
         self.assertEqual(3, result)
 
     def test_yesno_1(self):

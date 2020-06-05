@@ -4,8 +4,7 @@ def foo():
 def bar(a):
     print("bar %r" % (a))
 val = {'a':42}
-entries = []
-entries.append(MenuEntry("1", "Item A", foo, None, None))
+entries = [MenuEntry("1", "Item A", foo, None, None)]
 entries.append(MenuEntry("2", "Item B", bar, None, val))
 entries.append(MenuEntry("q", "Quit", None, None, None))
 compact = ask_yesno("Use compact menu?")
