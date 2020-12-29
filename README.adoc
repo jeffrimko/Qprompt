@@ -1,7 +1,7 @@
 = image:doc\logo\qprompt.png[Qprompt]
 
 image:http://img.shields.io/:license-mit-blue.svg["License", link="https://github.com/jeffrimko/Qprompt/blob/master/LICENSE"]
-image:https://travis-ci.org/jeffrimko/Qprompt.svg?branch=master["Build Status", link="https://travis-ci.org/jeffrimko/Qprompt"]
+image:https://github.com/jeffrimko/Qprompt/workflows/tests/badge.svg["Build Status", link="https://github.com/jeffrimko/Qprompt/workflows/tests/badge.svg"]
 
 Library for quick CLI user prompts, input, and menus.
 
