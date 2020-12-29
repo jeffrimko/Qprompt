@@ -1,6 +1,6 @@
-# This workflow will run Python test.
+# This workflow will run tests.
 
-name: Python test
+name: tests
 
 on:
   push:
