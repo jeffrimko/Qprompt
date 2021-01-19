@@ -351,6 +351,10 @@ The following are miscellaneous convenience functions:
 .. autofunction:: qprompt.status
 .. autofunction:: qprompt.wrap
 
+The following convenience context manager is provided:
+
+.. autofunction:: qprompt.Wrap
+
 Automation
 ~~~~~~~~~~
 The following helpers are provided for automation:
