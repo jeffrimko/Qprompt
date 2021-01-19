@@ -674,7 +674,7 @@ def wrap(item, args=None, krgs=None, **kwargs):
         if callable(item):
             args = args or []
             krgs = krgs or {}
-            item(*args, **krgs)
+            return item(*args, **krgs)
         else:
             echo(item)
 
