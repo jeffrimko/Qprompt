@@ -59,7 +59,7 @@ def _format_kwargs(func):
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.16.0"
+__version__ = "0.16.1"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -151,12 +151,16 @@ class Menu:
         show_kwargs = copy.deepcopy(self._show_kwargs)
         show_kwargs.update(kwargs)
         return show_menu(self.entries, **show_kwargs)
-    def run(self, name):
-        """Runs the function associated with the given entry `name`."""
+    def get(self, name):
+        """Gets the entry associated with the given `name`."""
         for entry in self.entries:
             if entry.name == name:
-                run_func(entry)
-                break
+                return entry
+    def run(self, name):
+        """Runs the function associated with the given entry `name`."""
+        entry = get_entry(name)
+        if entry:
+            run_func(entry)
     def main(self, auto=None, loop=False, quit=("q", "Quit"), **kwargs):
         """Runs the standard menu main logic. Any `kwargs` supplied will be
         pass to `Menu.show()`. If `argv` is provided to the script, it will be

@@ -1,5 +1,9 @@
 = Qprompt Changelog
 
+== qprompt-0.16.1 (2021-02-18)
+=== Added
+  - Added `Menu.get()` method.
+
 == qprompt-0.16.0 (2020-04-21)
 === Added
   - When using `Menu.main()` can now pass in `-d` as an argument to run the default menu entry.
