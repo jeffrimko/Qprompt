@@ -152,7 +152,7 @@ class Menu:
         show_kwargs.update(kwargs)
         return show_menu(self.entries, **show_kwargs)
     def get(self, name):
-        """Gets the entry associated with the given `name`."""
+        """Gets the MenuEntry associated with the given `name`."""
         for entry in self.entries:
             if entry.name == name:
                 return entry
@@ -323,7 +323,7 @@ def show_limit(entries, **kwargs):
 
 @_format_kwargs
 def show_menu(entries, **kwargs):
-    """Shows a menu with the given list of `MenuEntry` items.
+    """Shows a menu with the given list of MenuEntry items.
 
     **Params**:
       - header (str) - String to show above menu.
@@ -332,7 +332,7 @@ def show_menu(entries, **kwargs):
       - dft (str) - Default value if input is left blank.
       - compact (bool) - If true, the menu items will not be displayed
         [default: False].
-      - returns (str) - Controls what part of the menu entry is returned,
+      - returns (str) - Controls what part of the MenuEntry is returned,
         'func' returns function result [default: name].
       - limit (int) - If set, limits the number of menu entries show at a time
         [default: None].
@@ -686,7 +686,7 @@ def wrap(item, args=None, krgs=None, **kwargs):
             echo(item)
 
 def _guess_name(desc, taken=None):
-    """Attempts to guess the menu entry name from the function name."""
+    """Attempts to guess the MenuEntry name from the function name."""
     taken = taken or []
     name = ""
     # Try to find the shortest name based on the given description.
@@ -705,7 +705,7 @@ def _guess_name(desc, taken=None):
     return name
 
 def _guess_desc(fname):
-    """Attempts to guess the menu entry description from the function name."""
+    """Attempts to guess the MenuEntry description from the function name."""
     return fname.title().replace("_", " ")
 
 ##==============================================================#
