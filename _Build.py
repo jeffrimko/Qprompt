@@ -57,19 +57,22 @@ def upload_to_pypi():
         shell.call("_Upload_PyPI.py")
 
 def readme_excerpt():
-    tempxml = "temp.xml"
-    shell.call(f"asciidoctor -b docbook -o {tempxml} README.adoc")
-    e = ElementTree.parse(tempxml).getroot()
-    fsys.delete(tempxml)
+    tempxml1 = fsys.File("temp1.xml", del_at_exit=True)
+    shell.call(f"asciidoctor -b docbook -o {tempxml1} README.adoc")
+    e = ElementTree.parse(str(tempxml1)).getroot()
     ns = {'db': 'http://docbook.org/ns/docbook', 'xml': 'http://www.w3.org/XML/1998/namespace'}
     rst = ""
+    tempxml2 = fsys.File("tempxml2.xml", del_at_exit=True)
     for sect in ["_introduction", "_status", "_requirements", "_installation"]:
-        xml = ElementTree.tostring(e.find(f".//db:section[@xml:id='{sect}']", ns)).decode("utf-8")
-        fsys.File(tempxml).write(xml)
-        rst += shell.strout(f"pandoc -r docbook -w rst --base-header-level=2 {tempxml}")
+        elem = e.find(f".//db:section[@xml:id='{sect}']", ns)
+        # NOTE: Removing the id attribute prevents "WARNING: malformed
+        # hyperlink target" when building Sphinx docs.
+        elem.attrib.pop("{http://www.w3.org/XML/1998/namespace}id")
+        xml = ElementTree.tostring(elem).decode("utf-8")
+        tempxml2.write(xml)
+        rst += shell.strout(f"pandoc -r docbook -w rst --base-header-level=2 {tempxml2}")
         rst += "\n\n"
     fsys.File(r"doc\source\readme_excerpt.rst").write(rst)
-    fsys.delete(tempxml)
     print("Readme excerpt generated.")
 
 def all_docs():

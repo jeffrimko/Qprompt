@@ -442,7 +442,8 @@ def ask(msg="Enter input", fmt=None, dft=None, vld=None, shw=True, blk=False, hl
       - dft (int|float|str) - Default value if input is left blank.
       - vld ([int|float|str|func]) - Valid input entries.
       - shw (bool) - If true, show the user's input as typed.
-      - blk (bool) - If true, accept a blank string as valid input. Note that
+      - blk (bool) - If true, accept a blank string as valid input; blank input
+        will be accepted even if the `vld` parameter is supplied. Note that
         supplying a default value will disable accepting blank input.
     """
     global _AUTO
@@ -595,6 +596,7 @@ def status(*args, **kwargs):
 
     **Examples**:
     ::
+
         @qprompt.status("Something is happening...")
         def do_something(a):
             time.sleep(a)
@@ -671,6 +673,7 @@ def wrap(item, args=None, krgs=None, **kwargs):
 
     **Examples**:
     ::
+
         qprompt.wrap("Hi, this will be wrapped.")  # String item.
         qprompt.wrap(myfunc, [arg1, arg2], {'krgk': krgv})  # Func item.
     """

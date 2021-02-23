@@ -18,10 +18,8 @@ are:
 
 -  Should work on any platform without additional dependencies.
 
-|Demo|
-
-.. |Demo| image:: https://raw.githubusercontent.com/jeffrimko/Qprompt/master/doc/demos/main_demo.gif
-
+.. image:: https://raw.githubusercontent.com/jeffrimko/Qprompt/master/doc/demos/main_demo.gif
+   :alt: Demo
 
 Status
 ------
