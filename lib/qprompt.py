@@ -91,6 +91,12 @@ SILENT = False
 #: If true, echo() returns the string to print.
 ECHORETURN = True
 
+#: Note shown when menu does not loop.
+_NOTE_NOLOOP = "Menu does not loop, single entry."
+
+#: Note shown when menu loops until quit.
+_NOTE_LOOP = "Menu loops until quit."
+
 ##==============================================================#
 ## SECTION: Class Definitions                                   #
 ##==============================================================#
@@ -181,7 +187,7 @@ class Menu:
                 _AUTO = True
             result = None
             if loop:
-                note = "Menu loops until quit."
+                note = _NOTE_LOOP
                 try:
                     while True:
                         mresult = self.show(note=note, **kwargs)
@@ -192,9 +198,12 @@ class Menu:
                     pass
                 return result
             else:
-                note = "Menu does not loop, single entry."
+                note = _NOTE_NOLOOP
                 try:
                     result = self.show(note=note, **kwargs)
+                    if result in quit:
+                        # Prevent issue with nested menus.
+                        result = None
                 except EOFError:
                     pass
             return result
@@ -206,7 +215,14 @@ class Menu:
                 return _main()
 
 class Wrap(object):
-    """Context manager that wraps content between horizontal lines."""
+    """Context manager that wraps content between horizontal lines.
+
+    **Examples**:
+    ::
+
+        with qprompt.Wrap():
+            qprompt.echo("Hello world!")
+    """
     @_format_kwargs
     def __init__(self, width=None, char="", **kwargs):
         hdr = kwargs.get('hdr', "")
@@ -713,4 +729,11 @@ def _guess_desc(fname):
 ##==============================================================#
 
 if __name__ == '__main__':
-    pass
+    show_main()
+    # m1 = Menu()
+    # m1.add("s", "Option A")
+    # m1.add("b", "Option B")
+    #
+    # m2 = Menu()
+    # m2.add("s", "Sub", m1.main, [], {'loop': False})
+    # m2.main(loop=True, returns="func")
