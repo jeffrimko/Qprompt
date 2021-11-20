@@ -1,5 +1,9 @@
 = Qprompt Changelog
 
+== qprompt-0.16.2 (2021-11-19)
+=== Added
+  - Added `returns=none` option to `show_menu()`.
+
 == qprompt-0.16.1 (2021-02-18)
 === Added
   - Added `Menu.get()` method.

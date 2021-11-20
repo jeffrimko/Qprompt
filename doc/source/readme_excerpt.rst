@@ -1,7 +1,7 @@
 Introduction
 ------------
 
-This project provides a Python 2.7/3.3+ library that allows the user to
+This project provides a Python 2.7/3.5+ library that allows the user to
 quickly create CLI prompts for user input. The main features of Qprompt
 are:
 
@@ -34,7 +34,7 @@ Release notes are maintained in the project
 Requirements
 ------------
 
-Qprompt should run on any Python 2.7/3.3+ interpreter and uses some
+Qprompt should run on any Python 2.7/3.5+ interpreter and uses some
 third-party libraries.
 
 Installation
