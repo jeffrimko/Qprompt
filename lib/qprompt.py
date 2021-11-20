@@ -206,7 +206,14 @@ class Menu:
                 return _main()
 
 class Wrap(object):
-    """Context manager that wraps content between horizontal lines."""
+    """Context manager that wraps content between horizontal lines.
+
+    **Examples**:
+    ::
+
+        with qprompt.Wrap():
+            qprompt.echo("Hello world!")
+    """
     @_format_kwargs
     def __init__(self, width=None, char="", **kwargs):
         hdr = kwargs.get('hdr', "")
@@ -333,7 +340,8 @@ def show_menu(entries, **kwargs):
       - compact (bool) - If true, the menu items will not be displayed
         [default: False].
       - returns (str) - Controls what part of the MenuEntry is returned,
-        'func' returns function result [default: name].
+        'func' returns function result, 'none' returns None (useful for nested
+        menus to avoid quitting out of calling menu) [default: name].
       - limit (int) - If set, limits the number of menu entries show at a time
         [default: None].
       - fzf (bool) - If true, can enter FCHR at the menu prompt to search menu.
@@ -393,6 +401,8 @@ def show_menu(entries, **kwargs):
         fresult = run_func(entry)
         if "func" == returns:
             return fresult
+    if "none" == returns:
+        return None
     try:
         return getattr(entry, returns)
     except:
