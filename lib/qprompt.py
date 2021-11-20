@@ -91,12 +91,6 @@ SILENT = False
 #: If true, echo() returns the string to print.
 ECHORETURN = True
 
-#: Note shown when menu does not loop.
-_NOTE_NOLOOP = "Menu does not loop, single entry."
-
-#: Note shown when menu loops until quit.
-_NOTE_LOOP = "Menu loops until quit."
-
 ##==============================================================#
 ## SECTION: Class Definitions                                   #
 ##==============================================================#
@@ -187,7 +181,7 @@ class Menu:
                 _AUTO = True
             result = None
             if loop:
-                note = _NOTE_LOOP
+                note = "Menu loops until quit."
                 try:
                     while True:
                         mresult = self.show(note=note, **kwargs)
@@ -198,7 +192,7 @@ class Menu:
                     pass
                 return result
             else:
-                note = _NOTE_NOLOOP
+                note = "Menu does not loop, single entry."
                 try:
                     result = self.show(note=note, **kwargs)
                 except EOFError:
