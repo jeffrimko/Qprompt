@@ -201,9 +201,6 @@ class Menu:
                 note = _NOTE_NOLOOP
                 try:
                     result = self.show(note=note, **kwargs)
-                    if result in quit:
-                        # Prevent issue with nested menus.
-                        result = None
                 except EOFError:
                     pass
             return result
@@ -349,7 +346,8 @@ def show_menu(entries, **kwargs):
       - compact (bool) - If true, the menu items will not be displayed
         [default: False].
       - returns (str) - Controls what part of the MenuEntry is returned,
-        'func' returns function result [default: name].
+        'func' returns function result, 'none' returns None (useful for nested
+        menus to avoid quitting out of calling menu) [default: name].
       - limit (int) - If set, limits the number of menu entries show at a time
         [default: None].
       - fzf (bool) - If true, can enter FCHR at the menu prompt to search menu.
@@ -409,6 +407,8 @@ def show_menu(entries, **kwargs):
         fresult = run_func(entry)
         if "func" == returns:
             return fresult
+    if "none" == returns:
+        return None
     try:
         return getattr(entry, returns)
     except:
@@ -729,11 +729,4 @@ def _guess_desc(fname):
 ##==============================================================#
 
 if __name__ == '__main__':
-    show_main()
-    # m1 = Menu()
-    # m1.add("s", "Option A")
-    # m1.add("b", "Option B")
-    #
-    # m2 = Menu()
-    # m2.add("s", "Sub", m1.main, [], {'loop': False})
-    # m2.main(loop=True, returns="func")
+    pass
