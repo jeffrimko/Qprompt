@@ -11,6 +11,7 @@
 
 .. image:: http://img.shields.io/:license-mit-blue.svg
 .. image:: https://travis-ci.org/jeffrimko/Qprompt.svg?branch=master
+.. image:: https://readthedocs.org/projects/qprompt/badge/?version=latest
 
 ------------
 
