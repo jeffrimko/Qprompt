@@ -6,7 +6,7 @@ print(readme)
 
 setup(
     name = "qprompt",
-    version = "0.16.2",
+    version = "0.16.3",
     author = "Jeff Rimko",
     author_email = "jeffrimko@gmail.com",
     description = "Library for quick CLI user prompts, input, and menus.",

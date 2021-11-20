@@ -1,5 +1,12 @@
 = Qprompt Changelog
 
+== qprompt-0.16.3 (2021-11-19)
+=== Changed
+  - Changed `Menu.main()` menu behavior to not return quit result as this can cause issues with nested menus.
+
+=== Removed
+  - Removed `returns=none` option to `show_menu()` as it may cause confusion if used with looping menus.
+
 == qprompt-0.16.2 (2021-11-19)
 === Added
   - Added `returns=none` option to `show_menu()`.

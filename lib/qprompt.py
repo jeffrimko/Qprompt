@@ -59,7 +59,7 @@ def _format_kwargs(func):
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.16.2"
+__version__ = "0.16.3"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -195,6 +195,8 @@ class Menu:
                 note = "Menu does not loop, single entry."
                 try:
                     result = self.show(note=note, **kwargs)
+                    if result in quit:
+                        return None
                 except EOFError:
                     pass
             return result
@@ -337,13 +339,12 @@ def show_menu(entries, **kwargs):
       - note (str) - String to show as a note below menu.
       - msg (str) - String to show below menu.
       - dft (str) - Default value if input is left blank.
-      - compact (bool) - If true, the menu items will not be displayed
-        [default: False].
+      - compact (bool) - If true, the menu items will not be displayed.
+        [default: False]
       - returns (str) - Controls what part of the MenuEntry is returned,
-        'func' returns function result, 'none' returns None (useful for nested
-        menus to avoid quitting out of calling menu) [default: name].
-      - limit (int) - If set, limits the number of menu entries show at a time
-        [default: None].
+        'func' returns function result. [default: name]
+      - limit (int) - If set, limits the number of menu entries show at a time.
+        [default: None]
       - fzf (bool) - If true, can enter FCHR at the menu prompt to search menu.
     """
     global _AUTO
@@ -401,8 +402,6 @@ def show_menu(entries, **kwargs):
         fresult = run_func(entry)
         if "func" == returns:
             return fresult
-    if "none" == returns:
-        return None
     try:
         return getattr(entry, returns)
     except:
