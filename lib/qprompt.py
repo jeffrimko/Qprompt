@@ -59,7 +59,7 @@ def _format_kwargs(func):
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.16.3"
+__version__ = "0.16.4-alpha.1"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -172,11 +172,11 @@ class Menu:
           - loop (bool) - If true, the menu will loop until quit.
           - quit ((str,str)) - If provided, adds a quit option to the menu.
         """
+        submenu = kwargs.get('submenu', False)
         def _main():
             global _AUTO
-            if quit:
-                if self.entries[-1][:2] != quit:
-                    self.add(*quit, func=lambda: quit[0])
+            if quit and self.entries[-1][:2] != quit:
+                self.add(*quit, func=lambda: quit[0])
             if stdin_auto.auto:
                 _AUTO = True
             result = None
@@ -190,15 +190,19 @@ class Menu:
                         result = mresult
                 except EOFError:
                     pass
+                if submenu:
+                    hrule()
                 return result
             else:
                 note = "Menu does not loop, single entry."
                 try:
                     result = self.show(note=note, **kwargs)
-                    if result in quit:
+                    if submenu and result in quit:
                         return None
                 except EOFError:
                     pass
+            if submenu:
+                hrule()
             return result
         global _AUTO
         if _AUTO:
@@ -346,6 +350,7 @@ def show_menu(entries, **kwargs):
       - limit (int) - If set, limits the number of menu entries show at a time.
         [default: None]
       - fzf (bool) - If true, can enter FCHR at the menu prompt to search menu.
+      - submenu (bool) - If true, changes 'MENU' header to 'SUBMENU'.
     """
     global _AUTO
     hdr = kwargs.get('hdr', "")
@@ -355,12 +360,16 @@ def show_menu(entries, **kwargs):
     compact = kwargs.get('compact', False)
     returns = kwargs.get('returns', "name")
     limit = kwargs.get('limit', None)
+    submenu = kwargs.get('submenu', False)
     dft = kwargs.get('dft', None)
     msg = []
     if limit:
         return show_limit(entries, **kwargs)
     def show_banner():
-        banner = "-- MENU"
+        if submenu:
+            hrule()
+        banner = "-- "
+        banner += "MENU" if not submenu else "SUBMENU"
         if hdr:
             banner += ": " + hdr
         banner += " --"

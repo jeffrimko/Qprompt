@@ -34,11 +34,11 @@ def run_tests():
 
 @menu
 def package_menu():
-    Menu(install_package_locally, upload_to_pypi).main(header="Package")
+    Menu(install_package_locally, upload_to_pypi).main(header="Package", submenu=True)
 
 @menu
 def docs_menu():
-    Menu(readme_excerpt, all_docs, open_docs).main(header="Docs")
+    Menu(readme_excerpt, all_docs, open_docs).main(header="Docs", submenu=True)
 
 @menu
 def browse_menu():
@@ -46,7 +46,7 @@ def browse_menu():
     def pypi(): auxly.open("https://pypi.org/project/qprompt/")
     def docs(): auxly.open("https://qprompt.readthedocs.io/")
     def travis(): auxly.open("https://travis-ci.org/jeffrimko/Qprompt")
-    Menu(github, pypi, docs, travis).main(header="Browse")
+    Menu(github, pypi, docs, travis).main(header="Browse", submenu=True)
 
 def install_package_locally():
     with fsys.Cwd("lib", __file__):
