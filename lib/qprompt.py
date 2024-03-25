@@ -325,10 +325,10 @@ def show_limit(entries, **kwargs):
             else:
                 tmpdft = dft
         result = show_menu(group, dft=tmpdft, **kwargs)
-        if result == nnext or result == dnext:
+        if result in [nnext, dnext]:
             istart += limit
             iend += limit
-        elif result == nprev or result == dprev:
+        elif result in [nprev, dprev]:
             istart -= limit
             iend -= limit
         else:
@@ -718,7 +718,7 @@ def _guess_name(desc, taken=None):
     # If name is still taken, add a number postfix.
     count = 2
     while name in taken:
-        name = name + str(count)
+        name += str(count)
         count += 1
     return name
 
@@ -730,5 +730,4 @@ def _guess_desc(fname):
 ## SECTION: Main Body                                           #
 ##==============================================================#
 
-if __name__ == '__main__':
-    pass
+pass
