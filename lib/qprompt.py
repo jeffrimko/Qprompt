@@ -175,7 +175,10 @@ class Menu:
         submenu = kwargs.get('submenu', False)
         def _main():
             global _AUTO
-            if quit and self.entries[-1][:2] != quit:
+            has_no_quit_entry = len(self.entries) > 0 and self.entries[-1][:2] != quit
+            has_no_entries = len(self.entries) == 0
+            should_add_quit = quit and (has_no_quit_entry or has_no_entries)
+            if should_add_quit:
                 self.add(*quit, func=lambda: quit[0])
             if stdin_auto.auto:
                 _AUTO = True
