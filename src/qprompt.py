@@ -184,6 +184,8 @@ class Menu:
                 _AUTO = True
             result = None
             if loop:
+                # TODO: using note like this will throw error if user tries to
+                # add a different note, can we fix?
                 note = "Menu loops until quit."
                 try:
                     while True:
@@ -358,7 +360,6 @@ def show_menu(entries, **kwargs):
     global _AUTO
     hdr = kwargs.get('hdr', "")
     note = kwargs.get('note', "")
-    dft = kwargs.get('dft', "")
     fzf = kwargs.pop('fzf', True)
     compact = kwargs.get('compact', False)
     returns = kwargs.get('returns', "name")
@@ -732,6 +733,8 @@ def _guess_desc(fname):
 ##==============================================================#
 ## SECTION: Main Body                                           #
 ##==============================================================#
+
+# TODO: for menu.add(1, "something") is the 1 being cast as a string?
 
 if __name__ == '__main__':
     pass

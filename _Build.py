@@ -3,7 +3,6 @@
 ##==============================================================#
 
 import os.path as op
-from xml.etree import ElementTree
 
 import auxly
 import auxly.filesys as fsys
@@ -17,8 +16,9 @@ from qprompt import Menu
 
 @menu
 def cleanup():
-    with fsys.Cwd("lib"):
-        shell.call("_Cleanup.bat")
+    with fsys.Cwd(".", __file__):
+        for path in ["dist", "build", "src/qprompt.egg-info", "src/__pycache__"]:
+            fsys.delete(path)
     with fsys.Cwd("doc"):
         shell.call("make clean")
 
@@ -34,7 +34,7 @@ def run_tests():
 
 @menu
 def package_menu():
-    Menu(install_package_locally, upload_to_pypi).main(header="Package", submenu=True)
+    Menu(install_package_locally, build_package).main(header="Package", submenu=True)
 
 @menu
 def docs_menu():
@@ -45,34 +45,31 @@ def browse_menu():
     def github(): auxly.open("https://github.com/jeffrimko/qprompt")
     def pypi(): auxly.open("https://pypi.org/project/qprompt/")
     def docs(): auxly.open("https://qprompt.readthedocs.io/")
-    def travis(): auxly.open("https://travis-ci.org/jeffrimko/Qprompt")
-    Menu(github, pypi, docs, travis).main(header="Browse", submenu=True)
+    def actions(): auxly.open("https://github.com/jeffrimko/Qprompt/actions")
+    Menu(github, pypi, docs, actions).main(header="Browse", submenu=True)
 
 def install_package_locally():
-    with fsys.Cwd("lib", __file__):
-        shell.call("_Install_Package.py")
+    with fsys.Cwd(".", __file__):
+        shell.call("pip install -e .")
 
-def upload_to_pypi():
-    with fsys.Cwd("lib", __file__):
-        shell.call("_Upload_PyPI.py")
+def build_package():
+    # NOTE: Publishing to PyPI is handled by GitHub Actions trusted
+    # publishing; publish a GitHub release to trigger it. This builds
+    # the sdist/wheel locally for inspection only.
+    with fsys.Cwd(".", __file__):
+        shell.call("python -m build")
 
 def readme_excerpt():
-    tempxml1 = fsys.File("temp1.xml", del_at_exit=True)
-    shell.call(f"asciidoctor -b docbook -o {tempxml1} README.adoc")
-    e = ElementTree.parse(str(tempxml1)).getroot()
-    ns = {'db': 'http://docbook.org/ns/docbook', 'xml': 'http://www.w3.org/XML/1998/namespace'}
-    rst = ""
-    tempxml2 = fsys.File("tempxml2.xml", del_at_exit=True)
-    for sect in ["_introduction", "_status", "_requirements", "_installation"]:
-        elem = e.find(f".//db:section[@xml:id='{sect}']", ns)
-        # NOTE: Removing the id attribute prevents "WARNING: malformed
-        # hyperlink target" when building Sphinx docs.
-        elem.attrib.pop("{http://www.w3.org/XML/1998/namespace}id")
-        xml = ElementTree.tostring(elem).decode("utf-8")
-        tempxml2.write(xml)
-        rst += shell.strout(f"pandoc -r docbook -w rst --base-header-level=2 {tempxml2}")
-        rst += "\n\n"
-    fsys.File(r"doc\source\readme_excerpt.rst").write(rst)
+    """Generates doc/source/readme_excerpt.rst from the README sections up to
+    (but not including) the Documentation section."""
+    readme = fsys.File("README.md").read()
+    start = readme.index("## Introduction")
+    end = readme.index("## Documentation")
+    excerpt = readme[start:end]
+    tempmd = fsys.File("temp_readme_excerpt.md", del_at_exit=True)
+    tempmd.write(excerpt)
+    rst = shell.strout(f"pandoc -r markdown -w rst --shift-heading-level-by=1 {tempmd}")
+    fsys.File(r"doc\source\readme_excerpt.rst").write(rst + "\n")
     print("Readme excerpt generated.")
 
 def all_docs():
@@ -83,7 +80,7 @@ def all_docs():
 def open_docs():
     index = r"doc\build\html\index.html"
     if not op.isfile(index):
-        docs()
+        all_docs()
     auxly.open(index)
 
 ##==============================================================#

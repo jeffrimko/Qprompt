@@ -1,0 +1,44 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "qprompt"
+dynamic = ["version"]
+description = "Library for quick CLI user prompts, input, and menus."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.8"
+authors = [
+    { name = "Jeff Rimko", email = "jeffrimko@gmail.com" },
+]
+keywords = ["cli", "menu", "prompt", "input", "user", "library"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Topic :: Utilities",
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "iterfzf",
+]
+
+[project.urls]
+Homepage = "https://github.com/jeffrimko/Qprompt"
+Documentation = "https://qprompt.readthedocs.io"
+Changelog = "https://github.com/jeffrimko/Qprompt/blob/master/CHANGELOG.adoc"
+
+[tool.hatch.version]
+path = "src/qprompt.py"
+
+[tool.hatch.build.targets.wheel]
+only-include = ["src/qprompt.py"]
+sources = ["src"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "src/qprompt.py",
+    "README.md",
+    "LICENSE",
+]
