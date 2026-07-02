@@ -21,7 +21,7 @@ def run_tests():
     fail = []
     okay = []
     for i in os.listdir("."):
-        if i.find("_test_") > -1 and i.endswith(".py"):
+        if i.endswith("_test.py"):
             if 0 != subprocess.call("python " + i, shell=True):
                 fail.append(i)
             else:

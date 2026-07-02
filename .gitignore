@@ -6,3 +6,7 @@
 build/
 dist/
 qprompt.egg-info/
+tags
+tags.temp
+/.idea
+/.vscode

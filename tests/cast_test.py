@@ -1,4 +1,4 @@
-"""Tests menu 'result' option return."""
+"""Tests the cast() function."""
 
 ##==============================================================#
 ## SECTION: Imports                                             #
@@ -6,34 +6,28 @@
 
 from testlib import *
 
-from qprompt import Menu
+from qprompt import cast
 
 ##==============================================================#
 ## SECTION: Class Definitions                                   #
 ##==============================================================#
 
-class TestCase(unittest.TestCase):
+class CastTest(unittest.TestCase):
+    """Tests casting values to a target type."""
 
-    def setUp(self):
-        menu = Menu(returns="func")
-        menu.add("a", "Add", lambda x,y: x+y, [1,2])
-        menu.add("s", "Sub", lambda x,y: x-y, [1,2])
-        self.menu = menu
+    def _check(self, value, totype, expected):
+        result = cast(value, totype)
+        self.assertEqual(totype, type(result))
+        self.assertEqual(expected, result)
 
-    def test_menu_1(self):
-        setinput("a")
-        result = self.menu.show()
-        self.assertEqual(3, result)
+    def test_int_cast_to_str(self):
+        self._check(123, str, "123")
 
-    def test_menu_2(self):
-        setinput("s")
-        result = self.menu.show()
-        self.assertEqual(-1, result)
+    def test_float_cast_to_float_unchanged(self):
+        self._check(1.23, float, 1.23)
 
-    def test_menu_3(self):
-        setinput("s")
-        result = self.menu.show(returns="name")
-        self.assertEqual("s", result)
+    def test_str_cast_to_int(self):
+        self._check("123", int, 123)
 
 ##==============================================================#
 ## SECTION: Main Body                                           #

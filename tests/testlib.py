@@ -37,6 +37,16 @@ setinput = lambda x: [
 ## SECTION: Function Definitions                                #
 ##==============================================================#
 
+def show_with_input(keys, menu, **kwargs):
+    """Set stdin to the given keys then show the menu; return the result."""
+    setinput(keys)
+    return menu.show(**kwargs)
+
+def ask_with_input(keys, askfunc, **kwargs):
+    """Set stdin to the given keys then call the ask function; return the result."""
+    setinput(keys)
+    return askfunc(**kwargs)
+
 def rmfile(fname):
     """Delete a file if it exists."""
     if op.isfile(fname):
