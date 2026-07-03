@@ -19,7 +19,7 @@ This is the main documentation for Qprompt, a Python library for quickly creatin
 
 For more information:
 
-  - **Readme** - https://github.com/jeffrimko/Qprompt/blob/master/README.adoc - Main readme file.
+  - **Readme** - https://github.com/jeffrimko/Qprompt/blob/master/README.md - Main readme file.
   - **GitHub** - https://github.com/jeffrimko/Qprompt - Main version control repository.
   - **PyPI** - https://pypi.python.org/pypi/qprompt - Package index page.
 
