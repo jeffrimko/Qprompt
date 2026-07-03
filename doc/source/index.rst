@@ -10,7 +10,8 @@
 ------------
 
 .. image:: http://img.shields.io/:license-mit-blue.svg
-.. image:: https://travis-ci.org/jeffrimko/Qprompt.svg?branch=master
+.. image:: https://github.com/jeffrimko/Qprompt/actions/workflows/tests.yml/badge.svg
+   :target: https://github.com/jeffrimko/Qprompt/actions/workflows/tests.yml
 .. image:: https://readthedocs.org/projects/qprompt/badge/?version=latest
 
 ------------
