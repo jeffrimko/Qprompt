@@ -1,8 +1,4 @@
 ::=============================================================::
-:: DEVELOPED 2015, REVISED 2017, Jeff Rimko.                   ::
-::=============================================================::
-
-::=============================================================::
 :: SECTION: Environment Setup                                  ::
 ::=============================================================::
 
@@ -17,7 +13,7 @@ call:ChkDep^
     "Python"^
     "Python language interpreter."^
     "www.python.org"^
-    "2.7/3.x"^
+    "3.8+"^
     python -V
 
 call:ChkDep^
@@ -26,6 +22,13 @@ call:ChkDep^
     "github.com/jeffrimko/Verace"^
     "latest"^
     python -c "import verace"
+
+call:ChkDep^
+    "iterfzf"^
+    "Python library for interfacing to fzf."^
+    "github.com/dahlia/iterfzf"^
+    "latest"^
+    python -c "import iterfzf"
 
 pause
 exit /b 0
