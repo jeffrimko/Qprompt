@@ -1,3 +1,5 @@
+# NOTE: Test fixture for script_test.py.
+
 from testlib import *
 import qprompt
 from script_loop import *

@@ -6,6 +6,10 @@
 
 from testlib import *
 
+import contextlib
+from unittest import mock
+
+import qprompt
 from qprompt import Menu, MenuEntry, enum_menu, show_menu
 
 ##==============================================================#
@@ -36,6 +40,15 @@ class MenuShowTest(unittest.TestCase):
     def test_show_returns_desc_when_requested(self):
         self.assertEqual("foo", show_with_input("1", self.menu, returns="desc"))
         self.assertEqual("bar", show_with_input("2", self.menu, returns="desc"))
+
+    def test_int_name_is_cast_to_string(self):
+        """Entry names given as ints must be stored as strings, otherwise
+        they can never match user input (which is always a string)."""
+        menu = Menu()
+        menu.add(1, "foo")
+        self.assertEqual("1", menu.entries[0].name)
+        self.assertEqual("1", show_with_input("1", menu))
+        self.assertEqual("foo", show_with_input("1", menu, returns="desc"))
 
     def test_separate_menus_do_not_share_entries(self):
         """Check for regression of fix from `0.4.1`."""
@@ -119,6 +132,96 @@ class MenuLimitTest(unittest.TestCase):
         result = show_with_input("n\np\n1", self.menu, limit=3, returns="desc")
         self.assertEqual("foo", result)
 
+    def test_next_page_works_when_entry_named_n_exists(self):
+        """The pagination entry falls back to "N" when a real entry is
+        named "n"."""
+        menu = Menu()
+        for name, desc in [("n", "north"), ("s", "south"), ("e", "east"),
+                ("w", "west"), ("x", "extra")]:
+            menu.add(name, desc)
+        result = show_with_input("N\nw\n", menu, limit=3, returns="desc")
+        self.assertEqual("west", result)
+
+    def test_next_page_works_with_returns_func(self):
+        """Check for regression: selecting the next-page entry returned None
+        instead of paging when returns="func" was used."""
+        menu = Menu()
+        for idx, item in enumerate(ITEMS):
+            menu.add(str(idx + 1), item, lambda v=item: v.upper())
+        result = show_with_input("n\n4\n", menu, limit=3, returns="func")
+        self.assertEqual("QUX", result)
+
+class MenuLimitDefaultTest(unittest.TestCase):
+    """Tests default entry handling with paginated menus."""
+
+    def test_empty_input_pages_toward_offpage_default(self):
+        """When the default entry is not on the current page, blank input
+        advances to the next page until the default is reachable."""
+        menu = enum_menu(ITEMS)
+        result = show_with_input("\n\n", menu, limit=3, dft=4, returns="desc")
+        self.assertEqual("qux", result)
+
+    def test_offpage_default_not_confused_with_entry_named_n(self):
+        """Check for regression: blank input selected a real entry named "n"
+        instead of paging toward the off-page default."""
+        menu = Menu()
+        for name, desc in [("n", "north"), ("2", "two"), ("3", "three"),
+                ("4", "four"), ("5", "five")]:
+            menu.add(name, desc)
+        result = show_with_input("\n\n", menu, limit=3, dft="5", returns="desc")
+        self.assertEqual("five", result)
+
+class MenuFzfTest(unittest.TestCase):
+    """Tests fzf search ("/") behavior, including with paginated menus."""
+
+    def setUp(self):
+        self.menu = enum_menu(ITEMS)
+
+    def show_with_fzf(self, menu, retval, **kwargs):
+        """Runs menu.show() with "/" input and a mocked iterfzf that returns
+        retval; returns (result, list of lines passed to fzf)."""
+        seen = []
+        def fake_iterfzf(iterable):
+            seen.extend(iterable)
+            return retval
+        module = mock.MagicMock()
+        module.iterfzf = fake_iterfzf
+        with mock.patch.dict(sys.modules, {"iterfzf": module}):
+            result = show_with_input("/", menu, **kwargs)
+        return result, seen
+
+    def test_fzf_lists_all_entries(self):
+        result, seen = self.show_with_fzf(self.menu, "1\tfoo")
+        self.assertEqual("1", result)
+        self.assertEqual(len(ITEMS), len(seen))
+
+    def test_fzf_with_limit_lists_all_entries(self):
+        """With pagination, fzf must list every entry, not just the current
+        page, and must not include the synthetic next/prev entries."""
+        result, seen = self.show_with_fzf(self.menu, "1\tfoo", limit=3)
+        self.assertEqual(len(ITEMS), len(seen))
+        names = [line.split("\t", 1)[0] for line in seen]
+        self.assertEqual(sorted(names), [str(i + 1) for i in range(len(ITEMS))])
+
+    def test_fzf_with_limit_selects_entry_beyond_current_page(self):
+        result, seen = self.show_with_fzf(self.menu, "4\tqux",
+                limit=3, returns="desc")
+        self.assertEqual("qux", result)
+
+    def test_fzf_option_false_disables_search_with_limit(self):
+        """Check for regression: fzf=False was ignored when limit was set,
+        so "/" still triggered a search."""
+        seen = []
+        def fake_iterfzf(iterable):
+            seen.extend(iterable)
+            return "1\tfoo"
+        module = mock.MagicMock()
+        module.iterfzf = fake_iterfzf
+        with mock.patch.dict(sys.modules, {"iterfzf": module}):
+            result = show_with_input("/\n2\n", self.menu, limit=3, fzf=False)
+        self.assertEqual("2", result)
+        self.assertEqual([], seen)
+
 class MenuDefaultTest(unittest.TestCase):
     """Tests the default entry options of Menu.show()."""
 
@@ -197,8 +300,48 @@ class MenuFunctionEntriesTest(unittest.TestCase):
 
     def test_main_loop_runs_selections_until_eof(self):
         setinput("i\ni\nd\ni\n")
-        self.menu.main(loop=True)
+        # NOTE: Menu.main() takes input from argv via stdin_auto; clear it so
+        # this test is not affected by the arguments of the test runner.
+        with mock.patch.object(qprompt.stdin_auto, "auto", []):
+            self.menu.main(loop=True)
         self.assertEqual(2, TOTAL)
+
+class MenuRunTest(unittest.TestCase):
+    """Tests the Menu.run() method."""
+
+    def setUp(self):
+        global TOTAL
+        TOTAL = 0
+        self.menu = Menu(inc, dec)
+
+    def test_run_calls_entry_function_by_name(self):
+        self.menu.run("i")
+        self.assertEqual(1, TOTAL)
+        self.menu.run("d")
+        self.assertEqual(0, TOTAL)
+
+    def test_run_with_unknown_name_does_nothing(self):
+        self.menu.run("x")
+        self.assertEqual(0, TOTAL)
+
+class GuessNameTest(unittest.TestCase):
+    """Tests entry name/desc guessing for menus built from functions."""
+
+    def test_names_and_descs_guessed_from_function_names(self):
+        menu = Menu(inc, dec)
+        self.assertEqual(["i", "d"], [e.name for e in menu.entries])
+        self.assertEqual(["Inc", "Dec"], [e.desc for e in menu.entries])
+
+    def test_colliding_names_get_number_postfix(self):
+        def foo(): pass
+        def faz(): pass
+        menu = Menu(foo, faz)
+        self.assertEqual(["f", "f2"], [e.name for e in menu.entries])
+
+    def test_desc_guessed_from_underscored_name(self):
+        def do_thing(): pass
+        menu = Menu(do_thing)
+        self.assertEqual("Do Thing", menu.entries[0].desc)
 
 class MenuGetTest(unittest.TestCase):
     """Tests the Menu.get() entry lookup method."""
@@ -218,6 +361,58 @@ class MenuGetTest(unittest.TestCase):
         self.assertEqual(None, self.menu.get("4"))
         self.assertEqual(None, self.menu.get(""))
         self.assertEqual(None, self.menu.get(None))
+
+class MenuMainNoteTest(unittest.TestCase):
+    """Tests note handling in Menu.main(). A user-supplied note previously
+    raised `TypeError: got multiple values for keyword argument 'note'`."""
+
+    LOOP_NOTE = "Menu loops until quit."
+    NOLOOP_NOTE = "Menu does not loop, single entry."
+
+    def run_main(self, menu, keys, **kwargs):
+        """Runs Menu.main() with the given stdin keys; returns stdout."""
+        setinput(keys)
+        out = StringIO()
+        # NOTE: Menu.main() takes input from argv via stdin_auto; clear it so
+        # these tests are not affected by the arguments of the test runner.
+        # Notes are only displayed when _AUTO is false.
+        with mock.patch.object(qprompt.stdin_auto, "auto", []), \
+                mock.patch.object(qprompt, "_AUTO", False), \
+                contextlib.redirect_stdout(out):
+            menu.main(**kwargs)
+        return out.getvalue()
+
+    def test_default_note_shown_when_looping(self):
+        output = self.run_main(Menu(("1", "foo")), "q", loop=True)
+        self.assertIn("[!] " + self.LOOP_NOTE, output)
+
+    def test_default_note_shown_when_not_looping(self):
+        output = self.run_main(Menu(("1", "foo")), "q", loop=False)
+        self.assertIn("[!] " + self.NOLOOP_NOTE, output)
+
+    def test_main_note_overrides_default_when_looping(self):
+        output = self.run_main(Menu(("1", "foo")), "q",
+                loop=True, note="My note")
+        self.assertIn("[!] My note", output)
+        self.assertNotIn(self.LOOP_NOTE, output)
+
+    def test_main_note_overrides_default_when_not_looping(self):
+        output = self.run_main(Menu(("1", "foo")), "q",
+                loop=False, note="My note")
+        self.assertIn("[!] My note", output)
+        self.assertNotIn(self.NOLOOP_NOTE, output)
+
+    def test_constructor_note_overrides_default(self):
+        output = self.run_main(Menu(("1", "foo"), note="Ctor note"), "q",
+                loop=True)
+        self.assertIn("[!] Ctor note", output)
+        self.assertNotIn(self.LOOP_NOTE, output)
+
+    def test_main_note_overrides_constructor_note(self):
+        output = self.run_main(Menu(("1", "foo"), note="Ctor note"), "q",
+                loop=True, note="Main note")
+        self.assertIn("[!] Main note", output)
+        self.assertNotIn("Ctor note", output)
 
 class MenuConsoleMainTest(unittest.TestCase):
     """Tests Menu.main() run from the console with entry names as arguments."""

@@ -27,9 +27,9 @@ def run_tests():
             else:
                 okay.append(i)
     if fail:
-        print("[ERROR] The following %u tests failed: %r" % (len(fail), fail))
+        print("[ERROR] The following %u test files failed: %r" % (len(fail), fail))
         return False
-    print("[DONE] All %u tests completely successfully!" % (len(okay)))
+    print("[DONE] All %u test files completely successfully!" % (len(okay)))
     return True
 
 ##==============================================================#

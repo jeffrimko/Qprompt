@@ -17,18 +17,25 @@ call:ChkDep^
     python -V
 
 call:ChkDep^
+    "iterfzf"^
+    "Python library for interfacing to fzf."^
+    "www.github.com/dahlia/iterfzf"^
+    "latest"^
+    python -c "import iterfzf"
+
+call:ChkDep^
     "Verace"^
     "Python library for checking string consistency between files."^
-    "github.com/jeffrimko/Verace"^
+    "www.github.com/jeffrimko/Verace"^
     "latest"^
     python -c "import verace"
 
 call:ChkDep^
-    "iterfzf"^
-    "Python library for interfacing to fzf."^
-    "github.com/dahlia/iterfzf"^
+    "Sphinx"^
+    "Python documentation generator."^
+    "www.sphinx-doc.org/en/master/"^
     "latest"^
-    python -c "import iterfzf"
+    python -c "import sphinx"
 
 pause
 exit /b 0

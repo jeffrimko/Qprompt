@@ -29,6 +29,12 @@ class CastTest(unittest.TestCase):
     def test_str_cast_to_int(self):
         self._check("123", int, 123)
 
+    def test_failed_cast_returns_none(self):
+        self.assertIsNone(cast("abc", int))
+        self.assertIsNone(cast("1.5", int))
+        self.assertIsNone(cast(None, int))
+        self.assertIsNone(cast("abc", float))
+
 ##==============================================================#
 ## SECTION: Main Body                                           #
 ##==============================================================#

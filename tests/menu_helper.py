@@ -1,3 +1,7 @@
+"""Test fixture for menu_test.py (MenuConsoleMainTest); not a test itself.
+Runs a file generate/delete menu via Menu.main(loop=True) when executed as a
+script."""
+
 ##==============================================================#
 ## SECTION: Imports                                             #
 ##==============================================================#

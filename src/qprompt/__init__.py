@@ -59,7 +59,7 @@ def _format_kwargs(func):
 ##==============================================================#
 
 #: Library version string.
-__version__ = "0.16.4-alpha.1"
+__version__ = "0.16.4-alpha.2"
 
 #: A menu entry that can call a function when selected.
 MenuEntry = namedtuple("MenuEntry", "name desc func args krgs")
@@ -139,8 +139,9 @@ class Menu:
             self.add(*entry)
         self._show_kwargs = kwargs
     def add(self, name, desc, func=None, args=None, krgs=None):
-        """Add a menu entry."""
-        self.entries.append(MenuEntry(name, desc, func, args or [], krgs or {}))
+        """Add a menu entry. The `name` is cast to a string since user input
+        is always read as a string."""
+        self.entries.append(MenuEntry(str(name), desc, func, args or [], krgs or {}))
     def enum(self, desc, func=None, args=None, krgs=None):
         """Add a menu entry whose name will be an auto indexed number."""
         name = str(len(self.entries)+1)
@@ -158,7 +159,7 @@ class Menu:
                 return entry
     def run(self, name):
         """Runs the function associated with the given entry `name`."""
-        entry = get_entry(name)
+        entry = self.get(name)
         if entry:
             run_func(entry)
     def main(self, auto=None, loop=False, quit=("q", "Quit"), **kwargs):
@@ -183,13 +184,16 @@ class Menu:
             if stdin_auto.auto:
                 _AUTO = True
             result = None
+            def _default_note(note):
+                """Use the given note only if the user did not supply their
+                own via `main()` kwargs or the `Menu` constructor."""
+                if "note" not in kwargs and "note" not in self._show_kwargs:
+                    kwargs["note"] = note
             if loop:
-                # TODO: using note like this will throw error if user tries to
-                # add a different note, can we fix?
-                note = "Menu loops until quit."
+                _default_note("Menu loops until quit.")
                 try:
                     while True:
-                        mresult = self.show(note=note, **kwargs)
+                        mresult = self.show(**kwargs)
                         if mresult in quit:
                             break
                         result = mresult
@@ -199,9 +203,9 @@ class Menu:
                     hrule()
                 return result
             else:
-                note = "Menu does not loop, single entry."
+                _default_note("Menu does not loop, single entry.")
                 try:
-                    result = self.show(note=note, **kwargs)
+                    result = self.show(**kwargs)
                     if submenu and result in quit:
                         return None
                 except EOFError:
@@ -311,25 +315,27 @@ def show_limit(entries, **kwargs):
                 if i not in names:
                     nnext = i
                     dnext = "Next %u of %u entries" % (unext, len(entries))
-                    group.append(MenuEntry(nnext, dnext, None, None, None))
-                    names.append("n")
+                    # NOTE: The entry function returns the entry name so that
+                    # paging works even when `returns="func"` is used.
+                    group.append(MenuEntry(nnext, dnext, lambda v=nnext: v, [], {}))
+                    names.append(nnext)
                     break
         if uprev > 0:
             for i in ["p", "P", "prev", "PREV", "<-", "<<", "<<<"]:
                 if i not in names:
                     nprev = i
                     dprev = "Previous %u of %u entries" % (uprev, len(entries))
-                    group.append(MenuEntry(nprev, dprev, None, None, None))
-                    names.append("p")
+                    group.append(MenuEntry(nprev, dprev, lambda v=nprev: v, [], {}))
+                    names.append(nprev)
                     break
         tmpdft = None
         if dft != None:
             if dft not in names:
-                if "n" in names:
-                    tmpdft = "n"
+                if nnext:
+                    tmpdft = nnext
             else:
                 tmpdft = dft
-        result = show_menu(group, dft=tmpdft, **kwargs)
+        result = show_menu(group, dft=tmpdft, fzf_entries=entries, **kwargs)
         if result == nnext or result == dnext:
             istart += limit
             iend += limit
@@ -361,6 +367,7 @@ def show_menu(entries, **kwargs):
     hdr = kwargs.get('hdr', "")
     note = kwargs.get('note', "")
     fzf = kwargs.pop('fzf', True)
+    fzf_entries = kwargs.pop('fzf_entries', None) or entries
     compact = kwargs.get('compact', False)
     returns = kwargs.get('returns', "name")
     limit = kwargs.get('limit', None)
@@ -368,7 +375,7 @@ def show_menu(entries, **kwargs):
     dft = kwargs.get('dft', None)
     msg = []
     if limit:
-        return show_limit(entries, **kwargs)
+        return show_limit(entries, fzf=fzf, **kwargs)
     def show_banner():
         if submenu:
             hrule()
@@ -398,17 +405,17 @@ def show_menu(entries, **kwargs):
     msg.append(QSTR + kwargs.get('msg', "Enter menu selection"))
     msg = os.linesep.join(msg)
     entry = None
-    while entry not in entries:
+    while entry not in entries and entry not in fzf_entries:
         choice = ask(msg, vld=valid, dft=dft, qstr=False)
         if _AUTO and choice == "-d":
             choice = dft
         if choice == FCHR and fzf:
             try:
                 from iterfzf import iterfzf
-                choice = iterfzf(reversed(["%s\t%s" % (i.name, i.desc) for i in entries])).strip("\0").split("\t", 1)[0]
+                choice = iterfzf(reversed(["%s\t%s" % (i.name, i.desc) for i in fzf_entries])).strip("\0").split("\t", 1)[0]
             except:
                 warn("Issue encountered during fzf search.")
-        match = [i for i in entries if i.name == choice]
+        match = [i for i in entries if i.name == choice] or [i for i in fzf_entries if i.name == choice]
         if match:
             entry = match[0]
     if entry.func:
@@ -471,7 +478,7 @@ def ask(msg="Enter input", fmt=None, dft=None, vld=None, shw=True, blk=False, hl
     global _AUTO
     def print_help():
         lst = [v for v in vld if not callable(v)]
-        if blk:
+        if blk and "" in lst:
             lst.remove("")
         for v in vld:
             if not callable(v):
@@ -523,7 +530,7 @@ def ask(msg="Enter input", fmt=None, dft=None, vld=None, shw=True, blk=False, hl
             continue
         if "" == ans:
             if dft != None:
-                ans = dft if not fmt else fmt(dft)
+                ans = dft  # NOTE: Do not format again; `dft` was formatted above.
                 break
             if "" not in vld:
                 ans = None
@@ -733,8 +740,6 @@ def _guess_desc(fname):
 ##==============================================================#
 ## SECTION: Main Body                                           #
 ##==============================================================#
-
-# TODO: for menu.add(1, "something") is the 1 being cast as a string?
 
 if __name__ == '__main__':
     pass

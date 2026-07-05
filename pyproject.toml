@@ -30,15 +30,20 @@ Documentation = "https://qprompt.readthedocs.io"
 Changelog = "https://github.com/jeffrimko/Qprompt/blob/master/CHANGELOG.adoc"
 
 [tool.hatch.version]
-path = "src/qprompt.py"
+path = "src/qprompt/__init__.py"
 
 [tool.hatch.build.targets.wheel]
-only-include = ["src/qprompt.py"]
-sources = ["src"]
+packages = ["src/qprompt"]
 
 [tool.hatch.build.targets.sdist]
 include = [
-    "src/qprompt.py",
+    "src/qprompt",
     "README.md",
     "LICENSE",
 ]
+
+[tool.mypy]
+
+[[tool.mypy.overrides]]
+module = "iterfzf"
+ignore_missing_imports = true

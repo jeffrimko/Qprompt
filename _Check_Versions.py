@@ -9,7 +9,7 @@ import verace
 ##==============================================================#
 
 VERCHK = verace.VerChecker("Qprompt", __file__)
-VERCHK.include(r"src\qprompt.py", match="__version__ = ", splits=[('"',1)])
+VERCHK.include(r"src\qprompt\__init__.py", match="__version__ = ", splits=[('"',1)])
 VERCHK.include(r"doc\source\conf.py", match="version = ", splits=[("'",1)])
 VERCHK.include(r"doc\source\conf.py", match="release = ", splits=[("'",1)])
 VERCHK.include(r"doc\source\conf.py", match="html_title = ", splits=[("v",1)])

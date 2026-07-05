@@ -17,7 +17,7 @@ from qprompt import Menu
 @menu
 def cleanup():
     with fsys.Cwd(".", __file__):
-        for path in ["dist", "build", "src/qprompt.egg-info", "src/__pycache__"]:
+        for path in ["dist", "build", "src/__pycache__", "tests/__pycache__"]:
             fsys.delete(path)
     with fsys.Cwd("doc"):
         shell.call("make clean")
@@ -34,11 +34,11 @@ def run_tests():
 
 @menu
 def package_menu():
-    Menu(install_package_locally, build_package).main(header="Package", submenu=True)
+    Menu(install_package_locally, build_package).main(header="Package", submenu=True, loop=True)
 
 @menu
 def docs_menu():
-    Menu(readme_excerpt, all_docs, open_docs).main(header="Docs", submenu=True)
+    Menu(readme_excerpt, all_docs, open_docs).main(header="Docs", submenu=True, loop=True)
 
 @menu
 def browse_menu():
@@ -46,7 +46,7 @@ def browse_menu():
     def pypi(): auxly.open("https://pypi.org/project/qprompt/")
     def docs(): auxly.open("https://qprompt.readthedocs.io/")
     def actions(): auxly.open("https://github.com/jeffrimko/Qprompt/actions")
-    Menu(github, pypi, docs, actions).main(header="Browse", submenu=True)
+    Menu(github, pypi, docs, actions).main(header="Browse", submenu=True, loop=True)
 
 def install_package_locally():
     with fsys.Cwd(".", __file__):
@@ -62,15 +62,16 @@ def build_package():
 def readme_excerpt():
     """Generates doc/source/readme_excerpt.rst from the README sections up to
     (but not including) the Documentation section."""
-    readme = fsys.File("README.md").read()
-    start = readme.index("## Introduction")
-    end = readme.index("## Documentation")
-    excerpt = readme[start:end]
-    tempmd = fsys.File("temp_readme_excerpt.md", del_at_exit=True)
-    tempmd.write(excerpt)
-    rst = shell.strout(f"pandoc -r markdown -w rst --shift-heading-level-by=1 {tempmd}")
-    fsys.File(r"doc\source\readme_excerpt.rst").write(rst + "\n")
-    print("Readme excerpt generated.")
+    with fsys.Cwd(".", __file__):
+        readme = fsys.File("README.md").read()
+        start = readme.index("## Introduction")
+        end = readme.index("## Documentation")
+        excerpt = readme[start:end]
+        tempmd = fsys.File("temp_readme_excerpt.md", del_at_exit=True)
+        tempmd.write(excerpt)
+        rst = shell.strout(f"pandoc -r markdown -w rst --shift-heading-level-by=1 {tempmd}")
+        fsys.File(r"doc\source\readme_excerpt.rst").write(rst + "\n")
+        print("Readme excerpt generated.")
 
 def all_docs():
     readme_excerpt()
@@ -78,10 +79,11 @@ def all_docs():
         shell.call("make html")
 
 def open_docs():
-    index = r"doc\build\html\index.html"
-    if not op.isfile(index):
-        all_docs()
-    auxly.open(index)
+    with fsys.Cwd(".", __file__):
+        index = op.abspath(r"doc\build\html\index.html")
+        if not op.isfile(index):
+            all_docs()
+        auxly.open(index)
 
 ##==============================================================#
 ## SECTION: Main Body                                           #

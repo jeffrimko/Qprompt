@@ -1,5 +1,22 @@
 = Qprompt Changelog
 
+== qprompt-0.16.4 (2026-07-05)
+=== Added
+  - Added `py.typed` marker so type checkers recognize the package as typed.
+  - Added `submenu` option to `show_menu()` and `Menu.main()`; when true, displays a 'SUBMENU' banner instead of 'MENU' and adds horizontal rules around the submenu.
+
+=== Changed
+  - Changed `Menu.add()` behavior so that it now casts the entry `name` to a string, so integers (e.g. `menu.add(1, "something")`) work correctly.
+  - Changed `Menu` behavior when using `limit` with fzf search, all menu entries are now searchable, not just those shown on the current page.
+
+=== Fixed
+  - Fixed `Menu.run()` throwing a `NameError`; it now correctly looks up the entry via `Menu.get()`.
+  - Fixed `ask()` applying `fmt` to the default value twice when accepted via blank input.
+  - Fixed `limit` menu paging entries not working when `returns="func"` is used.
+  - Fixed error when passing a custom `note` to a looping `Menu.main()`; the default note is now only used if the user did not supply their own.
+  - Fixed exception in `ask()` help output when `blk=True` and blank is not among the valid values.
+  - Fixed exception thrown by `Menu.main()` when the menu has no entries; a quit entry is now added correctly to an empty menu.
+
 == qprompt-0.16.3 (2021-11-19)
 === Changed
   - Changed `Menu.main()` menu behavior to not return quit result as this can cause issues with nested menus.
